@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生まれ日診断 | 生年月日だけで数秘術・九星・干支・星座と今日の運勢</title>
+<meta name="description" content="生年月日を入れるだけで、数秘術のライフパスナンバー・九星気学の本命星・干支・星座・生まれた曜日・月齢・誕生石をまとめて表示。今日の運勢も毎日変わります。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="生まれ日診断 | HAKONIWA LAB">
+<meta property="og:description" content="生年月日を入れるだけで、数秘術・九星気学・干支・星座・月齢・誕生石をまとめて表示。今日の運勢も毎日変わります。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"ライフパスナンバーはどう計算していますか？","acceptedAnswer":{"@type":"Answer","text":"生年月日の年・月・日をそれぞれ1桁になるまで足し、その3つを合計してもう一度1桁にします。途中で11・22・33が出た場合はマスターナンバーとしてそのまま残します。例えば1990年12月25日なら、1990→1、12→3、25→7で合計11となり、ライフパスナンバーは11です。"}},{"@type":"Question","name":"九星気学の本命星はなぜ1月生まれだと前の年になるのですか？","acceptedAnswer":{"@type":"Answer","text":"九星気学では1年の始まりを1月1日ではなく立春(毎年2月3日〜5日ごろ)としているためです。1月1日から立春の前日までに生まれた方は、前の年の本命星になります。本診断では生まれた年の立春の日付を計算し、自動で前年扱いにしています。"}},{"@type":"Question","name":"占いに根拠はありますか？","acceptedAnswer":{"@type":"Answer","text":"生年月日と性格や運勢の関係について、科学的に確かめられた根拠はありません。本診断は昔から語られてきた象意やキーワードをもとにした読み物で、自分を振り返るきっかけや話題として楽しむためのものです。重要な判断の材料にはしないでください。"}},{"@type":"Question","name":"入力した生年月日は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときに今日の運勢をすぐ表示するために使います。外部への送信は一切行いません。「別の生年月日で診断する」を押すと端末内の保存も消えます。"}},{"@type":"Question","name":"今日の運勢はどうやって決まっていますか？","acceptedAnswer":{"@type":"Answer","text":"生年月日と今日の日付を組み合わせた数から決めています。そのため同じ日のうちは何度見ても同じ結果になり、日付が変わると内容も変わります。"}}]}</script>
+</head>
+<body>
+<div id="app" class="app">
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">生年月日を入れるだけ</p>
+    <h1 class="app-header__title">生まれ日診断</h1>
+    <p class="app-header__lead">数秘術・九星気学・干支・星座・生まれた曜日・月齢・誕生石をまとめて表示。今日の運勢は毎日変わります。</p>
+  </header>
+
+  <main id="main" class="main">
+
+    <!-- intro/form screen -->
+    <section id="screen-intro" class="screen" data-screen="intro">
+      <div class="card card--intro">
+        <form id="gen-form">
+          <div class="form-field">
+            <label for="year">生年月日</label>
+            <div class="date-row">
+              <select id="year" name="year" class="quiz-select" aria-label="年"></select>
+              <select id="month" name="month" class="quiz-select" aria-label="月"></select>
+              <select id="day" name="day" class="quiz-select" aria-label="日"></select>
+            </div>
+          </div>
+          <p id="form-error" class="form-error" hidden></p>
+          <button type="submit" class="btn btn--primary btn--large">診断する</button>
+        </form>
+        <ul class="intro-points">
+          <li>無料・登録不要・入力は生年月日だけ</li>
+          <li>7項目の生まれつきプロフィールと、今日の運勢</li>
+          <li>生年月日は端末内にだけ保存。外部には送りません</li>
+        </ul>
+        <p class="intro-disclaimer">※ 占いに科学的な根拠はありません。自分を振り返るきっかけや、話題として楽しむためのものです。</p>
+      </div>
+    </section>
+
+    <!-- result screen -->
+    <section id="screen-result" class="screen" data-screen="result" hidden>
+      <div class="card card--intro card--profile" id="result-body"></div>
+
+      <div class="card card--daily">
+        <h2 class="card__title">今日の運勢</h2>
+        <div id="daily-body"></div>
+      </div>
+
+      <button type="button" class="btn btn--primary btn--large" id="btn-copy">結果をシェア・コピー</button>
+      <div id="ad-slot-result-bottom" class="ad-slot" aria-hidden="true"></div>
+
+      <div class="result-cross-links">
+        <a class="cross-link-banner" href="../meguri-log/">御朱印や城めぐりの記録は「めぐログ」で →</a>
+        <a class="cross-link-banner" href="../">HAKONIWA LABの他のツールを見る →</a>
+      </div>
+
+      <div class="card card--lead" id="lead-card">
+        <h2 class="card__title">新しいツールのお知らせを受け取りたい方へ</h2>
+        <p>メールアドレスを登録すると、HAKONIWA LABの新しいツール・お得な情報をお届けします。</p>
+        <form id="lead-form" class="lead-form" action="https://buttondown.com/api/emails/embed-subscribe/hakoniwalab" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.com/hakoniwalab', 'popupwindow')">
+          <input type="email" name="email" class="lead-form__input" placeholder="メールアドレス" required>
+          <button type="submit" class="btn btn--primary">登録する</button>
+        </form>
+      </div>
+
+      <button type="button" class="btn btn--ghost" id="btn-restart">別の生年月日で診断する</button>
+    </section>
+
+  </main>
+
+  <section class="article" aria-labelledby="about-heading">
+    <div class="card card--article">
+      <h2 id="about-heading">生まれ日診断とは？</h2>
+      <p>生年月日という一つの情報から、いくつもの「暦」がそれぞれ別の読み方をしています。数秘術は数字の足し算、九星気学は年の数字と立春、干支は60年の周期、星座は太陽の位置、月齢は月の満ち欠け。本診断はそれらを一度に計算して並べ、「生まれた日」を7つの角度から眺められるようにしたものです。</p>
+      <p>それぞれの結果はバラバラに見えて、読み比べると意外と重なるところが出てきます。当たる・当たらないというより、自分のことを言葉にするきっかけとしてお使いください。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>それぞれの計算のしかた</h2>
+      <h3>数秘術(ライフパスナンバー)</h3>
+      <p>年・月・日をそれぞれ1桁になるまで足し、その3つを合計してもう一度1桁にします。途中で11・22・33が出たら「マスターナンバー」としてそのまま残します。例: 1990年12月25日 → 1990は1、12は3、25は7、合計11 → ライフパスナンバー11。</p>
+      <h3>九星気学(本命星)</h3>
+      <p>生まれた年の各桁を1桁になるまで足し、11から引きます(10なら一白、0なら九紫)。年の境目は1月1日ではなく<strong>立春</strong>なので、1月生まれと、2月の立春前日までに生まれた方は前年の星になります。立春は年によって2月3日・4日・5日と動くため、本診断では生まれた年の立春を計算して判定しています。</p>
+      <h3>干支(十干十二支)</h3>
+      <p>1984年の甲子(きのえね)を起点に、十干(10)と十二支(12)の組み合わせが60年で一周します。年賀状などで使う暦年基準で表示し、立春基準で前年になる場合はその旨を添えています。</p>
+      <h3>星座・曜日・月齢・誕生石</h3>
+      <p>星座は一般的な早見表の区切り(境目の日は年によって1日前後します)、曜日はカレンダーどおり、月齢は2000年1月6日の新月を基準に朔望月29.53日で計算した平均値、誕生石は月ごとの定番の石を表示しています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>占いとの付き合い方</h2>
+      <p>正直に書くと、生年月日と性格や運勢の関係に、科学的に確かめられた根拠はありません。星座や血液型と性格の関係は何度も調べられていて、差は見つかっていません。それでも当たっている気がするのは、誰にでも当てはまる文章を自分のことだと感じる心の働き(バーナム効果)によるものです。</p>
+      <p>ただ、それは占いが無意味だということではありません。「あなたは頼まれると断れない」と書かれて、たしかにそうだと思い当たる。その瞬間に自分のことを考えている、というのが占いの価値です。話のネタとして、自分を振り返るきっかけとして、気楽に楽しんでください。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item">
+        <summary>ライフパスナンバーはどう計算していますか？</summary>
+        <p>生年月日の年・月・日をそれぞれ1桁になるまで足し、その3つを合計してもう一度1桁にします。途中で11・22・33が出た場合はマスターナンバーとしてそのまま残します。例えば1990年12月25日なら、1990→1、12→3、25→7で合計11となり、ライフパスナンバーは11です。</p>
+      </details>
+      <details class="faq-item">
+        <summary>九星気学の本命星はなぜ1月生まれだと前の年になるのですか？</summary>
+        <p>九星気学では1年の始まりを1月1日ではなく立春(毎年2月3日〜5日ごろ)としているためです。1月1日から立春の前日までに生まれた方は、前の年の本命星になります。本診断では生まれた年の立春の日付を計算し、自動で前年扱いにしています。</p>
+      </details>
+      <details class="faq-item">
+        <summary>占いに根拠はありますか？</summary>
+        <p>生年月日と性格や運勢の関係について、科学的に確かめられた根拠はありません。本診断は昔から語られてきた象意やキーワードをもとにした読み物で、自分を振り返るきっかけや話題として楽しむためのものです。重要な判断の材料にはしないでください。</p>
+      </details>
+      <details class="faq-item">
+        <summary>入力した生年月日は保存されますか？</summary>
+        <p>お使いの端末(ブラウザ)の中にだけ保存し、次に開いたときに今日の運勢をすぐ表示するために使います。外部への送信は一切行いません。「別の生年月日で診断する」を押すと端末内の保存も消えます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>今日の運勢はどうやって決まっていますか？</summary>
+        <p>生年月日と今日の日付を組み合わせた数から決めています。そのため同じ日のうちは何度見ても同じ結果になり、日付が変わると内容も変わります。</p>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>運営者について</h2>
+      <p>本サイトはHAKONIWA LAB(運営者: 灯家)が個人で企画・開発・運営しています。給付金診断や手取り計算などの実用ツールのほか、御朱印・城めぐりを記録する「めぐログ」など、暮らしの中で気軽に使えるWebアプリを公開しています。</p>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p>本サイトの診断結果は娯楽・話題提供を目的としたもので、性格や将来を保証するものではありません。「PR」表記のあるリンクにはプロモーション(アフィリエイト広告)が含まれます。</p>
+    <p><a href="../about.html">運営者情報</a>・<a href="../contact.html">お問い合わせ</a>・<a href="../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+
+<script src="js/fortune.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
