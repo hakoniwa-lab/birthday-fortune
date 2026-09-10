@@ -47,21 +47,23 @@ function birthdayNumber(d) {
 
 /*
  * 立春は毎年2月3日〜5日のどれかで、年によって動く。
- * 2021年2月3日23:59(日本時間)を起点に、1太陽年=365.2422日ずつ進める線形モデルで求める。
- * 実際の天文計算とは数十分ずれることがあるため、境目ぴったりの日は前後する可能性がある。
- * 確認済み: 1984→2/5、2020→2/4、2021→2/3、2025→2/3
+ * 太陽の視黄経が315度になる瞬間なので、astro.js の節気計算にそのまま任せる。
+ * 確認済み: 1984→2/5、2020→2/4、2021→2/3(23:58)、2025→2/3
  */
 function risshunDay(year) {
-  const anchorUtc = Date.UTC(2021, 1, 3, 14, 59); // 2021-02-03 23:59 JST
-  const t = anchorUtc + (year - 2021) * 365.2422 * 86400000;
-  const jst = new Date(t + 9 * 3600000);
-  return jst.getUTCDate(); // 3, 4, 5 のいずれか
+  return jdToJstParts(risshunJd(year)).d; // 3, 4, 5 のいずれか
 }
 
-/* 立春基準の「年」。1月と、2月の立春前日までは前年扱い */
-function kyuseiYear(y, m, d) {
-  if (m === 1 || (m === 2 && d < risshunDay(y))) return y - 1;
-  return y;
+/*
+ * 立春基準の「年」。立春より前に生まれていれば前年扱い。
+ * 四柱推命の年柱と同じ「瞬間」で判定する。日単位で判定すると、立春当日の朝に
+ * 生まれた人だけ九星と四柱推命で年がずれる。
+ * 時刻を渡さない場合は正午とみなす。
+ */
+function kyuseiYear(y, m, d, hour, minute) {
+  const hasTime = hour !== null && hour !== undefined;
+  const jd = jdFromJst(y, m, d, hasTime ? hour : 12, hasTime ? (minute || 0) : 0);
+  return jd >= risshunJd(y) ? y : y - 1;
 }
 
 /* ---------- 九星気学 本命星 ---------- */
@@ -71,8 +73,8 @@ function kyuseiYear(y, m, d) {
  * 例: 2000年→2→11-2=9(九紫火星)、1990年→1→10→1(一白水星)、1985年→5→6(六白金星)
  * 戻り値は 1〜9(一白〜九紫)
  */
-function honmeisei(y, m, d) {
-  const yy = kyuseiYear(y, m, d);
+function honmeisei(y, m, d, hour, minute) {
+  const yy = kyuseiYear(y, m, d, hour, minute);
   let k = (11 - reduceToDigit(yy)) % 9;
   if (k === 0) k = 9;
   return k;
@@ -106,23 +108,14 @@ function eto(year) {
 /* ---------- 西洋占星術 太陽星座 ---------- */
 
 /*
- * 境目の日は年によって1日前後する。ここでは一般的な早見表の区切りを使う。
+ * 太陽の実際の視黄経から星座を決める。早見表(3/21〜4/19 が牡羊座…)は
+ * 境目の日が年によって1日ずれるため使わない。出生図の太陽と必ず一致する。
  * 戻り値は 0〜11(牡羊座〜魚座)
  */
-function zodiacIndex(m, d) {
-  const md = m * 100 + d;
-  if (md >= 321 && md <= 419) return 0;  // 牡羊
-  if (md >= 420 && md <= 520) return 1;  // 牡牛
-  if (md >= 521 && md <= 621) return 2;  // 双子
-  if (md >= 622 && md <= 722) return 3;  // 蟹
-  if (md >= 723 && md <= 822) return 4;  // 獅子
-  if (md >= 823 && md <= 922) return 5;  // 乙女
-  if (md >= 923 && md <= 1023) return 6; // 天秤
-  if (md >= 1024 && md <= 1122) return 7; // 蠍
-  if (md >= 1123 && md <= 1221) return 8; // 射手
-  if (md >= 1222 || md <= 119) return 9; // 山羊
-  if (md >= 120 && md <= 218) return 10; // 水瓶
-  return 11;                              // 魚 2/19〜3/20
+function zodiacIndex(y, m, d, hour, minute) {
+  const hasTime = hour !== null && hour !== undefined;
+  const jd = jdFromJst(y, m, d, hasTime ? hour : 12, hasTime ? (minute || 0) : 0);
+  return signOf(sunLongitude(ttFrom(jd))).sign;
 }
 
 /* ---------- 曜日 ---------- */
@@ -220,18 +213,24 @@ function dailyFortune(y, m, d, date, pools) {
 
 /* ---------- まとめ ---------- */
 
-function buildProfile(y, m, d, today) {
+function buildProfile(y, m, d, today, hour, minute) {
   const age = moonAge(y, m, d);
+  const ky = kyuseiYear(y, m, d, hour, minute);
+  const risshun = jdToJstParts(risshunJd(y));
   return {
     y, m, d,
     lifePath: lifePathNumber(y, m, d),
     birthdayNum: birthdayNumber(d),
-    honmeisei: honmeisei(y, m, d),
-    kyuseiYear: kyuseiYear(y, m, d),
-    risshun: risshunDay(y),
+    honmeisei: honmeisei(y, m, d, hour, minute),
+    kyuseiYear: ky,
+    risshun: risshun.d,
+    risshunTime: risshun,
+    /* 立春当日に生まれ、かつ時刻が未入力なら年の判定が確定しない */
+    risshunAmbiguous: m === 2 && d === risshun.d
+      && (hour === null || hour === undefined),
     eto: eto(y),
-    etoRisshun: eto(kyuseiYear(y, m, d)),
-    zodiac: zodiacIndex(m, d),
+    etoRisshun: eto(ky),
+    zodiac: zodiacIndex(y, m, d, hour, minute),
     weekday: weekdayIndex(y, m, d),
     moonAge: age,
     moonPhase: moonPhaseIndex(age),

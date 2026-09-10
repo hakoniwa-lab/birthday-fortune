@@ -671,3 +671,99 @@ html, body {
 .daily__advice { font-size: 0.9rem; font-weight: 700; color: var(--color-primary); margin: 0 0 6px; }
 
 .card--article h3 { font-size: 0.95rem; margin: 14px 0 6px; }
+
+/* --- 出生図・命式 --- */
+
+.time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.form-optional {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-badge-text);
+  background: var(--color-badge-bg);
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+.form-help { font-size: 0.78rem; color: var(--color-text-muted); margin: 6px 0 0; }
+
+.card--chart { text-align: left; }
+.chart__lead { font-size: 0.88rem; color: var(--color-text-muted); margin: 0 0 14px; }
+.chart__sub {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin: 18px 0 8px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-border);
+}
+
+/* 横に長い表は、この枠の中だけでスクロールさせる(本文は横に動かさない) */
+.chart__scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+.chart__table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.chart__table th {
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 700;
+}
+.chart__table td { padding: 10px 0; border-bottom: 1px solid var(--color-border); }
+.chart__table tr:last-child th, .chart__table tr:last-child td { border-bottom: none; }
+.chart__planet { display: block; font-size: 0.95rem; }
+.chart__table th small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--color-text-muted); }
+.chart__deg { font-size: 0.78rem; color: var(--color-text-muted); }
+.chart__memo { display: block; font-size: 0.78rem; color: var(--color-text-muted); margin-top: 2px; }
+.chart__flag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-warn-text);
+  background: var(--color-warn-bg);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+.chart__row--asc th, .chart__row--asc td { background: var(--color-bg); }
+.chart__row--asc .chart__planet { color: var(--color-primary); }
+
+/* 命式の4本柱 */
+.pillars { width: 100%; border-collapse: separate; border-spacing: 6px 0; table-layout: fixed; min-width: 300px; }
+.pil {
+  text-align: center;
+  vertical-align: top;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 4px 12px;
+}
+.pil__label { display: block; font-size: 0.7rem; color: var(--color-text-muted); font-weight: 700; }
+.pil__kan { display: block; font-size: 1.9rem; font-weight: 800; line-height: 1.2; color: var(--color-primary); }
+.pil__shi { display: block; font-size: 1.9rem; font-weight: 800; line-height: 1.2; }
+.pil__memo { display: block; font-size: 0.7rem; color: var(--color-text-muted); margin-top: 4px; }
+.pil__none { display: block; font-size: 1.9rem; color: var(--color-border); line-height: 2.4; }
+.pil--empty { background: transparent; border-style: dashed; }
+
+.item--daymaster {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 14px 14px 12px;
+  margin-top: 16px;
+}
+
+/* 五行・エレメントの棒グラフ */
+.bars { display: grid; gap: 6px; }
+.bar { display: grid; grid-template-columns: 2.2em 1fr 1.6em; align-items: center; gap: 8px; }
+.bar__name { font-size: 0.85rem; font-weight: 700; }
+.bar__track { height: 10px; background: var(--color-border); border-radius: 999px; overflow: hidden; }
+.bar__fill { display: block; height: 100%; background: var(--color-primary); border-radius: 999px; }
+.bar__n { font-size: 0.85rem; color: var(--color-text-muted); text-align: right; }
+.bar__memo { grid-column: 2 / 4; font-size: 0.72rem; color: var(--color-text-muted); margin-top: -2px; }
+
+.item__note--warn {
+  color: var(--color-warn-text);
+  background: var(--color-warn-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
