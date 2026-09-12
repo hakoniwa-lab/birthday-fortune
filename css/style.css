@@ -991,3 +991,21 @@ html, body {
 .gl__name { font-size: 0.95rem; font-weight: 800; margin: 0 0 2px; }
 .gl__name small { display: block; font-size: 0.72rem; font-weight: 400; color: var(--color-text-muted); }
 .gl__text { font-size: 0.86rem; margin: 0; }
+
+/* --- 年運・月運 --- */
+.period { border-top: 1px solid var(--color-border); padding: 14px 0 4px; }
+.period:first-child { border-top: 0; padding-top: 0; }
+.period__head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 4px; }
+.period__label { font-size: 0.85rem; font-weight: 700; color: var(--color-text-muted); }
+.period__stars { color: var(--color-accent); font-size: 1.05rem; letter-spacing: .05em; }
+.period__stage { font-size: 1.15rem; font-weight: 800; margin: 0 0 6px; }
+.period__stage small { display: block; font-size: 0.72rem; font-weight: 400; color: var(--color-text-muted); }
+.period__text { font-size: 0.88rem; margin: 0 0 8px; }
+.period__theme {
+  font-size: 0.85rem; font-weight: 700; margin: 0 0 10px;
+  background: var(--color-bg); border-radius: var(--radius-sm); padding: 8px 10px;
+}
+/* --- 節気・選日・月相 --- */
+.calcell__z.is-sekki { color: var(--color-primary); font-weight: 800; }
+.calcell__moon { font-size: 0.6rem; line-height: 1.1; color: var(--color-text-muted); }
+.tag--sen { background: var(--color-bg); color: var(--color-text-muted); border: 1px solid var(--color-border); }

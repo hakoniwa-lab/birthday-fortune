@@ -43,6 +43,55 @@ document.getElementById("g-junichoku").innerHTML = JUNICHOKU.map((n) => row(n, J
 
 document.getElementById("g-shuku").innerHTML = SHUKU.map((n, i) => row(`${n}宿`, SHUKU_TEXT[n], `${i + 1}番目`)).join("");
 
+/* 選日 */
+const SENJITSU_ORDER = ["八専", "八専の間日", "十方暮", "天一天上", "大つち", "小つち", "つちの間日",
+  "庚申", "初伏", "中伏", "末伏", "春社", "秋社", "臘日"];
+const SENJITSU_HOW = {
+  八専: "壬子から癸亥までの12日のうち、干と支の五行が同じ8日",
+  "八専の間日": "同じ12日のうち、五行が食い違う4日(癸丑・丙辰・戊午・壬戌)",
+  十方暮: "甲申から癸巳までの10日間",
+  天一天上: "癸巳から戊申までの16日間",
+  大つち: "庚午から丙子までの7日間",
+  小つち: "戊寅から甲申までの7日間",
+  "つちの間日": "大つちと小つちの間の丁丑の日",
+  庚申: "干支が庚申の日。60日に一度",
+  初伏: "夏至のあと3番目の庚の日",
+  中伏: "夏至のあと4番目の庚の日",
+  末伏: "立秋のあと最初の庚の日",
+  春社: "春分にもっとも近い戊の日",
+  秋社: "秋分にもっとも近い戊の日",
+  臘日: "冬至のあと3番目の戌の日",
+};
+document.getElementById("g-senjitsu").innerHTML =
+  SENJITSU_ORDER.map((n) => row(n, SENJITSU_TEXT[n], SENJITSU_HOW[n])).join("");
+
+/* 二十四節気は今年の日付つきで */
+const gy = new Date().getFullYear();
+document.getElementById("g-sekki").innerHTML = sekki24OfYear(gy)
+  .map((s) => row(s.name, SEKKI24_TEXT[s.name],
+    `${s.kind === "節" ? "節(月の区切り)" : "中(月の中心)"}・太陽黄経${s.lon}度・${gy}年は ${s.m}月${s.d}日 ${s.hh}時${String(s.mi).padStart(2, "0")}分`)).join("");
+
+/* 節句・行事 */
+const GYOJI = [
+  ["人日の節句", SEKKU["1-7"][1], "毎年1月7日"],
+  ["上巳の節句", SEKKU["3-3"][1], "毎年3月3日"],
+  ["端午の節句", SEKKU["5-5"][1], "毎年5月5日"],
+  ["七夕の節句", SEKKU["7-7"][1], "毎年7月7日"],
+  ["重陽の節句", SEKKU["9-9"][1], "毎年9月9日"],
+  ["旧正月", EVENT_TEXT.旧正月, "旧暦1月1日"],
+  ["十五夜", EVENT_TEXT.十五夜, "旧暦8月15日"],
+  ["十三夜", EVENT_TEXT.十三夜, "旧暦9月13日"],
+  ["十日夜", EVENT_TEXT.十日夜, "旧暦10月10日"],
+  ["初午", EVENT_TEXT.初午, "2月最初の午の日"],
+  ["二の午", EVENT_TEXT.二の午, "2月2番目の午の日"],
+  ["二百二十日", EVENT_TEXT.二百二十日, "立春から220日目"],
+];
+document.getElementById("g-gyoji").innerHTML = GYOJI.map(([n, t, h]) => row(n, t, h)).join("");
+
+/* 月の満ち欠け */
+document.getElementById("g-moon").innerHTML = MOON_PHASES
+  .map(([deg, name]) => row(name, MOON_PHASE_TEXT[name], `月と太陽の角度が${deg}度`)).join("");
+
 /* 雑節は今年の日付つきで */
 const y = new Date().getFullYear();
 const P = (j) => { const p = jdToJstParts(j - 0.375); return `${p.m}月${p.d}日`; };

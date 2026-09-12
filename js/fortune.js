@@ -243,3 +243,110 @@ function isValidDate(y, m, d) {
   const dt = new Date(y, m - 1, d);
   return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d;
 }
+
+
+/* ---------- 九星の回座(年運・月運の骨組み) ---------- */
+
+/*
+ * 九星気学では、盤の中心(中宮)に入る星が毎年1つずつ減っていく。
+ * 自分の本命星が「その年の盤のどの宮にいるか」で運気の段階が決まり、
+ * 9年でひと回りする。これは占いの中では珍しく、完全に計算で決まる部分。
+ *
+ * 後天定位盤の宮番号: 1=坎(北) 2=坤(南西) 3=震(東) 4=巽(南東)
+ *                     5=中宮   6=乾(北西) 7=兌(西) 8=艮(北東) 9=離(南)
+ */
+
+/* その年(立春基準)の年盤中宮。本命星と同じ式で出る */
+function kyuseiYearCenter(year) {
+  let k = (11 - reduceToDigit(year)) % 9;
+  if (k === 0) k = 9;
+  return k;
+}
+
+/*
+ * 月盤中宮。年の十二支で「寅月(2月)の中宮」が決まり、そこから月ごとに1つ減る。
+ *   子午卯酉の年 → 寅月は八白 / 辰戌丑未の年 → 五黄 / 寅申巳亥の年 → 二黒
+ */
+function kyuseiMonthCenter(yearBranch, monthBranch) {
+  let tiger;
+  if ([0, 6, 3, 9].includes(yearBranch)) tiger = 8;        // 子午卯酉
+  else if ([4, 10, 1, 7].includes(yearBranch)) tiger = 5;  // 辰戌丑未
+  else tiger = 2;                                          // 寅申巳亥
+  const months = ((monthBranch - 2) % 12 + 12) % 12;
+  let c = (tiger - months) % 9;
+  if (c <= 0) c += 9;
+  return c;
+}
+
+/*
+ * 本命星 honmei が、中宮が center の盤でどの宮にいるか(1〜9)。
+ * 中宮が自分の星と同じ年は宮5(中宮)＝八方塞がりになる。
+ */
+function kyuseiPalace(honmei, center) {
+  return ((honmei - center + 4) % 9 + 9) % 9 + 1;
+}
+
+/* ---------- 年運・月運 ---------- */
+
+/*
+ * 段階ごとの基本の星数。運勢の星は、この回座から決まる数を軸にして、
+ * 生年月日と期間から作る疑似乱数で ±1 だけ動かす。
+ * (毎回まったくの乱数にすると、九星の周期と食い違って意味が消えるため)
+ */
+const PALACE_BASE_STARS = { 1: 2, 2: 3, 3: 4, 4: 5, 5: 2, 6: 4, 7: 5, 8: 3, 9: 5 };
+
+/*
+ * 年運・月運の星は下限を2にする。1年ずっと星1つと出るのは、
+ * 当たる当たらない以前に読んでいて気分の良いものではないため。
+ * 日運(dailyFortune)は1日で終わるので、そちらは1つも出る。
+ */
+function shiftStar(base, r) {
+  const v = base + (r < 0.25 ? -1 : (r > 0.75 ? 1 : 0));
+  return Math.max(2, Math.min(5, v));
+}
+
+/*
+ * 年運。targetYear は立春基準の年(1月〜節分は前年として渡すこと)。
+ */
+function yearlyFortune(y, m, d, targetYear, pools) {
+  const honmei = honmeisei(y, m, d, null, null);
+  const center = kyuseiYearCenter(targetYear);
+  const palace = kyuseiPalace(honmei, center);
+  const rng = makeRng(seedFromString(`${y}-${m}-${d}|Y${targetYear}`));
+  const base = PALACE_BASE_STARS[palace];
+  const pick = (arr) => arr[Math.floor(rng() * arr.length)];
+  return {
+    kind: "year",
+    label: `${targetYear}年`,
+    honmei, center, palace,
+    overall: shiftStar(base, rng()),
+    love: shiftStar(base, rng()),
+    work: shiftStar(base, rng()),
+    money: shiftStar(base, rng()),
+    theme: pick(pools.yearThemes),
+    advice: pick(pools.advices),
+  };
+}
+
+/*
+ * 月運。targetMonthBranch は節切りの月の十二支(chart.js の solarMonthOf から)。
+ */
+function monthlyFortune(y, m, d, targetYear, yearBranch, monthBranch, label, pools) {
+  const honmei = honmeisei(y, m, d, null, null);
+  const center = kyuseiMonthCenter(yearBranch, monthBranch);
+  const palace = kyuseiPalace(honmei, center);
+  const rng = makeRng(seedFromString(`${y}-${m}-${d}|M${targetYear}-${monthBranch}`));
+  const base = PALACE_BASE_STARS[palace];
+  const pick = (arr) => arr[Math.floor(rng() * arr.length)];
+  return {
+    kind: "month",
+    label,
+    honmei, center, palace,
+    overall: shiftStar(base, rng()),
+    love: shiftStar(base, rng()),
+    work: shiftStar(base, rng()),
+    money: shiftStar(base, rng()),
+    theme: pick(pools.monthThemes),
+    advice: pick(pools.advices),
+  };
+}

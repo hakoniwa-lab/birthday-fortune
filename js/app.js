@@ -22,6 +22,7 @@ const introSection = document.getElementById("screen-intro");
 const resultSection = document.getElementById("screen-result");
 const resultBody = document.getElementById("result-body");
 const dailyBody = document.getElementById("daily-body");
+const flowBody = document.getElementById("flow-body");
 const westernBody = document.getElementById("western-body");
 const sanmeiBody = document.getElementById("sanmei-body");
 const btnRestart = document.getElementById("btn-restart");
@@ -160,6 +161,32 @@ function buildProfileHtml(p) {
         <p class="item__text">石言葉は「${escapeHtml(bs.word)}」。</p>
       </div>
     </div>
+  `;
+}
+
+/* 年運・月運。九星の回座で決まる段階を主役にして、星と一言を添える */
+function buildPeriodHtml(f, sub) {
+  const pi = PALACE_INFO[f.palace];
+  return `<div class="period">
+    <p class="period__head"><span class="period__label">${escapeHtml(f.label)}</span>
+      <span class="period__stars">${stars(f.overall)}</span></p>
+    <p class="period__stage">${escapeHtml(pi.name)}<small>${escapeHtml(pi.palace)}・${escapeHtml(pi.key)}</small></p>
+    <p class="period__text">${escapeHtml(pi.text)}</p>
+    <p class="period__theme">${escapeHtml(f.theme)}</p>
+    <div class="daily__rows">
+      <p class="daily__row"><span>恋愛・人間関係</span><b>${stars(f.love)}</b></p>
+      <p class="daily__row"><span>仕事・勉強</span><b>${stars(f.work)}</b></p>
+      <p class="daily__row"><span>金運</span><b>${stars(f.money)}</b></p>
+    </div>
+    <p class="item__note">${escapeHtml(sub)}</p>
+  </div>`;
+}
+
+function buildFlowHtml(yf, mf, honmeiName) {
+  return `
+    <p class="chart__lead">九星気学では、自分の星が毎年ひとつずつ盤の上を移っていき、<strong>9年でひと回り</strong>します。いま自分がその周期のどこにいるかは、計算で決まります。</p>
+    ${buildPeriodHtml(yf, `${honmeiName}が${PALACE_INFO[yf.palace].palace}に回座。年の区切りは1月1日ではなく立春です。`)}
+    ${buildPeriodHtml(mf, `月の区切りは節入り(立春・啓蟄など)です。`)}
   `;
 }
 
@@ -362,10 +389,20 @@ function render(v) {
   const w = westernChart(y, m, d, hour, minute, place);
   const fp = fourPillars(y, m, d, hour, minute, pref ? pref[2] : null);
 
+  // 年運・月運。どちらも立春・節入りで区切るので、今日の節月から年と月を取る
+  const ty = today.getFullYear(), tm = today.getMonth() + 1, td = today.getDate();
+  const nowSolar = solarMonthOf(ty, tm, td, 12, 0);
+  const fYear = nowSolar.yearForPillar;
+  const fYearBranch = ((fYear - 4) % 12 + 12) % 12;
+  const monthLabel = `${SHI[nowSolar.branch]}月(${nowSolar.sekki.m}/${nowSolar.sekki.d} ${nowSolar.sekki.name}から)`;
+  const yf = yearlyFortune(y, m, d, fYear, PERIOD_POOLS);
+  const mf = monthlyFortune(y, m, d, fYear, fYearBranch, nowSolar.branch, monthLabel, PERIOD_POOLS);
+
   resultBody.innerHTML = buildProfileHtml(p);
   westernBody.innerHTML = buildWesternHtml(w);
   sanmeiBody.innerHTML = buildSanmeiHtml(fp, hasTime, pref ? pref[0] : "");
   dailyBody.innerHTML = buildDailyHtml(f, today);
+  flowBody.innerHTML = buildFlowHtml(yf, mf, KYUSEI[p.honmeisei].name);
   shareText = buildShareText(p, f, today, w, fp);
   introSection.hidden = true;
   resultSection.hidden = false;

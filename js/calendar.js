@@ -11,6 +11,9 @@ function escapeHtml(str) {
 
 const WD = ["日", "月", "火", "水", "木", "金", "土"];
 
+/* 月相はセルが狭いので記号だけ出す */
+const MOON_MARK = { 新月: "●", 上弦: "◐", 満月: "○", 下弦: "◑" };
+
 const grid = document.getElementById("calgrid");
 const calTitle = document.getElementById("cal-title");
 const detail = document.getElementById("detail");
@@ -106,18 +109,22 @@ function render() {
     const shuku = setShuku.checked ? `<span class="calcell__s${k.shuku === "鬼" ? " is-oni" : ""}">${escapeHtml(k.shuku)}</span>` : "";
     // 期間ものは初日だけ、単日の雑節と土用の丑は当日に印を出す(狭いので短縮)
     const zLabel = (() => {
+      if (k.sekki24) return k.sekki24.name;                 // 二十四節気がいちばん優先
+      if (k.events.length) return k.events[0].name.replace("の節句", "");
       if (k.doyoUshi) return "丑の日";
       const one = k.zassetsu.find((z) => !z.span) || k.zassetsu.find((z) => z.span && z.start === k.dayIdx);
       if (!one) return "";
       return one.name.replace(/^(春|夏|秋|冬)の/, "").replace("土用", "土用入").replace("彼岸", "彼岸入");
     })();
-    const zHtml = zLabel ? `<span class="calcell__z">${escapeHtml(zLabel)}</span>` : "";
+    const zCls = k.sekki24 ? "calcell__z is-sekki" : "calcell__z";
+    const zHtml = zLabel ? `<span class="${zCls}">${escapeHtml(zLabel)}</span>` : "";
+    const moonHtml = k.moonPhaseName ? `<span class="calcell__moon">${MOON_MARK[k.moonPhaseName]}</span>` : "";
     cells.push(`<button type="button" class="${cls}" data-d="${k.d}">
       <span class="calcell__d">${k.d}</span>
       <span class="calcell__r">${escapeHtml(k.rokuyo || "")}</span>
       ${shuku}
       <span class="calcell__b">${bd}</span>
-      ${zHtml}
+      ${zHtml}${moonHtml}
     </button>`);
   }
 
@@ -152,8 +159,18 @@ function select(d) {
   const badHtml = k.bad.length
     ? `<div class="tags">${k.bad.map((g) => `<span class="tag tag--bad">${escapeHtml(g)}</span>`).join("")}</div>`
     : "";
-  const zTags = (k.zassetsu.length || k.doyoUshi)
-    ? `<div class="tags">${k.zassetsu.map((z) => `<span class="tag tag--season">${escapeHtml(z.name)}</span>`).join("")}${k.doyoUshi ? '<span class="tag tag--season">土用の丑の日</span>' : ""}</div>`
+  const seasonNames = [
+    ...(k.sekki24 ? [k.sekki24.name] : []),
+    ...k.events.map((e) => e.name),
+    ...k.zassetsu.map((z) => z.name),
+    ...(k.doyoUshi ? ["土用の丑の日"] : []),
+    ...(k.moonPhaseName ? [k.moonPhaseName] : []),
+  ];
+  const zTags = seasonNames.length
+    ? `<div class="tags">${seasonNames.map((n) => `<span class="tag tag--season">${escapeHtml(n)}</span>`).join("")}</div>`
+    : "";
+  const senTags = k.senjitsu.length
+    ? `<div class="tags">${k.senjitsu.map((n) => `<span class="tag tag--sen">${escapeHtml(n)}</span>`).join("")}</div>`
     : "";
 
   const notes = [];
@@ -169,6 +186,12 @@ function select(d) {
   else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。");
   if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。");
   if (setShuku.checked && k.shuku === "鬼") notes.push("<strong>鬼宿日。</strong>二十八宿でもっとも良いとされる日です(婚礼だけは避けるとされます)。");
+  if (k.sekki24) {
+    notes.push(`<strong>${escapeHtml(k.sekki24.name)}(${k.sekki24.hh}時${String(k.sekki24.mi).padStart(2, "0")}分)。</strong>${escapeHtml(SEKKI24_TEXT[k.sekki24.name] || "")}`);
+  }
+  for (const e of k.events) notes.push(`<strong>${escapeHtml(e.name)}。</strong>${escapeHtml(e.text)}`);
+  if (k.moonPhaseName) notes.push(`<strong>${escapeHtml(k.moonPhaseName)}。</strong>${escapeHtml(MOON_PHASE_TEXT[k.moonPhaseName] || "")}`);
+  for (const n of k.senjitsu) notes.push(`<strong>${escapeHtml(n)}。</strong>${escapeHtml(SENJITSU_TEXT[n] || "")}`);
   if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。");
   if (k.flags.boso) notes.push("<strong>母倉日。</strong>天が人を慈しむ日。結婚・建築に良いとされます。");
   if (k.doyoUshi) notes.push("<strong>土用の丑の日。</strong>夏の土用の期間の丑の日。うなぎを食べる習慣で知られます。");
@@ -184,6 +207,7 @@ function select(d) {
     ${goodHtml}
     ${badHtml}
     ${zTags}
+    ${senTags}
     <div class="detail__rows">
       <p class="detail__row"><span>六曜</span><b>${escapeHtml(k.rokuyo || "-")}</b></p>
       <p class="detail__row"><span>十二直</span><b>${escapeHtml(k.junichoku)}</b></p>
@@ -235,6 +259,58 @@ function renderGoodList() {
       )).join("")}</p>
     </div>`;
   }).join("");
+
+  // 二十四節気・行事・月相
+  const sekkiRows = days.filter((k) => k.sekki24)
+    .map((k) => `${k.sekki24.name}: ${k.m}/${k.d} ${k.sekki24.hh}:${String(k.sekki24.mi).padStart(2, "0")}`);
+  if (sekkiRows.length) {
+    html += `<div class="glist">
+      <p class="glist__name">二十四節気<small>太陽の黄経が15度進むごとの区切り</small></p>
+      <p class="glist__zs">${sekkiRows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
+  const eventRows = days.filter((k) => k.events.length)
+    .map((k) => `${k.events.map((e) => e.name).join("・")}: ${k.m}/${k.d}`);
+  if (eventRows.length) {
+    html += `<div class="glist">
+      <p class="glist__name">節句・行事<small>暦の日付や月の満ち欠けで決まるもの</small></p>
+      <p class="glist__zs">${eventRows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
+  const moonRows = days.filter((k) => k.moonPhaseName)
+    .map((k) => `${MOON_MARK[k.moonPhaseName]}${k.moonPhaseName}: ${k.m}/${k.d}`);
+  if (moonRows.length) {
+    html += `<div class="glist">
+      <p class="glist__name">月の満ち欠け<small>新月の日が旧暦の1日になる</small></p>
+      <p class="glist__zs">${moonRows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
+
+  // 選日(期間ものはまとめて1行にする)
+  const senMap = new Map();
+  for (const k of days) {
+    for (const n of k.senjitsu) {
+      if (!senMap.has(n)) senMap.set(n, []);
+      senMap.get(n).push(k.d);
+    }
+  }
+  if (senMap.size) {
+    const rows = [...senMap.entries()].map(([n, ds]) => {
+      // 連続した日はまとめて「1〜5日」の形にする
+      const parts = [];
+      let start = ds[0], prev = ds[0];
+      for (let i = 1; i <= ds.length; i++) {
+        if (i < ds.length && ds[i] === prev + 1) { prev = ds[i]; continue; }
+        parts.push(start === prev ? `${start}日` : `${start}〜${prev}日`);
+        start = ds[i]; prev = ds[i];
+      }
+      return `${n}: ${parts.join("、")}`;
+    });
+    html += `<div class="glist">
+      <p class="glist__name">選日(せんじつ)<small>干支の並びだけで決まる暦注</small></p>
+      <p class="glist__zs">${rows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
 
   // 雑節(期間ものは初日〜最終日で1行)
   const seen = new Set();

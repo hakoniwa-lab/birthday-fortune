@@ -506,6 +506,9 @@ function dayKoyomi(y, m, d) {
     shuku: shukuOf(dayIdx),
     zassetsu,
     doyoUshi,
+    sekki24: sekki24On(y, dayIdx),
+    senjitsu: senjitsuOf(y, dayIdx),
+    events: eventsOf(y, m, d, dayIdx, lunar),
     flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, tenOn, boso, fujoju, sanrinbo },
     good,
     bad,
@@ -515,7 +518,313 @@ function dayKoyomi(y, m, d) {
 /* 指定した月の全日を返す */
 function monthKoyomi(y, m) {
   const last = new Date(y, m, 0).getDate();
+  const phases = moonPhasesOfMonth(y, m);
   const out = [];
-  for (let d = 1; d <= last; d++) out.push(dayKoyomi(y, m, d));
+  for (let d = 1; d <= last; d++) {
+    const k = dayKoyomi(y, m, d);
+    k.moonPhaseName = phases.get(k.dayIdx) || null;
+    out.push(k);
+  }
+  return out;
+}
+
+/* ================================================================
+ * 二十四節気・選日・節句・月見・月相
+ * ここから下はすべて「計算だけで出せるもの」。表を持っているのは
+ * 一粒万倍日・不成就日・三隣亡だけで、他は干支か太陽・月の位置から決まる。
+ * ================================================================ */
+
+/* ---------- 日の干支(通し番号から) ---------- */
+
+/* 日の通し番号(JDN) → 60干支の通し番号(0=甲子) */
+function ganzhiOfDayIdx(dayIdx) {
+  return ((dayIdx + 49) % 60 + 60) % 60;
+}
+
+/* startDay 以降で n 番目に、十干が stem になる日 */
+function nthStemDay(startDay, stem, n) {
+  let count = 0;
+  for (let d = 0; d < 400; d++) {
+    if (ganzhiOfDayIdx(startDay + d) % 10 === stem) {
+      count += 1;
+      if (count === n) return startDay + d;
+    }
+  }
+  return null;
+}
+
+/* startDay 以降で n 番目に、十二支が branch になる日 */
+function nthBranchDay(startDay, branch, n) {
+  let count = 0;
+  for (let d = 0; d < 400; d++) {
+    if (ganzhiOfDayIdx(startDay + d) % 12 === branch) {
+      count += 1;
+      if (count === n) return startDay + d;
+    }
+  }
+  return null;
+}
+
+/* centerDay にもっとも近い、十干が stem の日。同じ距離なら前の日を採る */
+function nearestStemDay(centerDay, stem) {
+  for (let dist = 0; dist <= 5; dist++) {
+    if (ganzhiOfDayIdx(centerDay - dist) % 10 === stem) return centerDay - dist;
+    if (ganzhiOfDayIdx(centerDay + dist) % 10 === stem) return centerDay + dist;
+  }
+  return null;
+}
+
+/* ---------- 二十四節気 ---------- */
+
+/*
+ * [名前, 太陽黄経, 来る月, 節/中]
+ * 「節」は月の区切り(四柱推命の月替わり)、「中」は月の中心。
+ * 旧暦の月番号は「中気を含むか」で決まるので、どちらも暦の骨格になる。
+ */
+const SEKKI24 = [
+  ["小寒", 285, 1, "節"], ["大寒", 300, 1, "中"],
+  ["立春", 315, 2, "節"], ["雨水", 330, 2, "中"],
+  ["啓蟄", 345, 3, "節"], ["春分", 0, 3, "中"],
+  ["清明", 15, 4, "節"], ["穀雨", 30, 4, "中"],
+  ["立夏", 45, 5, "節"], ["小満", 60, 5, "中"],
+  ["芒種", 75, 6, "節"], ["夏至", 90, 6, "中"],
+  ["小暑", 105, 7, "節"], ["大暑", 120, 7, "中"],
+  ["立秋", 135, 8, "節"], ["処暑", 150, 8, "中"],
+  ["白露", 165, 9, "節"], ["秋分", 180, 9, "中"],
+  ["寒露", 195, 10, "節"], ["霜降", 210, 10, "中"],
+  ["立冬", 225, 11, "節"], ["小雪", 240, 11, "中"],
+  ["大雪", 255, 12, "節"], ["冬至", 270, 12, "中"],
+];
+
+const SEKKI24_TEXT = {
+  小寒: "寒の入り。ここから節分までが一年でいちばん寒い「寒の内」です。",
+  大寒: "一年でもっとも寒さが厳しくなるころ。寒稽古や寒仕込みの時期です。",
+  立春: "暦の上での春の始まり。九星や四柱推命ではこの日から新しい年になります。",
+  雨水: "雪が雨に変わり、氷が解け出すころ。農作業の準備を始める目安とされます。",
+  啓蟄: "土の中で冬ごもりしていた虫が、戸を開いて出てくるころ。",
+  春分: "昼と夜の長さがほぼ同じになる日。この日をまん中に彼岸の7日間があります。",
+  清明: "万物が清らかで生き生きとするころ。花が咲きそろい、空気が澄みます。",
+  穀雨: "穀物をうるおす春の雨が降るころ。種まきの好機とされます。",
+  立夏: "暦の上での夏の始まり。新緑がまぶしくなるころです。",
+  小満: "草木が茂り、生き物が満ちてくるころ。麦の穂が実り始めます。",
+  芒種: "芒(のぎ)のある穀物の種をまくころ。田植えの時期にあたります。",
+  夏至: "一年でもっとも昼が長い日。ここから日が短くなっていきます。",
+  小暑: "暑さが本格的になるころ。梅雨明けが近づきます。",
+  大暑: "一年でもっとも暑さが厳しくなるころ。土用の丑の日もこのあたりです。",
+  立秋: "暦の上での秋の始まり。これ以降の暑さを「残暑」と呼びます。",
+  処暑: "暑さが収まるころ。朝晩に涼しさを感じ始めます。",
+  白露: "草に白い露がつき始めるころ。秋の気配が濃くなります。",
+  秋分: "昼と夜の長さがほぼ同じになる日。この日をまん中に彼岸の7日間があります。",
+  寒露: "露が冷たく感じられるころ。秋が深まり、作物の収穫期です。",
+  霜降: "霜が降り始めるころ。紅葉が里まで下りてきます。",
+  立冬: "暦の上での冬の始まり。木枯らしが吹き始めます。",
+  小雪: "わずかに雪が降り始めるころ。本格的な寒さの手前です。",
+  大雪: "雪が本格的に降り積もるころ。冬支度を整える時期です。",
+  冬至: "一年でもっとも昼が短い日。ゆず湯とかぼちゃの日として知られます。",
+};
+
+const _sekki24Cache = new Map();
+
+/* その暦年に来る24の節気を、日付つきで返す */
+function sekki24OfYear(year) {
+  if (_sekki24Cache.has(year)) return _sekki24Cache.get(year);
+  const list = SEKKI24.map(([name, lon, month, kind]) => {
+    const jd = solarTermJd(year, month, lon);
+    const p = jdToJstParts(jd);
+    return { name, lon, kind, dayIdx: jdn(p.y, p.m, p.d), y: p.y, m: p.m, d: p.d, hh: p.hh, mi: p.mi };
+  });
+  _sekki24Cache.set(year, list);
+  return list;
+}
+
+/* その日が二十四節気の当日なら、その節気を返す */
+function sekki24On(y, dayIdx) {
+  for (const yy of [y - 1, y, y + 1]) {
+    for (const s of sekki24OfYear(yy)) if (s.dayIdx === dayIdx) return s;
+  }
+  return null;
+}
+
+/* ---------- 選日(せんじつ) ---------- */
+
+/*
+ * 60干支の並びだけで決まる暦注。表を覚える必要はなく、すべて位置で出せる。
+ * 干支の通し番号: 0=甲子 … 59=癸亥
+ */
+const SENJITSU_TEXT = {
+  八専: "壬子から癸亥までの12日のうち、干と支の五行が同じになる8日。天候が片寄り、物事も同じ方に偏るとされ、法事・嫁取り・造作を避ける習わしがあります。",
+  "八専の間日": "八専の期間のうち、干と支の五行が食い違う4日。八専の障りがない日とされます。",
+  十方暮: "甲申から癸巳までの10日間。十方(どの方角)も暮れて閉ざされるという意味で、旅行・縁談・相談事を避けるとされます。",
+  天一天上: "癸巳から戊申までの16日間。方位の神である天一神が天に昇っている間で、どの方角へ動いてもさわりがないとされます。",
+  大つち: "庚午から丙子までの7日間。土の神が休む期間とされ、土を動かすこと(基礎工事・井戸掘り・種まき)を避ける習わしがあります。",
+  小つち: "戊寅から甲申までの7日間。大つちと同じく、土を動かすことを避けるとされます。",
+  "つちの間日": "大つちと小つちの間にある丁丑の1日。土を動かしてもよいとされます。",
+  庚申: "干支が庚申の日。60日に一度。体内の虫が天に罪を告げに行く夜とされ、寝ずに過ごす「庚申待ち」の風習がありました。",
+  初伏: "夏至のあとの3番目の庚の日。三伏のひとつで、暑さが厳しく、種まき・旅行・縁談を避けるとされます。",
+  中伏: "夏至のあとの4番目の庚の日。三伏のひとつです。",
+  末伏: "立秋のあとの最初の庚の日。三伏のひとつで、これで夏の暑さが収まるとされます。",
+  春社: "春分にもっとも近い戊の日。土地の神(社)を祀り、五穀豊穣を祈る日です。",
+  秋社: "秋分にもっとも近い戊の日。収穫を土地の神に感謝する日です。",
+  臘日: "冬至のあとの3番目の戌の日。年の暮れに神仏や祖先を祀る日とされてきました。",
+};
+
+/* その日の選日(干支の位置だけで決まるもの) */
+function senjitsuByGanzhi(dayIdx) {
+  const g = ganzhiOfDayIdx(dayIdx);
+  const out = [];
+
+  // 八専: 壬子(48)〜癸亥(59)。干と支の五行が一致する8日が八専、しない4日が間日
+  if (g >= 48 && g <= 59) {
+    const stemEl = Math.floor((g % 10) / 2);      // 十干の五行
+    const branchEl = SHI_ELEMENT[g % 12];         // 十二支の五行
+    if (stemEl === branchEl) out.push(g === 48 ? "八専" : "八専");
+    else out.push("八専の間日");
+  }
+  // 十方暮: 甲申(20)〜癸巳(29)
+  if (g >= 20 && g <= 29) out.push("十方暮");
+  // 天一天上: 癸巳(29)〜戊申(44)
+  if (g >= 29 && g <= 44) out.push("天一天上");
+  // 大つち: 庚午(6)〜丙子(12) / 間日 丁丑(13) / 小つち: 戊寅(14)〜甲申(20)
+  if (g >= 6 && g <= 12) out.push("大つち");
+  else if (g === 13) out.push("つちの間日");
+  else if (g >= 14 && g <= 20) out.push("小つち");
+  // 庚申(56)
+  if (g === 56) out.push("庚申");
+
+  return out;
+}
+
+const _senjitsuYearCache = new Map();
+
+/*
+ * 年に数回しかない選日(三伏・社日・臘日)。節気を起点に干支を数えて出す。
+ * 「夏至のあと」に夏至当日を含めるかは流儀があるが、ここでは当日を含める。
+ */
+function senjitsuOfYear(year) {
+  if (_senjitsuYearCache.has(year)) return _senjitsuYearCache.get(year);
+  const geshi = termDay(year, 6, 90);     // 夏至
+  const risshu = termDay(year, 8, 135);   // 立秋
+  const shunbun = termDay(year, 3, 0);    // 春分
+  const shubun = termDay(year, 9, 180);   // 秋分
+  const toji = termDay(year, 12, 270);    // 冬至
+
+  const map = new Map();
+  const put = (day, name) => {
+    if (day === null) return;
+    if (!map.has(day)) map.set(day, []);
+    map.get(day).push(name);
+  };
+  put(nthStemDay(geshi, 6, 3), "初伏");    // 庚 = 十干の6
+  put(nthStemDay(geshi, 6, 4), "中伏");
+  put(nthStemDay(risshu, 6, 1), "末伏");
+  put(nearestStemDay(shunbun, 4), "春社"); // 戊 = 十干の4
+  put(nearestStemDay(shubun, 4), "秋社");
+  put(nthBranchDay(toji, 10, 3), "臘日");  // 戌 = 十二支の10
+  _senjitsuYearCache.set(year, map);
+  return map;
+}
+
+function senjitsuOf(y, dayIdx) {
+  const out = senjitsuByGanzhi(dayIdx);
+  for (const yy of [y - 1, y]) {
+    const m = senjitsuOfYear(yy);
+    if (m.has(dayIdx)) out.push(...m.get(dayIdx));
+  }
+  return out;
+}
+
+/* ---------- 月の満ち欠け(朔・上弦・望・下弦) ---------- */
+
+/*
+ * 月と太陽の黄経差が target 度になる瞬間。0=新月 90=上弦 180=満月 270=下弦。
+ * 差は1日に約12.19度進むので、ずれた角度をその値で割れば修正日数になる。
+ */
+function moonPhaseJd(jd, target) {
+  let t = jd;
+  for (let i = 0; i < 40; i++) {
+    let p = norm360(moonLongitude(ttFrom(t)) - sunLongitude(ttFrom(t))) - target;
+    if (p > 180) p -= 360;
+    if (p < -180) p += 360;
+    if (Math.abs(p) < 1e-7) break;
+    t -= p / 12.190749;
+  }
+  return t;
+}
+
+const MOON_PHASES = [[0, "新月"], [90, "上弦"], [180, "満月"], [270, "下弦"]];
+
+const MOON_PHASE_TEXT = {
+  新月: "月と太陽が同じ方向に来る日。旧暦ではこの日が「1日」になります。",
+  上弦: "右半分が光って見える半月。夕方に南の空へ昇ります。",
+  満月: "月と太陽が向かい合う日。一晩じゅう見えます。",
+  下弦: "左半分が光って見える半月。真夜中に昇り、明け方に南の空へ来ます。",
+};
+
+const _moonPhaseCache = new Map();
+
+/* その月に起きる月相を { 日 → 名前 } で返す */
+function moonPhasesOfMonth(y, m) {
+  const key = y + "-" + m;
+  if (_moonPhaseCache.has(key)) return _moonPhaseCache.get(key);
+  const first = jdn(y, m, 1);
+  const last = jdn(y, m, new Date(y, m, 0).getDate());
+  const out = new Map();
+  // 月の前後に余裕をもたせて、朔望月2回分を走査する
+  for (let base = first - 32; base <= last + 32; base += 29.53) {
+    for (const [deg, name] of MOON_PHASES) {
+      const t = moonPhaseJd(jstDayMidUt(Math.round(base)) + deg / 360 * 29.53, deg);
+      const di = jstDayIndex(t);
+      if (di >= first && di <= last) out.set(di, name);
+    }
+  }
+  _moonPhaseCache.set(key, out);
+  return out;
+}
+
+/* ---------- 節句・年中行事(暦で決まるもの) ---------- */
+
+const SEKKU = {
+  "1-7": ["人日の節句", "七草がゆを食べて一年の無病息災を願う日。五節句のひとつです。"],
+  "3-3": ["上巳の節句", "桃の節句・ひな祭り。女の子の健やかな成長を願う日です。"],
+  "5-5": ["端午の節句", "こどもの日。菖蒲を飾り、男の子の成長を願ってきました。"],
+  "7-7": ["七夕の節句", "笹に願いを書いた短冊を飾る日。五節句のひとつです。"],
+  "9-9": ["重陽の節句", "菊の節句。菊を飾り長寿を願う日で、五節句の最後にあたります。"],
+};
+
+const EVENT_TEXT = {
+  旧正月: "旧暦の1月1日。かつての元日で、いまも中華圏では春節として祝われます。",
+  十五夜: "旧暦8月15日、中秋の名月。すすきと団子を供えて月を見る日です。",
+  十三夜: "旧暦9月13日、後(のち)の月。十五夜だけ見るのは「片月見」として嫌われました。",
+  十日夜: "旧暦10月10日。稲刈りを終えて田の神を送る行事で、月見の3回目にあたります。",
+  初午: "2月最初の午の日。稲荷神社の祭りの日です。",
+  二の午: "2月2番目の午の日。初午と同じく稲荷の縁日とされます。",
+  二百二十日: "立春から220日目。二百十日とならぶ、台風に警戒する厄日です。",
+};
+
+/* その日の行事(節句・月見・初午など) */
+function eventsOf(y, m, d, dayIdx, lunar) {
+  const out = [];
+  const sekku = SEKKU[m + "-" + d];
+  if (sekku) out.push({ name: sekku[0], text: sekku[1] });
+
+  if (lunar && !lunar.leap) {
+    if (lunar.num === 1 && lunar.day === 1) out.push({ name: "旧正月", text: EVENT_TEXT.旧正月 });
+    if (lunar.num === 8 && lunar.day === 15) out.push({ name: "十五夜", text: EVENT_TEXT.十五夜 });
+    if (lunar.num === 9 && lunar.day === 13) out.push({ name: "十三夜", text: EVENT_TEXT.十三夜 });
+    if (lunar.num === 10 && lunar.day === 10) out.push({ name: "十日夜", text: EVENT_TEXT.十日夜 });
+  }
+
+  if (m === 2) {
+    const feb1 = jdn(y, 2, 1);
+    if (dayIdx === nthBranchDay(feb1, 6, 1)) out.push({ name: "初午", text: EVENT_TEXT.初午 });
+    if (dayIdx === nthBranchDay(feb1, 6, 2)) out.push({ name: "二の午", text: EVENT_TEXT.二の午 });
+  }
+
+  // 二百二十日(立春から220日目)
+  for (const yy of [y - 1, y]) {
+    if (dayIdx === termDay(yy, 2, 315) + 219) {
+      out.push({ name: "二百二十日", text: EVENT_TEXT.二百二十日 });
+    }
+  }
   return out;
 }
