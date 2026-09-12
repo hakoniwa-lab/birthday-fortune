@@ -767,3 +767,202 @@ html, body {
   border-radius: var(--radius-sm);
   padding: 8px 10px;
 }
+
+/* --- 吉日カレンダー --- */
+
+.crumb { font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 12px; }
+.crumb a { color: var(--color-text-muted); }
+
+.card--cal { padding: 14px 12px 16px; }
+
+.calnav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.calnav__btn {
+  appearance: none;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  width: 44px; height: 44px;
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+}
+.calnav__btn:hover { border-color: var(--color-primary); }
+.calnav__label { text-align: center; font-size: 1.15rem; font-weight: 800; }
+.calnav__today {
+  display: block; margin: 2px auto 0;
+  appearance: none; border: 0; background: none;
+  color: var(--color-primary); font: inherit; font-size: 0.72rem; font-weight: 700;
+  cursor: pointer; text-decoration: underline;
+}
+
+.calgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.calhead { text-align: center; font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); padding: 2px 0 4px; }
+.calhead--sun { color: #c0392b; }
+.calhead--sat { color: #2b6cb0; }
+
+.calcell {
+  appearance: none;
+  border: 1.5px solid transparent;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  padding: 3px 1px 4px;
+  min-height: 58px;
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  font: inherit; color: var(--color-text); cursor: pointer;
+  overflow: hidden;
+}
+.calcell--empty { background: transparent; border-color: transparent; cursor: default; }
+.calcell__d { font-size: 0.95rem; font-weight: 800; line-height: 1.1; }
+.calcell__r { font-size: 0.6rem; color: var(--color-text-muted); line-height: 1.1; }
+.calcell__b { display: flex; flex-direction: column; gap: 1px; align-items: center; }
+.calcell.is-sun .calcell__d { color: #c0392b; }
+.calcell.is-sat .calcell__d { color: #2b6cb0; }
+.calcell.is-good { background: color-mix(in srgb, var(--color-accent) 14%, var(--color-bg)); }
+.calcell.is-mixed { background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg)); }
+.calcell.is-bad { background: color-mix(in srgb, var(--color-warn-text) 8%, var(--color-bg)); }
+.calcell.is-best { background: color-mix(in srgb, var(--color-primary) 22%, var(--color-bg)); }
+.calcell.is-today { border-color: var(--color-text-muted); }
+.calcell.is-selected { border-color: var(--color-primary); border-width: 2px; }
+
+.bdg {
+  display: block;
+  font-size: 0.55rem; font-weight: 700; line-height: 1.35;
+  padding: 0 3px; border-radius: 3px; white-space: nowrap;
+}
+.b-tensha { background: var(--color-primary); color: var(--color-primary-contrast); }
+.b-ichiryu { background: var(--color-accent); color: #fff; }
+.b-tora, .b-mi { background: var(--color-badge-bg); color: var(--color-badge-text); }
+.b-bad { background: var(--color-warn-bg); color: var(--color-warn-text); }
+
+.callegend { font-size: 0.7rem; color: var(--color-text-muted); margin: 12px 0 0; text-align: center; line-height: 2; }
+.chip {
+  display: inline-block; font-size: 0.62rem; font-weight: 700;
+  padding: 1px 7px; border-radius: 999px; margin: 0 3px 0 8px;
+}
+.chip--best { background: var(--color-primary); color: var(--color-primary-contrast); }
+.chip--good { background: var(--color-accent); color: #fff; }
+.chip--bad { background: var(--color-warn-bg); color: var(--color-warn-text); }
+
+/* 選んだ日の詳細 */
+.card--detail { text-align: left; border-color: var(--color-primary); }
+.detail__date { font-size: 1.25rem; font-weight: 800; margin: 0 0 10px; }
+.detail__date span { font-size: 0.85rem; color: var(--color-text-muted); margin-left: 4px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.tag { font-size: 0.78rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.tag--good { background: var(--color-accent); color: #fff; }
+.tag--bad { background: var(--color-warn-bg); color: var(--color-warn-text); }
+.detail__rows { display: grid; gap: 2px; margin: 12px 0; }
+.detail__row {
+  display: flex; justify-content: space-between; gap: 10px;
+  font-size: 0.85rem; margin: 0; padding: 7px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.detail__row span { color: var(--color-text-muted); white-space: nowrap; }
+.detail__row b { text-align: right; }
+.detail__memo { font-size: 0.8rem; color: var(--color-text-muted); margin: 0 0 6px; }
+.detail__notes { margin: 10px 0 0; padding-left: 1.2em; font-size: 0.85rem; }
+.detail__notes li { margin-bottom: 6px; }
+
+/* 月内の吉日一覧 */
+.best-line {
+  font-size: 0.85rem; font-weight: 700;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border-radius: var(--radius-sm); padding: 10px 12px; margin: 0 0 14px;
+}
+.glist { border-top: 1px solid var(--color-border); padding: 12px 0 4px; }
+.glist:first-child { border-top: 0; padding-top: 0; }
+.glist__name { font-size: 0.88rem; font-weight: 700; margin: 0 0 6px; }
+.glist__name small { display: block; font-size: 0.72rem; font-weight: 400; color: var(--color-text-muted); }
+.glist__days { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.daychip {
+  appearance: none; border: 1.5px solid var(--color-border);
+  background: var(--color-bg); border-radius: var(--radius-sm);
+  padding: 5px 9px; font: inherit; font-size: 0.85rem; font-weight: 700;
+  color: var(--color-text); cursor: pointer;
+}
+.daychip small { font-size: 0.68rem; font-weight: 400; color: var(--color-text-muted); margin-left: 2px; }
+.daychip:hover { border-color: var(--color-primary); }
+.daychip--bad { color: var(--color-warn-text); }
+
+.card--note { background: color-mix(in srgb, var(--color-warn-bg) 45%, var(--color-surface)); }
+
+@media (min-width: 500px) {
+  .calcell { min-height: 66px; }
+  .calcell__d { font-size: 1.05rem; }
+  .calcell__r { font-size: 0.68rem; }
+  .bdg { font-size: 0.62rem; }
+}
+
+/* --- 相性診断 --- */
+
+.pair { display: grid; gap: 12px; }
+.person {
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px 12px;
+  margin: 0;
+}
+.person legend { font-size: 0.85rem; font-weight: 800; color: var(--color-primary); padding: 0 6px; }
+.time-row--opt { margin-top: 8px; }
+
+.pair-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pcard {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 12px 12px 8px;
+  text-align: left;
+}
+.pcard__label { font-size: 0.72rem; font-weight: 800; color: var(--color-primary); margin: 0; }
+.pcard__date { font-size: 0.95rem; font-weight: 800; margin: 0 0 8px; }
+.pcard__row {
+  display: flex; justify-content: space-between; gap: 6px;
+  font-size: 0.78rem; margin: 0; padding: 4px 0;
+  border-top: 1px solid var(--color-border);
+}
+.pcard__row span { color: var(--color-text-muted); white-space: nowrap; }
+.pcard__row b { text-align: right; }
+.pcard__row small { color: var(--color-warn-text); }
+
+.rel {
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin: 0 0 10px;
+}
+.rel__kind { font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); margin: 0 0 2px; }
+.rel__key { font-size: 1.05rem; font-weight: 800; color: var(--color-primary); margin: 0 0 6px; }
+.rel__text { font-size: 0.88rem; margin: 0; }
+.rel2 { display: grid; gap: 10px; }
+
+@media (min-width: 560px) {
+  .pair { grid-template-columns: 1fr 1fr; }
+  .rel2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* --- 解説記事のページ(記事・カレンダー・相性で共通) --- */
+
+.art-header { margin-bottom: 18px; }
+.art-title { font-size: 1.45rem; font-weight: 800; line-height: 1.5; margin: 0 0 8px; }
+.art-sub { font-size: 0.88rem; color: var(--color-text-muted); margin: 0; }
+
+/* 誤解されると困る内容を置くカード。枠と地の色で目立たせる */
+.card--warn { border-color: var(--color-primary); background: color-mix(in srgb, var(--color-primary) 7%, var(--color-surface)); }
+
+.card--article h3 { font-size: 0.95rem; margin: 16px 0 8px; }
+.card--article ol { font-size: 0.9rem; margin: 0 0 12px; padding-left: 1.4em; }
+.card--article ol li { margin-bottom: 6px; }
+/* 記事内のボタンは a タグなので、行として置く */
+.card--article .btn { display: inline-block; text-decoration: none; margin-top: 4px; }
+
+/* 表は本文を横に動かさず、枠の中だけでスクロールさせる */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 12px; }
+.spec { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 360px; }
+.spec th, .spec td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+.spec tr:last-child th, .spec tr:last-child td { border-bottom: 0; }
+.spec th { white-space: nowrap; font-weight: 700; color: var(--color-text); }
+.spec td { color: var(--color-text-muted); }
+/* 干支や六曜のような短い語は折り返さない */
+.spec td:nth-child(2), .spec td:nth-child(3) { white-space: nowrap; }
+
+@media (min-width: 640px) {
+  .art-title { font-size: 1.8rem; }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>相性診断｜二人の生年月日で数秘術・星座・九星・四柱推命の相性を見る</title>
+<meta name="description" content="二人の生年月日を入れるだけで、数秘術・西洋占星術(太陽と月の角度)・九星気学(五行の関係)・四柱推命(日干と日支の関係)の4つの角度から相性を表示します。良い悪いで決めつけず、噛み合い方と気をつけどころを書いています。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/compatibility/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="相性診断 | HAKONIWA LAB">
+<meta property="og:description" content="二人の生年月日から、数秘術・星座・九星・四柱推命の4つの角度で相性を表示します。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/compatibility/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"相性が悪いと出たら別れた方がいいですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。相性占いに科学的な根拠はありません。本診断はどの組み合わせにも「合わない」とは書かず、その組み合わせなりの噛み合い方と気をつけどころを書いています。占いの結果で人間関係を決めるのではなく、相手のことを考えるきっかけとしてお使いください。"}},{"@type":"Question","name":"星座の相性はどうやって出していますか？","acceptedAnswer":{"@type":"Answer","text":"二人の生まれた瞬間の太陽の位置(黄経)を計算し、その角度の差で判定しています。占星術では0度(合)・60度(六分)・90度(矩)・120度(三分)・180度(衝)といった角度に意味があるとされ、多少のずれは許容範囲(オーブ)として同じ扱いにします。生まれた時刻を入れると、月どうしの角度も出せます。"}},{"@type":"Question","name":"四柱推命の相性はどこを見ていますか？","acceptedAnswer":{"@type":"Answer","text":"命式の中心である日柱を使います。日干(自分を表す十干)どうしの関係を通変星で表し、お互いから見て相手がどういう役割かを示します。あわせて日支(日柱の十二支)どうしが六合・三合・冲のどれに当たるかを表示します。"}},{"@type":"Question","name":"生まれた時刻は必要ですか？","acceptedAnswer":{"@type":"Answer","text":"無くても診断できます。時刻が影響するのは月の位置だけで、月は1日で約13度動くため、時刻がないと月どうしの角度に誤差が出ます。その場合は画面に注意書きを出しています。太陽・九星・四柱推命の日干と日支は時刻がなくても確定します。"}}]}</script>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ 相性診断</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">二人の生年月日で</p>
+    <h1 class="app-header__title">相性診断</h1>
+    <p class="app-header__lead">数秘術・西洋占星術・九星気学・四柱推命の4つの角度から、二人の噛み合い方を表示します。良い悪いでは決めつけません。</p>
+  </header>
+
+  <main id="main" class="main">
+
+    <section id="screen-intro" class="screen">
+      <div class="card card--intro">
+        <form id="gen-form">
+          <div class="pair">
+            <fieldset class="person">
+              <legend>あなた</legend>
+              <div class="date-row">
+                <select id="a-year" class="quiz-select" aria-label="年"></select>
+                <select id="a-month" class="quiz-select" aria-label="月"></select>
+                <select id="a-day" class="quiz-select" aria-label="日"></select>
+              </div>
+              <div class="time-row time-row--opt">
+                <select id="a-hour" class="quiz-select" aria-label="時"></select>
+                <select id="a-minute" class="quiz-select" aria-label="分"></select>
+              </div>
+            </fieldset>
+            <fieldset class="person">
+              <legend>相手</legend>
+              <div class="date-row">
+                <select id="b-year" class="quiz-select" aria-label="年"></select>
+                <select id="b-month" class="quiz-select" aria-label="月"></select>
+                <select id="b-day" class="quiz-select" aria-label="日"></select>
+              </div>
+              <div class="time-row time-row--opt">
+                <select id="b-hour" class="quiz-select" aria-label="時"></select>
+                <select id="b-minute" class="quiz-select" aria-label="分"></select>
+              </div>
+            </fieldset>
+          </div>
+          <p class="form-help">時刻は任意です。入れると月どうしの角度が正確になります。</p>
+          <p id="form-error" class="form-error" hidden></p>
+          <button type="submit" class="btn btn--primary btn--large">相性を見る</button>
+        </form>
+        <p class="intro-disclaimer">※ 相性占いに科学的な根拠はありません。相手のことを考えるきっかけとして、気楽に楽しんでください。入力内容は端末内にだけ保存し、外部には送りません。</p>
+      </div>
+    </section>
+
+    <section id="screen-result" class="screen" hidden>
+      <div class="card card--profile" id="pair-head"></div>
+      <div class="card card--chart"><h2 class="card__title">数秘術 — 役割の組み合わせ</h2><div id="sec-num"></div></div>
+      <div class="card card--chart"><h2 class="card__title">西洋占星術 — 太陽と月の角度</h2><div id="sec-astro"></div></div>
+      <div class="card card--chart"><h2 class="card__title">九星気学 — 五行の関係</h2><div id="sec-kyusei"></div></div>
+      <div class="card card--chart"><h2 class="card__title">四柱推命 — 日柱の関係</h2><div id="sec-shichu"></div></div>
+
+      <button type="button" class="btn btn--primary btn--large" id="btn-copy">結果をシェア・コピー</button>
+      <div id="ad-slot-result-bottom" class="ad-slot" aria-hidden="true"></div>
+
+      <div class="result-cross-links">
+        <a class="cross-link-banner" href="../">自分ひとりの診断(出生図・命式)を見る →</a>
+        <a class="cross-link-banner" href="../calendar/">二人で何か始める日を吉日カレンダーで決める →</a>
+      </div>
+
+      <button type="button" class="btn btn--ghost" id="btn-restart">別の二人で診断する</button>
+    </section>
+
+  </main>
+
+  <section class="article">
+    <div class="card card--article">
+      <h2>この診断の見かた</h2>
+      <p>4つの占術は、それぞれ違うものを見ています。数秘術は<strong>役割</strong>、西洋占星術は<strong>生まれた瞬間の星の角度</strong>、九星気学は<strong>五行の巡り</strong>、四柱推命は<strong>日柱どうしの関係</strong>。ひとつの結果で決めつけず、4つを読み比べると、その二人らしい噛み合い方が見えてきます。</p>
+      <p>本診断では、どの組み合わせにも「合わない」とは書きません。相性占いに根拠はなく、「合わない」と言われて関係に水を差すのは占いの一番良くない使い方だからです。書いてあるのは、その組み合わせなりの得意な場面と、気をつけどころです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>それぞれの計算のしかた</h2>
+      <h3>数秘術</h3>
+      <p>二人のライフパスナンバーを「引っぱる人(1・8)」「支える人(2・6・9)」「動かす人(3・5)」「固める人(4・7)」「感じ取る人(11・22・33)」の5つの役割に分け、役割の組み合わせで読みます。</p>
+      <h3>西洋占星術</h3>
+      <p>二人の生まれた瞬間の太陽の黄経を計算し、その差の角度で判定します。0度(合)・60度(六分)・90度(矩)・120度(三分)・180度(衝)の5つに意味があるとされ、そこから数度のずれまでは同じ扱いです(オーブ)。どれにも当てはまらない角度もあり、その場合は「決まった名前のない関係」として表示します。時刻を入れると月どうしの角度も出せます。</p>
+      <h3>九星気学</h3>
+      <p>二人の本命星が持つ五行(木・火・土・金・水)の関係を見ます。木は火を生み、火は土を生む…という相生と、木は土を剋し、土は水を剋す…という相剋、そして同じ五行どうしの比和。どちらがどちらを生む(剋す)側かで、関係の向きが出ます。</p>
+      <h3>四柱推命</h3>
+      <p>命式の中心である日柱を使います。日干どうしの関係を通変星(比肩・食神・正財・正官・印綬など)で表し、あわせて日支どうしが六合・三合・冲のどれに当たるかを見ます。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>相性が悪いと出たら別れた方がいいですか？</summary><p>いいえ。相性占いに科学的な根拠はありません。本診断はどの組み合わせにも「合わない」とは書かず、その組み合わせなりの噛み合い方と気をつけどころを書いています。占いの結果で人間関係を決めるのではなく、相手のことを考えるきっかけとしてお使いください。</p></details>
+      <details class="faq-item"><summary>星座の相性はどうやって出していますか？</summary><p>二人の生まれた瞬間の太陽の位置(黄経)を計算し、その角度の差で判定しています。占星術では0度・60度・90度・120度・180度といった角度に意味があるとされ、多少のずれは許容範囲(オーブ)として同じ扱いにします。生まれた時刻を入れると、月どうしの角度も出せます。</p></details>
+      <details class="faq-item"><summary>四柱推命の相性はどこを見ていますか？</summary><p>命式の中心である日柱を使います。日干どうしの関係を通変星で表し、お互いから見て相手がどういう役割かを示します。あわせて日支どうしが六合・三合・冲のどれに当たるかを表示します。</p></details>
+      <details class="faq-item"><summary>生まれた時刻は必要ですか？</summary><p>無くても診断できます。時刻が影響するのは月の位置だけで、月は1日で約13度動くため、時刻がないと月どうしの角度に誤差が出ます。その場合は画面に注意書きを出しています。太陽・九星・四柱推命の日干と日支は時刻がなくても確定します。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>運営者について</h2>
+      <p>本サイトはHAKONIWA LAB(運営者: 灯家)が個人で企画・開発・運営しています。ひとり分の出生図・命式は<a href="../">生まれ日診断</a>、日取りは<a href="../calendar/">吉日カレンダー</a>をどうぞ。</p>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <p>本サイトの診断結果は娯楽・話題提供を目的としたもので、人間関係や将来を保証するものではありません。「PR」表記のあるリンクにはプロモーション(アフィリエイト広告)が含まれます。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+
+<script src="../js/astro.js"></script>
+<script src="../js/fortune.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/aisho.js"></script>
+<script src="../js/compat-app.js"></script>
+</body>
+</html>

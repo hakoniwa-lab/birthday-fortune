@@ -201,7 +201,21 @@ function planetLongitude(name, jd) {
  * 拾ってしまい、年柱が1年ずれる。節はどれも その月の3日〜9日ごろに来るので、
  * 月初の2日前から20日間だけを見る。
  */
+/*
+ * 計算結果の使い回し。カレンダーは1か月分で同じ年の節気を何百回も引くので、
+ * キャッシュしないと画面が固まる。中身は年と目標黄経だけで決まるので安全に再利用できる。
+ */
+const _termCache = new Map();
+
 function solarTermJd(year, month, target) {
+  const key = year + "|" + month + "|" + target;
+  if (_termCache.has(key)) return _termCache.get(key);
+  const v = _solarTermJdRaw(year, month, target);
+  _termCache.set(key, v);
+  return v;
+}
+
+function _solarTermJdRaw(year, month, target) {
   let lo = jdFromJst(year, month, 1, 0, 0) - 2;
   let hi = lo + 20;
 
@@ -245,7 +259,16 @@ const SEKKI = [
 ];
 
 /* その暦年に実際に来る12の節を、日本時間の日付つきで返す(1月の小寒から順) */
+const _sekkiCache = new Map();
+
 function sekkiOfYear(year) {
+  if (_sekkiCache.has(year)) return _sekkiCache.get(year);
+  const v = _sekkiOfYearRaw(year);
+  _sekkiCache.set(year, v);
+  return v;
+}
+
+function _sekkiOfYearRaw(year) {
   return SEKKI.map(([name, lon, month, branch]) => {
     const jd = solarTermJd(year, month, lon);
     const jst = jdToJstParts(jd);

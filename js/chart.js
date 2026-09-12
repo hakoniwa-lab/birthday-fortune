@@ -36,14 +36,24 @@ function dayPillarIndex(y, m, d) {
  * 四柱推命の月は暦の月ではなく、節入り(立春・啓蟄…)で切り替わる。
  * 戻り値: { branch: 月の十二支index, yearForPillar: 年柱に使う年, sekki: その節 }
  */
-function solarMonthOf(y, m, d, hour, minute) {
-  const jd = jdFromJst(y, m, d, hour, minute);
-  // 前年・当年・翌年の節を並べ、生まれた瞬間より前で一番新しい節を探す
+/* 3年分の節を並べた配列。年ごとに使い回す(毎回作ると並べ替えだけで重くなる) */
+const _termsAroundCache = new Map();
+
+function termsAround(y) {
+  if (_termsAroundCache.has(y)) return _termsAroundCache.get(y);
   const terms = [];
   for (const yy of [y - 1, y, y + 1]) {
     for (const t of sekkiOfYear(yy)) terms.push(t);
   }
   terms.sort((a, b) => a.jd - b.jd);
+  _termsAroundCache.set(y, terms);
+  return terms;
+}
+
+function solarMonthOf(y, m, d, hour, minute) {
+  const jd = jdFromJst(y, m, d, hour, minute);
+  // 前年・当年・翌年の節を並べ、生まれた瞬間より前で一番新しい節を探す
+  const terms = termsAround(y);
 
   let current = terms[0];
   for (const t of terms) {

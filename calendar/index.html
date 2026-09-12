@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吉日カレンダー｜一粒万倍日・天赦日・大安を月ごとに表示</title>
+<meta name="description" content="一粒万倍日・天赦日・寅の日・巳の日・大安などの吉日と、仏滅・不成就日・三隣亡の凶日を月ごとのカレンダーで表示します。六曜は旧暦を計算して求めているため、何年先でも表示できます。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/calendar/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="吉日カレンダー | HAKONIWA LAB">
+<meta property="og:description" content="一粒万倍日・天赦日・大安などの吉日を月ごとに表示。六曜は旧暦から計算しているので何年先でも出せます。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/calendar/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"一粒万倍日とはどんな日ですか？","acceptedAnswer":{"@type":"Answer","text":"一粒の籾(もみ)が万倍の稲穂になる、という意味の吉日です。始めたことが大きく育つとされ、開業・種まき・お金を出すことに良いとされます。月に5〜6日、年間では60日前後あります。節切りの月ごとに決まった2つの十二支の日が一粒万倍日になります。ただし借金や人から物を借りることは「苦労が万倍になる」として避ける、という考え方もあります。"}},{"@type":"Question","name":"天赦日とはどんな日ですか？","acceptedAnswer":{"@type":"Answer","text":"暦の上でもっとも良いとされる日で、年に5〜6回しかありません。天がすべての罪を赦す日という意味で、季節ごとに決まった干支の日が当たります。春(立春から立夏の前日)は戊寅、夏は甲午、秋は戊申、冬は甲子の日です。一粒万倍日と重なる日はとくに縁起が良いとされます。"}},{"@type":"Question","name":"六曜はどうやって決まるのですか？","acceptedAnswer":{"@type":"Answer","text":"旧暦の月と日を足して6で割った余りで決まります。余り0が大安、1が赤口、2が先勝、3が友引、4が先負、5が仏滅です。そのため旧暦の月が変わる日に六曜が飛ぶことがあります。本カレンダーでは新月の瞬間と中気(太陽黄経が30度の倍数になる瞬間)から旧暦そのものを計算しているため、何年先でも表示できます。"}},{"@type":"Question","name":"暦注の内容はどこでも同じですか？","acceptedAnswer":{"@type":"Answer","text":"同じではありません。六曜・天赦日・寅の日・巳の日は計算方法がはっきりしていますが、一粒万倍日・不成就日・三隣亡は採用する表が資料によって異なることがあります。本カレンダーが使っている基準はページ下部に明記していますので、他のカレンダーと食い違う場合はそちらをご確認ください。"}},{"@type":"Question","name":"吉日に何かすると本当に良いことがありますか？","acceptedAnswer":{"@type":"Answer","text":"吉日と実際の結果に科学的な関係は確かめられていません。ただ、いつ始めるか決めかねているときに日付を決める後押しになったり、同じ行動でも気持ちよく始められたりする効果はあります。占いと同じく、行動のきっかけとして気楽にお使いください。"}}]}</script>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ 吉日カレンダー</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">旧暦から計算</p>
+    <h1 class="app-header__title">吉日カレンダー</h1>
+    <p class="app-header__lead">一粒万倍日・天赦日・大安などの吉日を月ごとに表示します。六曜は旧暦を計算して出しているので、何年先でも表示できます。</p>
+  </header>
+
+  <main class="main">
+
+    <div class="card card--cal">
+      <div class="calnav">
+        <button type="button" class="calnav__btn" id="btn-prev" aria-label="前の月">‹</button>
+        <div class="calnav__label">
+          <span id="cal-title">—</span>
+          <button type="button" class="calnav__today" id="btn-today">今月</button>
+        </div>
+        <button type="button" class="calnav__btn" id="btn-next" aria-label="次の月">›</button>
+      </div>
+
+      <div class="calgrid" id="calgrid" role="grid" aria-label="吉日カレンダー"></div>
+
+      <p class="callegend">
+        <span class="chip chip--best">最強</span>天赦日＋一粒万倍日
+        <span class="chip chip--good">吉</span>吉日
+        <span class="chip chip--bad">凶</span>凶日
+      </p>
+    </div>
+
+    <div class="card card--detail" id="detail" hidden>
+      <div id="detail-body"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="card__title" id="list-title">この月の吉日</h2>
+      <div id="goodlist"></div>
+      <div id="ad-slot-cal" class="ad-slot" aria-hidden="true"></div>
+    </div>
+
+    <div class="result-cross-links">
+      <a class="cross-link-banner" href="../">生年月日から自分の運勢を見る(生まれ日診断) →</a>
+      <a class="cross-link-banner" href="../../">HAKONIWA LABの他のツールを見る →</a>
+    </div>
+
+  </main>
+
+  <section class="article">
+
+    <div class="card card--article">
+      <h2>このカレンダーの作り方</h2>
+      <p>市販のカレンダーに載っている「大安」「一粒万倍日」といった書き込みを<strong>暦注(れきちゅう)</strong>と呼びます。このページは、その暦注を計算で出しています。表を持っているのではなく、毎回その場で計算しているので、何年先の月でも表示できます。</p>
+      <h3>六曜は旧暦がないと出せない</h3>
+      <p>六曜は<strong>旧暦の月と日を足して6で割った余り</strong>で決まります。余り0が大安、1が赤口、2が先勝、3が友引、4が先負、5が仏滅です。</p>
+      <p>つまり六曜を出すには旧暦が必要で、旧暦を出すには<strong>新月の瞬間</strong>と<strong>中気</strong>(太陽の黄経が30度の倍数になる瞬間)の両方を計算しなければなりません。新月の日が旧暦の1日になり、冬至を含む月が十一月になる、というルールで月の番号が決まります。中気を含まない月が出てきたら、そこが閏月です。</p>
+      <p>このページはその計算を実際に行っています。検算として、旧正月(旧暦1月1日)と中秋の名月(旧暦8月15日)が実際の暦と一致することを確認しました。</p>
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>検算した日</th><td>計算結果</td></tr>
+            <tr><th>旧正月 2024年</th><td>2月10日</td></tr>
+            <tr><th>旧正月 2025年</th><td>1月29日</td></tr>
+            <tr><th>旧正月 2026年</th><td>2月17日</td></tr>
+            <tr><th>中秋の名月 2024年</th><td>9月17日</td></tr>
+            <tr><th>中秋の名月 2025年</th><td>10月6日</td></tr>
+            <tr><th>閏月</th><td>2023年＝閏2月、2025年＝閏6月、2028年＝閏5月</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>六曜が月の途中で急に飛ぶことがありますが、これは不具合ではありません。旧暦の月が変わったためです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>それぞれの吉日・凶日について</h2>
+
+      <h3>一粒万倍日(いちりゅうまんばいび)</h3>
+      <p>一粒の籾(もみ)が万倍の稲穂になる、という意味の吉日。<strong>始めたことが大きく育つ</strong>とされ、開業・種まき・お金を出すことに良いとされます。月に5〜6日、年間では60日前後あります。節切りの月ごとに、決まった2つの十二支の日が当たります。</p>
+      <p>ただし<strong>借金や人から物を借りることは避ける</strong>とされます。苦労も万倍になる、という考え方です。</p>
+
+      <h3>天赦日(てんしゃにち)</h3>
+      <p>暦の上でもっとも良いとされる日。<strong>年に5〜6回しかありません。</strong>天がすべての罪を赦す日という意味で、季節ごとに決まった干支の日が当たります。</p>
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>季節(節切り)</th><td>当たる日</td></tr>
+            <tr><th>春(立春〜立夏の前日)</th><td>戊寅(つちのえとら)の日</td></tr>
+            <tr><th>夏(立夏〜立秋の前日)</th><td>甲午(きのえうま)の日</td></tr>
+            <tr><th>秋(立秋〜立冬の前日)</th><td>戊申(つちのえさる)の日</td></tr>
+            <tr><th>冬(立冬〜立春の前日)</th><td>甲子(きのえね)の日</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>寅の日・巳の日</h3>
+      <p>寅の日は<strong>出ていったお金が戻ってくる</strong>とされる日。虎が千里を行って千里を帰る、という言葉から来ています。旅行や財布の新調に良いとされます。</p>
+      <p>巳の日は弁財天に縁のある日で、<strong>金運・芸事</strong>に良いとされます。とくに60日に一度の<strong>己巳(つちのとみ)の日</strong>は巳の日の中でも特別とされます。</p>
+
+      <h3>十二直(じゅうにちょく)</h3>
+      <p>六曜より古くから使われていた暦注で、建・除・満・平・定・執・破・危・成・納・開・閉の12種類が順に巡ります。節切りの月の十二支と同じ十二支の日が「建」になります。<strong>節入りの日は前日と同じ直が2日続きます</strong>が、これは仕様どおりです。</p>
+
+      <h3>凶日とされるもの</h3>
+      <p><strong>仏滅</strong>は六曜でもっとも凶とされる日。<strong>不成就日</strong>は何を始めても成就しないとされる日で、旧暦の月日で決まります。<strong>三隣亡</strong>は建築で避けられる日で、棟上げをすると近隣三軒を焼き滅ぼす、という言い伝えから来ています。</p>
+    </div>
+
+    <div class="card card--article card--note">
+      <h2>使っている基準について</h2>
+      <p>暦注には<strong>流派による差があります。</strong>他のカレンダーと食い違うことがあるので、このページが使っている基準を書いておきます。</p>
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>六曜</th><td>旧暦の(月＋日)÷6の余り。旧暦は新月と中気から計算</td></tr>
+            <tr><th>日の干支</th><td>ユリウス日から60日周期。1900年1月1日＝甲戌、2000年1月1日＝戊午で検算</td></tr>
+            <tr><th>節月</th><td>立春・啓蟄などの節入りで区切る。節入りの時刻は太陽の視黄経から計算</td></tr>
+            <tr><th>一粒万倍日</th><td>節月の十二支ごとに定めた2つの日の十二支<strong>（資料によって差がある部分）</strong></td></tr>
+            <tr><th>天赦日</th><td>季節ごとの干支(春＝戊寅、夏＝甲午、秋＝戊申、冬＝甲子)</td></tr>
+            <tr><th>不成就日</th><td>旧暦の月日による表<strong>（資料によって差がある部分）</strong></td></tr>
+            <tr><th>三隣亡</th><td>節月の十二支による表<strong>（資料によって差がある部分）</strong></td></tr>
+            <tr><th>十二直</th><td>節月の十二支と日の十二支の差</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>なお<strong>二十八宿(鬼宿日など)は扱っていません。</strong>起点の取り方に複数の流儀があり、どれが正しいと言い切れないためです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>もっと詳しく</h2>
+      <ul>
+        <li><a href="../guide/tenshanichi-2026-2027/">2026年・2027年の天赦日はいつ？｜一粒万倍日と重なる日も一覧</a><br>
+          <span class="muted">天赦日を六曜・不成就日との重なりまで表にしました。決まり方と計算の手順も。</span></li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>吉日との付き合い方</h2>
+      <p>正直に書くと、吉日と実際の結果に科学的な関係は確かめられていません。六曜にいたっては、江戸時代の終わりごろに日本で今の形になったもので、仏教とも神道とも関係がありません(「仏滅」という字は当て字です)。</p>
+      <p>それでも吉日を見る意味はあると思っています。<strong>いつ始めるか決めかねているときに、日付を決める後押しになる</strong>からです。財布を買う、口座を開く、連絡してみる——やると決めたことに日付が付くと、実際に動けます。当たるかどうかではなく、そういう道具として使ってください。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item">
+        <summary>一粒万倍日とはどんな日ですか？</summary>
+        <p>一粒の籾(もみ)が万倍の稲穂になる、という意味の吉日です。始めたことが大きく育つとされ、開業・種まき・お金を出すことに良いとされます。月に5〜6日、年間では60日前後あります。節切りの月ごとに決まった2つの十二支の日が一粒万倍日になります。ただし借金や人から物を借りることは「苦労が万倍になる」として避ける、という考え方もあります。</p>
+      </details>
+      <details class="faq-item">
+        <summary>天赦日とはどんな日ですか？</summary>
+        <p>暦の上でもっとも良いとされる日で、年に5〜6回しかありません。天がすべての罪を赦す日という意味で、季節ごとに決まった干支の日が当たります。春(立春から立夏の前日)は戊寅、夏は甲午、秋は戊申、冬は甲子の日です。一粒万倍日と重なる日はとくに縁起が良いとされます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>六曜はどうやって決まるのですか？</summary>
+        <p>旧暦の月と日を足して6で割った余りで決まります。余り0が大安、1が赤口、2が先勝、3が友引、4が先負、5が仏滅です。そのため旧暦の月が変わる日に六曜が飛ぶことがあります。本カレンダーでは新月の瞬間と中気(太陽黄経が30度の倍数になる瞬間)から旧暦そのものを計算しているため、何年先でも表示できます。</p>
+      </details>
+      <details class="faq-item">
+        <summary>暦注の内容はどこでも同じですか？</summary>
+        <p>同じではありません。六曜・天赦日・寅の日・巳の日は計算方法がはっきりしていますが、一粒万倍日・不成就日・三隣亡は採用する表が資料によって異なることがあります。本カレンダーが使っている基準はページ内に明記していますので、他のカレンダーと食い違う場合はそちらをご確認ください。</p>
+      </details>
+      <details class="faq-item">
+        <summary>吉日に何かすると本当に良いことがありますか？</summary>
+        <p>吉日と実際の結果に科学的な関係は確かめられていません。ただ、いつ始めるか決めかねているときに日付を決める後押しになったり、同じ行動でも気持ちよく始められたりする効果はあります。占いと同じく、行動のきっかけとして気楽にお使いください。</p>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>運営者について</h2>
+      <p>本サイトはHAKONIWA LAB(運営者: 灯家)が個人で企画・開発・運営しています。生年月日から西洋占星術・四柱推命・数秘術をまとめて表示する<a href="../">生まれ日診断</a>もあわせてどうぞ。</p>
+    </div>
+
+  </section>
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。「PR」表記のあるリンクにはプロモーション(アフィリエイト広告)が含まれます。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+
+<script src="../js/astro.js"></script>
+<script src="../js/fortune.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/calendar.js"></script>
+</body>
+</html>
