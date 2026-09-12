@@ -140,12 +140,34 @@ function render(a, b) {
     ${relBox("日支どうし", s.branch.key, `${s.branch.name}。${s.branch.text}`)}
   `;
 
+  // 宿曜(三九の秘法)
+  const skA = sukuyoOf(a.y, a.m, a.d, a.hour, a.minute);
+  const skB = sukuyoOf(b.y, b.m, b.d, b.hour, b.minute);
+  let sukuyoShare = "";
+  if (skA.main && skB.main) {
+    const pr = sukuyoPair(skA.main.index, skB.main.index);
+    sukuyoShare = `宿曜: ${skA.main.name}宿と${skB.main.name}宿(${pr.aToB.name}と${pr.bToA.name})`;
+    el("sec-sukuyo").innerHTML = `
+      <p class="chart__lead">${escapeHtml(skA.main.name)}宿 × ${escapeHtml(skB.main.name)}宿 — あなたから数えて${pr.aToB.steps + 1}番目、相手から数えて${pr.bToA.steps + 1}番目の宿です</p>
+      <div class="rel2">
+        ${relBox(`あなたから見た相手(${pr.aToB.distance})`, `${pr.aToB.name}・${pr.aToB.pair}`,
+          `${pr.aToB.text} ${SANKU_DISTANCE_TEXT[pr.aToB.distance]}`)}
+        ${relBox(`相手から見たあなた(${pr.bToA.distance})`, `${pr.bToA.name}・${pr.bToA.pair}`,
+          `${pr.bToA.text} ${SANKU_DISTANCE_TEXT[pr.bToA.distance]}`)}
+      </div>
+      <p class="item__note">宿曜の相性は<b>向きによって名前が変わります</b>。片方が与え、片方が受け取る形になっていることが多いためで、二人の関係を一つの言葉で決めつけないのがこの占いの特徴です。良い悪いではなく、役割が違うと読んでください。</p>
+    `;
+  } else {
+    el("sec-sukuyo").innerHTML = '<p class="item__text">この年は旧暦の表を持っていないため、宿曜は出せません。</p>';
+  }
+
   shareText = [
     `【相性診断】${a.y}/${a.m}/${a.d} × ${b.y}/${b.m}/${b.d}`,
     `数秘: ${n.groups[0]}と${n.groups[1]}`,
     `太陽: ${sunA}×${sunB} ${(sunAsp || noAsp).key}`,
     `九星: ${c.kyusei.relation}`,
     `四柱: ${s.godAB}／${s.godBA}、日支は${s.branch.name}`,
+    sukuyoShare,
     ``,
     `https://hakoniwalab.com/birthday-fortune/compatibility/`,
   ].join("\n");

@@ -25,6 +25,9 @@ const dailyBody = document.getElementById("daily-body");
 const flowBody = document.getElementById("flow-body");
 const westernBody = document.getElementById("western-body");
 const sanmeiBody = document.getElementById("sanmei-body");
+const sukuyoBody = document.getElementById("sukuyo-body");
+const mayaBody = document.getElementById("maya-body");
+const worldBody = document.getElementById("world-body");
 const btnRestart = document.getElementById("btn-restart");
 const btnCopy = document.getElementById("btn-copy");
 const formError = document.getElementById("form-error");
@@ -211,7 +214,7 @@ function buildDailyHtml(f, today) {
   `;
 }
 
-function buildShareText(p, f, today, w, fp) {
+function buildShareText(p, f, today, w, fp, sk, mv) {
   const num = NUMEROLOGY[p.lifePath];
   const label = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
   const pill = [fp.year, fp.month, fp.day, fp.hour]
@@ -223,6 +226,7 @@ function buildShareText(p, f, today, w, fp) {
     `${KYUSEI[p.honmeisei].name} / ${p.eto.label} / ${WEEKDAY[p.weekday].name}生まれ / ${MOON[p.moonPhase].name}`,
     `西洋占星術 太陽:${signOfKey("sun")} 月:${signOfKey("moon")}${w.asc ? ` ASC:${ZODIAC[w.asc.sign].name}` : ""}`,
     `四柱推命 ${pill}(日主 ${KAN[fp.dayMaster]})`,
+    `宿曜 ${sk && sk.main ? sk.main.name + "宿" : "—"} / マヤ暦 KIN${mv.dreamspell.kin}「${mv.dreamspell.signature}」`,
     ``,
     `${label}の運勢 ${stars(f.overall)}`,
     f.message,
@@ -374,6 +378,100 @@ function buildSanmeiHtml(fp, hasTime, prefName) {
   `;
 }
 
+/* ---------- 宿曜占星術(二十七宿) ---------- */
+
+function buildSukuyoHtml(s) {
+  if (!s || !s.main) return '<p class="item__text">この年は旧暦の表を持っていないため、宿曜は出せません。</p>';
+  const main = s.main;
+  const l = main.lunar;
+  const baseName = SHUKU27[SHUKU_MONTH_BASE[l.num - 1]][0];
+  const gap = ((main.index - s.moon.index) % 27 + 27) % 27;
+  const moonCell = s.agree
+    ? `${escapeHtml(s.moon.name)}宿。この日は表と同じでした`
+    : `<b>${escapeHtml(s.moon.name)}宿</b>。表より${gap}つ手前にいました`;
+  return `
+    <p class="chart__lead">生まれた日に、月が二十七の星宿のどこにいたか。インドで生まれ、密教とともに日本へ伝わった占いです。「宿曜経」という経典の名前が、そのまま呼び名になりました。</p>
+    <div class="item">
+      <p class="item__head">${escapeHtml(main.name)}宿 <small>${escapeHtml(main.yomi)}しゅく ・ 二十七宿の${main.index + 1}番目</small></p>
+      <p class="item__text">${escapeHtml(SHUKU27_TEXT[main.name])}</p>
+    </div>
+    <div class="chart__scroll">
+      <table class="chart__table">
+        <tbody>
+          <tr><th>旧暦の誕生日</th><td>${l.leap ? "閏" : ""}${l.num}月${l.day}日<span class="chart__memo">宿曜は新暦ではなく旧暦で数えます</span></td></tr>
+          <tr><th>決まり方</th><td>旧暦${l.num}月の1日は${escapeHtml(baseName)}宿。そこから${l.day - 1}日進めて${escapeHtml(main.name)}宿<span class="chart__memo">満月の日が、その月の名前の由来になった宿に来るよう組まれた表です</span></td></tr>
+          <tr><th>実際の月の位置</th><td>${moonCell}<span class="chart__memo">歳差を補正した恒星基準。インドのナクシャトラと同じ測り方です</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="item__note">本命宿は<b>表の方式</b>で出しています。市販の宿曜暦や、公開されている宿曜カレンダーと同じ方式です。表は千年以上前に組まれた形をそのまま使っているので実際の空とはずれていて、1950年から2030年までの29,220日で調べたところ<b>2つが一致するのは2.9%だけ</b>でした。実際の月は表より2つ手前が34.0%、3つ手前が32.7%です。</p>
+  `;
+}
+
+/* ---------- マヤ暦 ---------- */
+
+function buildMayaHtml(mv, y, m, d, todayJdn, drift) {
+  const ds = mv.dreamspell;
+  const cl = mv.classic;
+  const next = calendarRoundNext(y, m, d, todayJdn);
+  const leapNote = ds.isLeapDay
+    ? `<p class="item__note item__note--warn">※ 2月29日はドリームスペルでは<b>数に入れない日</b>です。ここでは翌日と同じ KIN${ds.kin} にしていますが、前日と同じ KIN${ds.leapAlt} とする流儀もあります。</p>`
+    : "";
+  return `
+    <p class="chart__lead">マヤ暦は天文計算をいっさい使いません。日数を数えて割るだけで出ます。日本で「マヤ暦占い」と呼ばれているものと、遺跡の碑文から復元された本来の暦は別物なので、両方を並べました。</p>
+    <div class="kin">
+      <span class="kin__no">KIN ${ds.kin}</span>
+      <span class="kin__sig">${escapeHtml(ds.signature)}</span>
+      <span class="kin__label">ドリームスペル(13の月の暦)</span>
+    </div>
+    <div class="chart__scroll">
+      <table class="chart__table">
+        <tbody>
+          <tr><th>太陽の紋章</th><td><b>${escapeHtml(ds.glyph)}</b><span class="chart__memo">${escapeHtml(MAYA_GLYPH_TEXT[ds.glyph])}</span></td></tr>
+          <tr><th>銀河の音</th><td><b>音${ds.toneNo}・${escapeHtml(ds.tone)}</b><span class="chart__memo">${escapeHtml(MAYA_TONE_TEXT[ds.tone])}</span></td></tr>
+          <tr><th>色</th><td><b>${escapeHtml(ds.color)}</b><span class="chart__memo">${escapeHtml(MAYA_COLOR_TEXT[ds.color])}</span></td></tr>
+          <tr><th>ウェイブスペル</th><td>${escapeHtml(ds.wave.glyph)}(KIN${ds.wave.startKin}から13日間)<span class="chart__memo">13日ごとのまとまり。その最初の日の紋章が、13日間ぜんたいのテーマになります</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    ${leapNote}
+    <p class="chart__sub">伝統マヤだと</p>
+    <div class="chart__scroll">
+      <table class="chart__table">
+        <tbody>
+          <tr><th>長期暦</th><td><b>${cl.longCount.text}</b><span class="chart__memo">起点からの通算日数を、バクトゥン・カトゥン・トゥン・ウィナル・キンで表したもの。起点から${cl.longCount.days.toLocaleString("ja-JP")}日目です</span></td></tr>
+          <tr><th>ツォルキン</th><td><b>${cl.tzolkin.num}${escapeHtml(cl.tzolkin.name)}</b>(260日の${cl.tzolkin.order}番目)<span class="chart__memo">1〜13の数と、20の日名の組み合わせ</span></td></tr>
+          <tr><th>ハアブ</th><td><b>${cl.haab.day}${escapeHtml(cl.haab.month)}</b><span class="chart__memo">20日×18か月＋余りの5日で365日</span></td></tr>
+          <tr><th>次に同じ日付が巡る日</th><td>${next.y}年${next.m}月${next.d}日<span class="chart__memo">ツォルキンとハアブの組み合わせは52年(18,980日)で一周します</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="item__note">ドリームスペルは<b>2月29日を数えません</b>。基準の1987年7月26日から今日までにうるう日が${drift}回あったので、途切れずに数え続ける伝統マヤとは<b>${drift}日ぶん離れて</b>います。どちらが正しいという話ではなく、別の暦だと考えるのが正確です。</p>
+  `;
+}
+
+/* ---------- 世界の暦 ---------- */
+
+function buildWorldHtml(wc, hasTime) {
+  const h = wc.hebrew, i = wc.islamic, ind = wc.indian;
+  return `
+    <p class="chart__lead">同じ一日でも、暦が変われば日付は変わります。ここに出しているのは、すべて計算だけで求められるものです。</p>
+    <div class="chart__scroll">
+      <table class="chart__table">
+        <tbody>
+          <tr><th>ユダヤ暦</th><td><b>${h.year}年 ${escapeHtml(h.name)}月 ${h.day}日</b>${h.leapYear ? "(閏月のある年)" : ""}<span class="chart__memo">太陽太陰暦。新年が特定の曜日に来ないよう1〜2日ずらす規則まで含めて、すべて計算で決まります</span></td></tr>
+          <tr><th>ヒジュラ暦</th><td><b>${i.year}年 ${escapeHtml(i.name)}月 ${i.day}日</b><span class="chart__memo">純粋な太陰暦で、季節とずれ続けます。ここでは計算式による暦を使っているので、新月を目で見て決める各国の暦とは1〜2日ずれます</span></td></tr>
+          <tr><th>ナクシャトラ</th><td><b>${escapeHtml(ind.nakshatra)}</b>(第${ind.nakshatraNo}宿・宿曜の${escapeHtml(ind.nakshatraShuku)}宿)<span class="chart__memo">月がいた星宿。日本の二十七宿のもとになった区分です</span></td></tr>
+          <tr><th>ティティ</th><td><b>${escapeHtml(ind.paksha)}の${ind.tithiInPaksha}日目</b><span class="chart__memo">月と太陽の角度を12度ずつ30に区切ったもの。白分は新月から満月へ、黒分は満月から新月へ向かう半月です</span></td></tr>
+          <tr><th>インド占星術の星座</th><td>太陽 <b>${escapeHtml(ind.sunRashiJp)}座</b>(${escapeHtml(ind.sunRashi)}) ／ 月 <b>${escapeHtml(ind.moonRashiJp)}座</b>(${escapeHtml(ind.moonRashi)})<span class="chart__memo">恒星を基準にするので、西洋占星術の星座とは1つずれることがほとんどです</span></td></tr>
+          <tr><th>ユリウス通日</th><td><b>${wc.jdn.toLocaleString("ja-JP")}</b><span class="chart__memo">紀元前4713年から数えた通し番号。暦を変換するときの共通のものさしで、このページの計算もすべてここを経由しています</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    ${hasTime ? "" : '<p class="item__note">※ ナクシャトラとティティは時刻で変わります。生まれた時刻が未入力のため<b>正午で計算</b>しています。</p>'}
+  `;
+}
+
 function render(v) {
   const { y, m, d } = v;
   const hasTime = v.hour !== null && v.hour !== undefined && v.hour !== "";
@@ -398,12 +496,19 @@ function render(v) {
   const yf = yearlyFortune(y, m, d, fYear, PERIOD_POOLS);
   const mf = monthlyFortune(y, m, d, fYear, fYearBranch, nowSolar.branch, monthLabel, PERIOD_POOLS);
 
+  const sk = sukuyoOf(y, m, d, hour, minute);
+  const mv = mayaOf(y, m, d);
+  const wc = worldCalendarsOf(y, m, d, hour, minute);
+
   resultBody.innerHTML = buildProfileHtml(p);
   westernBody.innerHTML = buildWesternHtml(w);
   sanmeiBody.innerHTML = buildSanmeiHtml(fp, hasTime, pref ? pref[0] : "");
+  sukuyoBody.innerHTML = buildSukuyoHtml(sk);
+  mayaBody.innerHTML = buildMayaHtml(mv, y, m, d, jdn(ty, tm, td), dreamspellDrift(ty, tm, td));
+  worldBody.innerHTML = buildWorldHtml(wc, hasTime);
   dailyBody.innerHTML = buildDailyHtml(f, today);
   flowBody.innerHTML = buildFlowHtml(yf, mf, KYUSEI[p.honmeisei].name);
-  shareText = buildShareText(p, f, today, w, fp);
+  shareText = buildShareText(p, f, today, w, fp, sk, mv);
   introSection.hidden = true;
   resultSection.hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
