@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マーフィーの法則は本当か｜計算で確かめられるものと、気のせいのもの</title>
+<meta name="description" content="靴下が片方だけなくなる、バスは待つと来ない、13日の金曜日は多い。マーフィーの法則やジンクスを一つずつ計算しました。10足から2枚なくすと94.7%は片方だけ、13日は金曜がいちばん多く400年で688回、平均10分間隔のバスでも待ち時間の平均は10分になります。一方で雨男は計算すると消えます。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/guide/murphy-no-hosoku/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="マーフィーの法則は本当か｜計算で確かめられるものと、気のせいのもの">
+<meta property="og:description" content="靴下・バス・レジ・信号・13日の金曜日・バタートースト。一つずつ計算したら、本当のものと気のせいのものがはっきり分かれました。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/guide/murphy-no-hosoku/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"靴下はなぜ片方だけなくなるのですか？","acceptedAnswer":{"@type":"Answer","text":"両方いっしょになくなる確率がとても低いからです。10足(20枚)持っていて2枚なくす場合、その2枚が同じペアである確率は1/19、約5.3%しかありません。残りの94.7%では、別々のペアから1枚ずつ消えて「片方だけ」が2つできます。持っている足数が多いほどこの確率は下がり、20足なら1/39、約2.6%です。"}},{"@type":"Question","name":"13日の金曜日は本当に多いのですか？","acceptedAnswer":{"@type":"Answer","text":"多いです。グレゴリオ暦は400年でぴったり20,871週なので完全に繰り返します。その400年間にある4,800回の13日を曜日別に数えると、金曜日が688回でいちばん多く、木曜日と土曜日が684回でいちばん少なくなります。均等なら685.7回なので、金曜日はわずかに多い側です。これは偶然ではなく暦の構造から決まっています。"}},{"@type":"Question","name":"バスは待っているときに限って来ないのですか？","acceptedAnswer":{"@type":"Answer","text":"統計の上では本当です。平均10分間隔でも、間隔がばらつくと乗客が体験する平均待ち時間は5分を超えます。長く空いた時間帯のほうに多くの乗客が入り込むためで、待ち時間の平均は間隔の二乗の平均を間隔の平均の2倍で割った値になります。間隔が完全にランダムな場合、平均10分間隔でも待ち時間の平均は約10分です。"}},{"@type":"Question","name":"バタートーストはバターの面が下になって落ちるのですか？","acceptedAnswer":{"@type":"Answer","text":"机の高さでは下になりやすいです。落下時間は高さの平方根に比例するので、回転する角度も高さの平方根に比例します。机の高さ75センチで半回転するとすれば、バターの面が上に戻るには270度回る必要があり、高さは2.25倍の約1.7メートル必要です。一回転させるには4倍の3メートルが必要になります。"}},{"@type":"Question","name":"雨男・雨女は本当にいるのですか？","acceptedAnswer":{"@type":"Answer","text":"計算すると消えます。雨の日が3割の土地で10回出かけた場合、7回以上が雨になる確率は約1.1%です。低そうに見えますが、1万人いれば約106人に起こります。さらに100回の外出のうちどこかに5回連続の雨がある確率は15.2%で、7人に1人は「5回続けて雨だった」という記録を持ちます。珍しくない出来事を、あとから特別なことだと考えているだけです。"}}]}</script>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../../">生まれ日診断</a> ／ <a href="../../calendar/">吉日カレンダー</a> ／ 解説</nav>
+
+  <article>
+    <header class="art-header">
+      <h1 class="art-title">マーフィーの法則は本当か</h1>
+      <p class="art-sub">一つずつ計算したら、本当のものと気のせいのものがきれいに分かれました</p>
+    </header>
+
+    <div class="card card--article">
+      <p>「洗濯すると靴下が片方だけなくなる」「バスは待っているときに限って来ない」「バタートーストはバターの面が下に落ちる」。こういうのを<strong>マーフィーの法則</strong>と呼びます。</p>
+      <p>もとは技術者の心得で、「起こりうる失敗は必ず起こる」という設計の考え方でした。それが1990年代に笑い話の本として広まって、いまの形になっています。</p>
+      <p>では全部ただの思い込みなのか。<strong>調べたら違いました。</strong>いくつかは計算でぴったり確かめられます。このページでは一つずつ数えて、本当のものと気のせいのものを分けました。</p>
+      <p class="muted">ここに出てくる数字はすべて、その場で計算したものです。引用ではありません。計算に使ったコードも最後に載せています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>本当でした: 靴下は片方だけなくなる</h2>
+      <p>これは<strong>計算するとむしろ当たり前</strong>でした。両方いっしょになくなるほうが、はるかに難しいのです。</p>
+      <p>10足(20枚)持っていて、洗濯の途中で2枚どこかへ行ったとします。その2枚が<strong>たまたま同じペアだった</strong>確率は、20枚から2枚を選ぶ190通りのうち10通りだけ。つまり<strong>1/19、約5.3%</strong>です。</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>持っている足数</th><td class="num">2枚が同じペア</td><td class="num">片方だけが2つできる</td></tr>
+            <tr><th>5足(10枚)</th><td class="num">11.1%</td><td class="num">88.9%</td></tr>
+            <tr><th>10足(20枚)</th><td class="num">5.3%</td><td class="num"><b>94.7%</b></td></tr>
+            <tr><th>15足(30枚)</th><td class="num">3.4%</td><td class="num">96.6%</td></tr>
+            <tr><th>20足(40枚)</th><td class="num">2.6%</td><td class="num">97.4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>たくさん持っているほど悪化します。</strong>整理しようと靴下を買い足すと、片方だけが残る確率は上がるわけです。</p>
+      <p>10足から5枚なくした場合も計算しました。完全に消えるペアは平均<strong>0.53組</strong>だけで、余った1枚は平均<strong>3.95枚</strong>。<strong>なくした枚数のほとんどが「片方だけ」になります。</strong>引き出しに片方が溜まるのは、運が悪いのではなく確率どおりです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>本当でした: 13日の金曜日は多い</h2>
+      <p>これも本当です。しかも<strong>暦の構造から決まっている確定事実</strong>で、ゆらぎではありません。</p>
+      <p>グレゴリオ暦は400年でぴったり<strong>146,097日＝20,871週</strong>になります。週の切れ目とぴったり合うので、400年たつと曜日の並びが完全に元に戻ります。つまり400年ぶんを数えれば、それが永久の答えです。</p>
+      <p>400年間にある13日は4,800回。曜日別に数えるとこうなりました。</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>13日の曜日</th><td class="num">400年での回数</td></tr>
+            <tr><th>金曜日</th><td class="num"><b>688</b></td></tr>
+            <tr><th>水曜日・日曜日</th><td class="num">687</td></tr>
+            <tr><th>月曜日・火曜日</th><td class="num">685</td></tr>
+            <tr><th>木曜日・土曜日</th><td class="num">684</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>均等なら685.7回なので、<strong>金曜日はいちばん多い側です。</strong>差はわずか4回ですが、何百年たっても縮まりません。</p>
+      <p>ちなみに次の13日の金曜日は<strong>2026年11月13日</strong>。そのあとは2027年8月13日、2028年10月13日、2029年4月13日です。</p>
+      <p class="muted">同じ計算のしかたで、六曜や一粒万倍日を月ごとに出しているのが<a href="../../calendar/">吉日カレンダー</a>です。暦は全部、計算で決まります。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>本当でした: バスは待つと来ない</h2>
+      <p>これがいちばん面白い結果でした。<strong>「10分間隔のバスなら平均5分待つ」は間違いです。</strong></p>
+      <p>理由はこうです。バスの間隔がばらつくと、<strong>長く空いた時間帯のほうに、多くの乗客が入り込みます。</strong>2分の間隔に来る人はほとんどいませんが、18分空いた間隔には9倍の人が来ます。だから「乗客が体験した待ち時間」の平均は、間隔の半分より長くなります。</p>
+      <p>待ち時間の平均は、<strong>間隔の二乗の平均を、間隔の平均の2倍で割った値</strong>になります。実際に計算し、あわせて200万人ぶんのシミュレーションでも確かめました。</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>バスの来かた</th><td class="num">計算値</td><td class="num">シミュレーション</td></tr>
+            <tr><th>きっちり10分間隔</th><td class="num">5.00分</td><td class="num">5.00分</td></tr>
+            <tr><th>5〜15分でばらつく</th><td class="num">5.42分</td><td class="num">5.42分</td></tr>
+            <tr><th>半分は2分・半分は18分(団子運転)</th><td class="num">8.20分</td><td class="num">8.20分</td></tr>
+            <tr><th>完全にランダム</th><td class="num"><b>9.99分</b></td><td class="num"><b>9.98分</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>いちばん下を見てください。<strong>平均10分間隔なのに、待ち時間の平均も約10分。</strong>「半分の5分」ではありません。ダイヤが乱れて団子運転になるほど、体感の待ち時間は伸びていきます。</p>
+      <p>つまり「待つと来ない」は気のせいではなく、<strong>バスが不規則なら必ずそうなる</strong>という数学です。逆に言えば、正確に運行されているバスでは起きません。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>本当でした: 隣のレジのほうが早い</h2>
+      <p>これは計算するまでもない話でした。<strong>レジがN列あれば、自分の列がいちばん早い確率は1/N</strong>です。</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>レジの数</th><td class="num">自分がいちばん早い</td><td class="num">どこかの列が自分より早い</td></tr>
+            <tr><th>2列</th><td class="num">50%</td><td class="num">50%</td></tr>
+            <tr><th>3列</th><td class="num">33%</td><td class="num"><b>67%</b></td></tr>
+            <tr><th>4列</th><td class="num">25%</td><td class="num">75%</td></tr>
+            <tr><th>5列</th><td class="num">20%</td><td class="num">80%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>3列なら<strong>3回に2回は隣のほうが早い</strong>。5列なら80%です。当たり前ですが、これを「自分だけ運が悪い」と感じるのが人間だということです。</p>
+      <p>同じ理屈は道路の車線でも、レジ待ちの行列でも成り立ちます。<strong>自分が最良を引ける確率は、選択肢の数だけ薄まります。</strong></p>
+    </div>
+
+    <div class="card card--article">
+      <h2>本当でした: 急いでいるときは信号が赤</h2>
+      <p>これも数字にすると納得できました。<strong>信号を何個も連続で青で通るのは、そもそも非常に難しい</strong>のです。</p>
+      <p>ある方向が青になっている割合を4割とすると、通る信号が増えるごとにこうなります。</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>通る信号の数</th><td class="num">青が4割のとき</td><td class="num">青が5割のとき</td></tr>
+            <tr><th>3個</th><td class="num">6.4%</td><td class="num">12.5%</td></tr>
+            <tr><th>5個</th><td class="num"><b>1.0%</b></td><td class="num">3.1%</td></tr>
+            <tr><th>8個</th><td class="num">0.07%</td><td class="num">0.4%</td></tr>
+            <tr><th>10個</th><td class="num">0.01%</td><td class="num">0.1%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>信号5個を全部青で抜けられるのは、100回に1回。</strong>これでは「今日は赤ばかりだ」と感じるのが普通です。急いでいない日も同じ確率で赤に引っかかっていますが、そちらは覚えていません。</p>
+      <p class="muted">※ 実際の信号は連動している区間もあるので、この計算はばらばらに独立していると考えた場合のものです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>本当でした: バタートーストはバターの面が下</h2>
+      <p>これは物理の問題で、実際に研究されています。机から滑り落ちたトーストは、床に着くまでに<strong>ちょうど半回転くらいしかしません。</strong>上を向いていたバターの面が、ぴったり下に来るわけです。</p>
+      <p>ここから先は計算できます。落下時間は<strong>高さの平方根に比例</strong>します。回転の速さが同じなら、回る角度も高さの平方根に比例します。机の高さ75センチで半回転(180度)だとすると、</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>落ちる高さ</th><td class="num">落下時間</td><td class="num">回る角度</td><td class="num">着地</td></tr>
+            <tr><th>40cm(低いテーブル)</th><td class="num">0.29秒</td><td class="num">131度</td><td>バターが下</td></tr>
+            <tr><th>75cm(ふつうの机)</th><td class="num">0.39秒</td><td class="num">180度</td><td><b>バターが下</b></td></tr>
+            <tr><th>1m</th><td class="num">0.45秒</td><td class="num">208度</td><td>バターが下</td></tr>
+            <tr><th>1.7m</th><td class="num">0.59秒</td><td class="num">270度</td><td><b>ここで上に戻る</b></td></tr>
+            <tr><th>3m</th><td class="num">0.78秒</td><td class="num">360度</td><td>一回転してバターが上</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>バターの面が上に戻るには、机の2.25倍＝約1.7メートルの高さが必要</strong>です。一回転させるなら4倍の3メートル。人間の腰の高さの机では、どうやってもバターの面が下に来ます。</p>
+      <p>つまりこれは運の話ではなく、<strong>人間の机の高さがちょうど半回転ぶんだった</strong>という話です。もし人類が身長3メートルだったら、この法則は存在しませんでした。</p>
+      <p class="muted">※ 回転の速さは滑り出し方で変わります。ここでは「机の高さでちょうど半回転する」という研究結果を出発点にして、そこから高さを変えた場合を計算しています。</p>
+    </div>
+
+    <div class="card card--article card--warn">
+      <h2>気のせいでした: 雨男・雨女</h2>
+      <p>ここからは計算すると消えるものです。</p>
+      <p>「自分が出かけると雨が降る」。これを確かめるには、<strong>ただの偶然でどれくらい起こるか</strong>を先に知る必要があります。雨の日が3割の土地で10回出かけたとして計算しました。</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>10回のうち</th><td class="num">確率</td><td class="num">1万人なら</td></tr>
+            <tr><th>6回以上が雨</th><td class="num">4.7%</td><td class="num">474人</td></tr>
+            <tr><th>7回以上が雨</th><td class="num">1.1%</td><td class="num"><b>106人</b></td></tr>
+            <tr><th>8回以上が雨</th><td class="num">0.16%</td><td class="num">16人</td></tr>
+            <tr><th>10回とも雨</th><td class="num">0.0006%</td><td class="num">0.1人</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>「10回出かけて7回雨」はかなり雨男らしい記録ですが、<strong>1万人いれば106人に起こります</strong>。学校や職場の規模でも、必ず何人かは該当します。</p>
+      <p>もっと決定的なのがこちらです。<strong>100回の外出のうち、どこかに5回連続の雨がある確率を数えたら15.2%でした。</strong>つまり<strong>7人に1人は「5回続けて雨だった」という記録を持っています。</strong></p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>100回の外出のうちどこかに</th><td class="num">起こる確率</td></tr>
+            <tr><th>4回連続の雨がある</th><td class="num">43.2%</td></tr>
+            <tr><th>5回連続の雨がある</th><td class="num"><b>15.2%</b></td></tr>
+            <tr><th>6回連続の雨がある</th><td class="num">4.8%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>雨男が生まれる仕組みはこうです。<strong>連続で雨が降ったあとに「雨男」と呼ばれ始めます。</strong>降らなかった人は何も言われません。だから世の中には雨男しかいなくて、「晴れ男でも雨男でもないふつうの人」は話題にならないのです。</p>
+      <p>これは確かめられる話でもあります。<strong>出かけた日の天気を記録して、その土地の降水日の割合と比べればいい。</strong>数か月で答えが出ます。占いと違って、雨男は検証できる主張です。そして検証すると、たいてい消えます。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>本当だけれど、原因が自分ではないもの</h2>
+      <p>「自分が店に入ると、後から客がどんどん来る」。これは<strong>実際に起きていることがあります。</strong>ただし原因はあなたの体質ではありません。</p>
+      <p>人は<strong>誰もいない店に入りにくく、何人かいる店には入りやすい</strong>ためです。あなたが1人目になると、通りかかった人にとってその店は「入れる店」に変わります。2人目が入れば3人目はもっと入りやすくなります。<strong>あなたが呼んだのではなく、あなたが最初のきっかけになった</strong>という順番です。</p>
+      <p>行列ができる店とできない店が分かれるのも同じ仕組みで、味の差だけでは説明できないほど大きな差になります。</p>
+      <p class="muted">※ この節は仕組みの説明で、このページの他の項目と違って数字の計算はしていません。店ごとの実データがないと確かめられないためです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>言葉のトリックだったもの</h2>
+      <p><strong>「探し物は、いつも最後に見る場所にある」</strong>。これは法則でも偶然でもありません。</p>
+      <p>見つかったら探すのをやめるので、<strong>見つけた場所が必ず「最後に見た場所」になります。</strong>反例が存在しない言い方です。</p>
+      <p>この手のものは他にもあります。「本当に必要なものは、いつも見つからない」も、見つかったものは「本当に必要ではなかった」と後から言い換えられます。<strong>どう転んでも当たる言い方は、何も言っていないのと同じです。</strong></p>
+    </div>
+
+    <div class="card card--article">
+      <h2>整理すると5種類ありました</h2>
+      <p>ここまで計算してみて、マーフィーの法則は<strong>一つの法則ではなく、性質の違う5種類の寄せ集め</strong>だと分かりました。</p>
+
+      <div class="table-scroll">
+        <table class="spec">
+          <tbody>
+            <tr><th>種類</th><td>例</td></tr>
+            <tr><th>確率が本当に偏っている</th><td>靴下・バス・レジ・信号・13日の金曜日</td></tr>
+            <tr><th>物理で決まっている</th><td>バタートースト</td></tr>
+            <tr><th>本当だが原因が自分ではない</th><td>店に客が来る</td></tr>
+            <tr><th>記憶の偏りだけ</th><td>雨男・雨女</td></tr>
+            <tr><th>言葉のトリック</th><td>探し物は最後に見る場所にある</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>「なんとなく当たる」と感じるのは、<strong>本当に当たるものが混ざっているから</strong>です。全部でたらめなら、ここまで語り継がれていません。</p>
+      <p>そして<strong>覚えているかどうかで結論が変わるものは、記録を取れば答えが出ます。</strong>雨男がそうでした。当たると感じたときに、それがどの種類なのかを一度考えてみると、案外はっきりします。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>占いとどう違うのか</h2>
+      <p>このサイトは<a href="../../">占いのアプリ</a>を置いています。矛盾しているように見えるかもしれないので、立場を書いておきます。</p>
+      <p>占いと雨男は、<strong>性質がまったく違います。</strong>雨男は「出かけると雨が降る」という事実についての主張なので、記録を取れば正しいか間違っているかが決まります。一方、生年月日と性格の関係は確かめられた根拠がなく、<strong>そもそも当たり外れを測る土台がありません。</strong></p>
+      <p>だからこのサイトでは、占いを「当てるもの」として出していません。出しているのは<strong>計算そのもの</strong>です。旧暦も二十四節気もマヤ暦も、誰が計算しても同じ答えになります。<strong>根拠はないが、計算は同じ。</strong>この線だけは崩さないようにしています。</p>
+      <p>今日がどういう日かを暦から見たいときは<a href="../../calendar/">吉日カレンダー</a>を、生まれた日を暦から見たいときは<a href="../../">生まれ日診断</a>をお使いください。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item">
+        <summary>靴下はなぜ片方だけなくなるのですか？</summary>
+        <p>両方いっしょになくなる確率がとても低いからです。10足(20枚)持っていて2枚なくす場合、その2枚が同じペアである確率は1/19、約5.3%しかありません。残りの94.7%では、別々のペアから1枚ずつ消えて「片方だけ」が2つできます。持っている足数が多いほどこの確率は下がり、20足なら1/39、約2.6%です。</p>
+      </details>
+      <details class="faq-item">
+        <summary>13日の金曜日は本当に多いのですか？</summary>
+        <p>多いです。グレゴリオ暦は400年でぴったり20,871週なので完全に繰り返します。その400年間にある4,800回の13日を曜日別に数えると、金曜日が688回でいちばん多く、木曜日と土曜日が684回でいちばん少なくなります。均等なら685.7回なので、金曜日はわずかに多い側です。これは偶然ではなく暦の構造から決まっています。</p>
+      </details>
+      <details class="faq-item">
+        <summary>バスは待っているときに限って来ないのですか？</summary>
+        <p>統計の上では本当です。平均10分間隔でも、間隔がばらつくと乗客が体験する平均待ち時間は5分を超えます。長く空いた時間帯のほうに多くの乗客が入り込むためで、待ち時間の平均は間隔の二乗の平均を間隔の平均の2倍で割った値になります。間隔が完全にランダムな場合、平均10分間隔でも待ち時間の平均は約10分です。</p>
+      </details>
+      <details class="faq-item">
+        <summary>バタートーストはバターの面が下になって落ちるのですか？</summary>
+        <p>机の高さでは下になりやすいです。落下時間は高さの平方根に比例するので、回転する角度も高さの平方根に比例します。机の高さ75センチで半回転するとすれば、バターの面が上に戻るには270度回る必要があり、高さは2.25倍の約1.7メートル必要です。一回転させるには4倍の3メートルが必要になります。</p>
+      </details>
+      <details class="faq-item">
+        <summary>雨男・雨女は本当にいるのですか？</summary>
+        <p>計算すると消えます。雨の日が3割の土地で10回出かけた場合、7回以上が雨になる確率は約1.1%です。低そうに見えますが、1万人いれば約106人に起こります。さらに100回の外出のうちどこかに5回連続の雨がある確率は15.2%で、7人に1人は「5回続けて雨だった」という記録を持ちます。珍しくない出来事を、あとから特別なことだと考えているだけです。</p>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>この記事の数字について</h2>
+      <p>すべてこのページのために計算したものです。引用や推計ではありません。</p>
+      <ul>
+        <li><strong>靴下・レジ・信号・雨男</strong> — 組み合わせと確率の式から厳密に計算</li>
+        <li><strong>13日の金曜日</strong> — 2001年から2400年までの4,800回をすべて数え上げ</li>
+        <li><strong>バスの待ち時間</strong> — 式による計算と、200万人ぶんのシミュレーションの両方。小数第2位まで一致</li>
+        <li><strong>5回連続の雨</strong> — 100回の外出を20万通りシミュレーション</li>
+        <li><strong>バタートースト</strong> — 落下時間から。「机の高さで半回転」を出発点にした相対計算</li>
+      </ul>
+      <details class="faq-item">
+        <summary>計算に使ったコードを見る</summary>
+<pre class="code-block"><code>from math import comb, sqrt
+import numpy as np
+
+# 靴下: 10足(20枚)から2枚なくして、同じペアである確率
+n = 10
+print(n / comb(2 * n, 2))                    # 0.0526... = 1/19
+
+# 13日の金曜日: 400年で完全に繰り返すので数え上げる
+cnt = [0] * 7
+for y in range(2001, 2401):
+    for m in range(1, 13):
+        cnt[jdn(y, m, 13) % 7] += 1          # 月曜=0
+print(cnt)                                    # 金曜(添字4)が688で最多
+
+# バスの待ち時間: E[W] = E[X^2] / (2 E[X])
+x = np.array([2.0] * 500 + [18.0] * 500)      # 半分2分・半分18分
+print((x ** 2).mean() / (2 * x.mean()))       # 8.2 分
+
+# バタートースト: 落下時間は高さの平方根に比例する
+G = 9.80665
+for h in (0.75, 1.69, 3.00):
+    print(h, 180 * sqrt(h / 0.75))            # 180度 / 270度 / 360度
+
+# 雨男: 雨が3割の土地で、100回の外出に5連続の雨があるか
+rng = np.random.default_rng(20260912)
+a = rng.random((200000, 100)) &lt; 0.3
+run = np.zeros(len(a), dtype=int); best = np.zeros(len(a), dtype=int)
+for j in range(100):
+    run = np.where(a[:, j], run + 1, 0)
+    best = np.maximum(best, run)
+print((best &gt;= 5).mean())                     # 0.152
+</code></pre>
+      </details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../../calendar/">吉日カレンダー</a><br>
+          <span class="muted">六曜・一粒万倍日・天赦日・二十四節気を月ごとに。13日の金曜日と同じで、暦は全部計算で出ます。</span></li>
+        <li><a href="../tenshanichi-2026-2027/">2026年・2027年の天赦日はいつ？</a><br>
+          <span class="muted">年に5〜6回しかない天赦日を、太陽の位置と干支から計算して一覧にしました。</span></li>
+        <li><a href="../../calendar/glossary/">暦注の用語一覧</a><br>
+          <span class="muted">六曜・十二直・二十八宿・選日の意味と決まり方を125項目。</span></li>
+      </ul>
+    </div>
+  </article>
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。「PR」表記のあるリンクにはプロモーション(アフィリエイト広告)が含まれます。</p>
+    <p><a href="../../../about.html">運営者情報</a>・<a href="../../../contact.html">お問い合わせ</a>・<a href="../../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+</body>
+</html>

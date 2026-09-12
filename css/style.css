@@ -1071,3 +1071,16 @@ html, body {
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
 }
+
+/* 記事内のコード引用 */
+.code-block {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin: 10px 0 0;
+  overflow-x: auto;
+  font-size: 0.72rem;
+  line-height: 1.65;
+}
+.code-block code { background: none; padding: 0; font-size: inherit; }
