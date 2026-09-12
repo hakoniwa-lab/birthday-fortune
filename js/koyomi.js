@@ -270,6 +270,79 @@ const JUNICHOKU_TEXT = {
   閉: "閉じ塞がる日。金銭の収納や墓を建てるのに良いとされます",
 };
 
+/* ---------- 二十八宿 ---------- */
+
+/*
+ * 貞享暦(1685年)以降、日に対して28日周期で連続して巡る。曜日と同じで途切れない。
+ * 起点は 1980年1月10日＝角。検算: 2026-09-01＝室、2026-09-02＝壁(calc-site と一致)、
+ * 房・虚・昴・星が必ず日曜日に当たる(28＝4×7 なので曜日と固定対応する)。
+ */
+const SHUKU = ["角", "亢", "氐", "房", "心", "尾", "箕", "斗", "牛", "女", "虚", "危", "室", "壁",
+  "奎", "婁", "胃", "昴", "畢", "觜", "参", "井", "鬼", "柳", "星", "張", "翼", "軫"];
+
+const SHUKU_TEXT = {
+  角: "万事に吉。衣類の新調・柱立て・結婚に良く、葬式は避けるとされます",
+  亢: "衣類の仕立て・種まき・結納に吉。建築は凶とされます",
+  氐: "結婚・開店・移転に吉。衣服の仕立ては凶とされます",
+  房: "結婚・旅行・移転・開店・祭祀に吉。二十八宿の中でも良い日とされます",
+  心: "祭祀・移転・旅行に吉。造作・婚礼は凶とされます",
+  尾: "婚礼・開店・移転・造作に吉。衣類の仕立ては凶とされます",
+  箕: "動土・池掘り・開店・造作に吉。婚礼・葬式は凶とされます",
+  斗: "動土・造作・開店に吉。万事に良いとされる日",
+  牛: "移転・旅行・金談・万事に吉とされる日",
+  女: "稽古始めに吉。葬式・訴訟・婚礼は凶とされます",
+  虚: "学問始めに吉。相談事・造作は凶とされます",
+  危: "壁塗り・船の乗り始めに吉。衣類の仕立て・高所の作業は凶とされます",
+  室: "祈願・婚礼・祝い事・造作に吉。二十八宿の中でも良い日とされます",
+  壁: "開店・旅行・婚礼・造作・衣類の仕立てに吉とされる日",
+  奎: "柱立て・棟上げ・旅行・開店に吉。婚礼・葬式は凶とされます",
+  婁: "動土・造作・婚礼・契約に吉。二十八宿の中でも良い日とされます",
+  胃: "公事・就職・婚礼に吉。私事は控えるとされます",
+  昴: "神仏の祭祀・開店・祝い事に吉。増改築は凶とされます",
+  畢: "神事・造作・婚礼・農耕に吉とされる日",
+  觜: "稽古始め・入学・開店に吉。造作・衣類の仕立ては凶とされます",
+  参: "仕入れ・納入・買い物・造作に吉とされる日",
+  井: "神事・種まき・建築・開店に吉。衣類の仕立ては凶とされます",
+  鬼: "万事に大吉。二十八宿でもっとも良い日(鬼宿日)。婚礼だけは凶とされます",
+  柳: "物事を断つのに吉。婚礼・開店・造作は凶とされます",
+  星: "乗馬始め・治療始めに吉。婚礼・葬式は凶とされます",
+  張: "就職・見合い・婚礼・祝い事・神仏の祈願に吉とされる日",
+  翼: "耕作始め・植え替え・種まきに吉。高所の作業・婚礼は凶とされます",
+  軫: "地鎮祭・落成式・旅行・祭祀に吉。衣類の仕立ては凶とされます",
+};
+
+function shukuOf(dayIdx) {
+  const base = jdn(1980, 1, 10);
+  return SHUKU[((dayIdx - base) % 28 + 28) % 28];
+}
+
+/* ---------- 流派の設定 ---------- */
+
+/*
+ * 暦注は資料によって結果が違うことがある。その差の多くは「節入りの日の扱い」で、
+ * 市販の暦の大半は節入りの日を丸一日「新しい月」として扱う(日切り)。
+ * 四柱推命のように節入りの時刻で切ると(時刻切り)、節入りの日の一粒万倍日・
+ * 三隣亡・十二直が1日分ずれる。2026年9月7日(白露)は日切りでは一粒万倍日、
+ * 時刻切りでは違う、というのが実例。
+ */
+const KOYOMI_DEFAULTS = {
+  sekkiByDay: true,   // true=日切り(暦の慣例) / false=時刻切り
+  showShuku: false,   // 二十八宿を表示するか
+};
+
+let koyomiSettings = { ...KOYOMI_DEFAULTS };
+
+function setKoyomiSettings(patch) {
+  koyomiSettings = { ...koyomiSettings, ...patch };
+}
+
+/* その日の節月の十二支。日切りなら節入り日は丸一日新しい月として扱う */
+function monthBranchOf(y, m, d) {
+  if (!koyomiSettings.sekkiByDay) return solarMonthOf(y, m, d, 12, 0);
+  // 日の終わり(23:59)で判定すれば、その日に節入りがあれば必ず新しい月になる
+  return solarMonthOf(y, m, d, 23, 59);
+}
+
 /* ---------- まとめ ---------- */
 
 /*
@@ -282,7 +355,7 @@ function dayKoyomi(y, m, d) {
   const dStem = dIndex % 10;
   const dBranch = dIndex % 12;
 
-  const sm = solarMonthOf(y, m, d, 12, 0);
+  const sm = monthBranchOf(y, m, d);
   const mBranch = sm.branch;
 
   const r = rokuyo(y, m, d);
@@ -300,13 +373,15 @@ function dayKoyomi(y, m, d) {
   const tensha = ts.stem === dStem && ts.branch === dBranch;
   if (tensha) good.push("天赦日");
 
-  // 寅の日・巳の日
+  // 寅の日・巳の日・甲子の日
   const tora = dBranch === 2;
   const mi = dBranch === 5;
-  const tsuchinotoMi = mi && dStem === 5; // 己巳
+  const tsuchinotoMi = mi && dStem === 5;      // 己巳(弁財天)
+  const kinoeNe = dStem === 0 && dBranch === 0; // 甲子(大黒天)。60日に一度
   if (tora) good.push("寅の日");
   if (tsuchinotoMi) good.push("己巳の日");
   else if (mi) good.push("巳の日");
+  if (kinoeNe) good.push("甲子の日");
 
   // 大安
   if (r && r.name === "大安") good.push("大安");
@@ -332,7 +407,8 @@ function dayKoyomi(y, m, d) {
     rokuyo: r ? r.name : null,
     junichoku: JUNICHOKU[((dBranch - mBranch) % 12 + 12) % 12],
     sekki: sm.sekki,
-    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, fujoju, sanrinbo },
+    shuku: shukuOf(dayIdx),
+    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, fujoju, sanrinbo },
     good,
     bad,
   };

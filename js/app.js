@@ -217,6 +217,7 @@ function buildWesternHtml(w) {
       <tr>
         <th><span class="chart__planet">${escapeHtml(info.name)}</span><small>${escapeHtml(info.label)}</small></th>
         <td><b>${escapeHtml(zd.name)}</b> <span class="chart__deg">${p.deg.toFixed(1)}度</span>${mark}
+          <span class="chart__read">${escapeHtml(PLANET_SIGN[p.key][p.sign])}</span>
           <span class="chart__memo">${escapeHtml(info.text)}</span></td>
       </tr>`;
   }).join("");

@@ -966,3 +966,15 @@ html, body {
 @media (min-width: 640px) {
   .art-title { font-size: 1.8rem; }
 }
+
+/* --- カレンダーの設定と二十八宿 --- */
+.calsettings { margin-top: 12px; border-top: 1px dashed var(--color-border); padding-top: 10px; }
+.calsettings summary { cursor: pointer; font-size: 0.8rem; font-weight: 700; color: var(--color-primary); }
+.calset { display: flex; gap: 10px; align-items: flex-start; margin: 10px 0 0; cursor: pointer; }
+.calset input { margin-top: 3px; width: 18px; height: 18px; flex: none; }
+.calset b { display: block; font-size: 0.85rem; }
+.calset small { display: block; font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.5; }
+.calcell__s { font-size: 0.58rem; color: var(--color-text-muted); line-height: 1.1; }
+.calcell__s.is-oni { color: var(--color-primary); font-weight: 800; }
+/* 出生図: 星座ごとの読み */
+.chart__read { display: block; font-size: 0.86rem; margin-top: 3px; }

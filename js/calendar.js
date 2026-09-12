@@ -24,6 +24,30 @@ let viewM = today.getMonth() + 1;
 let days = [];
 let selected = null;
 
+/* ---------- 表示の設定(端末内に保存) ---------- */
+
+const SETTINGS_KEY = "birthday-fortune:calendar-settings";
+const setByDay = document.getElementById("set-byday");
+const setShuku = document.getElementById("set-shuku");
+
+function loadSettings() {
+  try {
+    const v = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "null");
+    if (v && typeof v === "object") {
+      if (typeof v.sekkiByDay === "boolean") setByDay.checked = v.sekkiByDay;
+      if (typeof v.showShuku === "boolean") setShuku.checked = v.showShuku;
+    }
+  } catch (e) { /* 読めなければ既定のまま */ }
+  applySettings();
+}
+
+function applySettings() {
+  setKoyomiSettings({ sekkiByDay: setByDay.checked, showShuku: setShuku.checked });
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify({ sekkiByDay: setByDay.checked, showShuku: setShuku.checked }));
+  } catch (e) { /* noop */ }
+}
+
 /* ---------- 日ごとの見た目 ---------- */
 
 /*
@@ -44,6 +68,7 @@ function badges(k) {
   if (k.flags.tensha) b.push({ c: "b-tensha", t: "天赦" });
   if (k.flags.ichiryu) b.push({ c: "b-ichiryu", t: "一粒" });
   if (b.length < 2 && k.flags.tsuchinotoMi) b.push({ c: "b-mi", t: "己巳" });
+  if (b.length < 2 && k.flags.kinoeNe) b.push({ c: "b-mi", t: "甲子" });
   if (b.length < 2 && k.flags.tora) b.push({ c: "b-tora", t: "寅" });
   if (b.length < 2 && k.flags.mi) b.push({ c: "b-mi", t: "巳" });
   // 仏滅は六曜の行にすでに出ているので、バッジには入れない(同じ日に2回出てしまう)
@@ -78,9 +103,11 @@ function render() {
       k.weekday === 6 ? "is-sat" : "",
     ].filter(Boolean).join(" ");
     const bd = badges(k).map((x) => `<span class="bdg ${x.c}">${escapeHtml(x.t)}</span>`).join("");
+    const shuku = setShuku.checked ? `<span class="calcell__s${k.shuku === "鬼" ? " is-oni" : ""}">${escapeHtml(k.shuku)}</span>` : "";
     cells.push(`<button type="button" class="${cls}" data-d="${k.d}">
       <span class="calcell__d">${k.d}</span>
       <span class="calcell__r">${escapeHtml(k.rokuyo || "")}</span>
+      ${shuku}
       <span class="calcell__b">${bd}</span>
     </button>`);
   }
@@ -128,6 +155,8 @@ function select(d) {
   }
   if (k.flags.tsuchinotoMi) notes.push("<strong>己巳の日。</strong>60日に一度の、巳の日の中でも特別な金運の日とされます。");
   else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。");
+  if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。");
+  if (setShuku.checked && k.shuku === "鬼") notes.push("<strong>鬼宿日。</strong>二十八宿でもっとも良いとされる日です(婚礼だけは避けるとされます)。");
   if (k.flags.fujoju) notes.push("<strong>不成就日。</strong>何を始めても成就しないとされる日です。");
   if (k.flags.sanrinbo) notes.push("<strong>三隣亡。</strong>建築・棟上げで避けられる日です。");
 
@@ -138,12 +167,14 @@ function select(d) {
     <div class="detail__rows">
       <p class="detail__row"><span>六曜</span><b>${escapeHtml(k.rokuyo || "-")}</b></p>
       <p class="detail__row"><span>十二直</span><b>${escapeHtml(k.junichoku)}</b></p>
+      ${setShuku.checked ? `<p class="detail__row"><span>二十八宿</span><b>${escapeHtml(k.shuku)}宿</b></p>` : ""}
       <p class="detail__row"><span>日の干支</span><b>${escapeHtml(k.eto)}</b></p>
       <p class="detail__row"><span>旧暦</span><b>${escapeHtml(lunarLabel)}</b></p>
       <p class="detail__row"><span>節月</span><b>${escapeHtml(sekkiLabel)}</b></p>
     </div>
     <p class="detail__memo">${escapeHtml(ROKUYO_TEXT[k.rokuyo] || "")}</p>
     <p class="detail__memo">${escapeHtml(k.junichoku)}: ${escapeHtml(JUNICHOKU_TEXT[k.junichoku] || "")}</p>
+    ${setShuku.checked ? `<p class="detail__memo">${escapeHtml(k.shuku)}宿: ${escapeHtml(SHUKU_TEXT[k.shuku] || "")}</p>` : ""}
     ${notes.length ? `<ul class="detail__notes">${notes.map((n) => `<li>${n}</li>`).join("")}</ul>` : ""}
   `;
   detail.hidden = false;
@@ -156,7 +187,8 @@ function renderGoodList() {
   const kinds = [
     { key: "tensha", name: "天赦日", memo: "年に5〜6回。暦の上でいちばん良いとされる日" },
     { key: "ichiryu", name: "一粒万倍日", memo: "始めたことが大きく育つとされる日" },
-    { key: "tsuchinotoMi", name: "己巳の日", memo: "60日に一度。金運に良いとされる日" },
+    { key: "tsuchinotoMi", name: "己巳の日", memo: "60日に一度。弁財天の日、金運に良いとされる" },
+    { key: "kinoeNe", name: "甲子の日", memo: "60日に一度。大黒天の日、始まりに良いとされる" },
     { key: "tora", name: "寅の日", memo: "出ていったお金が戻るとされる日" },
     { key: "mi", name: "巳の日", memo: "弁財天に縁のある、金運の日" },
   ];
@@ -204,6 +236,9 @@ function move(delta) {
   render();
 }
 
+setByDay.addEventListener("change", () => { applySettings(); render(); });
+setShuku.addEventListener("change", () => { applySettings(); render(); });
+
 document.getElementById("btn-prev").addEventListener("click", () => move(-1));
 document.getElementById("btn-next").addEventListener("click", () => move(1));
 document.getElementById("btn-today").addEventListener("click", () => {
@@ -230,4 +265,5 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight") move(1);
 });
 
+loadSettings();
 render();
