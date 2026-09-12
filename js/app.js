@@ -193,7 +193,7 @@ function buildFlowHtml(yf, mf, honmeiName) {
   `;
 }
 
-function buildDailyHtml(f, today) {
+function buildDailyHtml(f, today, extra) {
   const label = `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日`;
   return `
     <p class="daily__date">${escapeHtml(label)}の運勢</p>
@@ -210,8 +210,99 @@ function buildDailyHtml(f, today) {
       <p><span>ラッキーアイテム</span><b>${escapeHtml(f.luckyItem)}</b></p>
     </div>
     <p class="daily__advice">${escapeHtml(f.advice)}</p>
-    <p class="item__note">日付が変わると内容も変わります。同じ日のうちは何度見ても同じです。</p>
+    <p class="item__note">ここまでは生年月日と今日の日付から作った数で決めています。日付が変わると内容も変わり、同じ日のうちは何度見ても同じです。</p>
+    ${extra}
   `;
+}
+
+/*
+ * 今日の運勢のうち「計算で決まる」部分。
+ * 上の星の数と違って、こちらは誰が出しても同じ答えになる。
+ *   宿曜   … 本命宿から見た今日の宿(27日で一周)
+ *   マヤ暦 … 今日のKINと、自分の紋章との関係(20日/260日で一周)
+ *   四柱推命 … 今日の日干を自分の日主から見た通変星(10日で一周)
+ *   暦注   … 六曜と吉日凶日
+ */
+function buildDailyCalcHtml(sk, mv, fp, p, today) {
+  const ty = today.getFullYear(), tm = today.getMonth() + 1, td = today.getDate();
+  const todayJdn = jdn(ty, tm, td);
+  const blocks = [];
+
+  /* 宿曜の日運 */
+  const todayShuku = honmeiShukuByLunar(ty, tm, td);
+  if (sk && sk.main && todayShuku) {
+    const rel = sankuRelation(sk.main.index, todayShuku.index);
+    blocks.push(`
+      <div class="dk">
+        <p class="dk__head">宿曜 <small>27日で一周</small></p>
+        <p class="dk__val">今日は<b>${escapeHtml(todayShuku.name)}宿</b>。あなたの${escapeHtml(sk.main.name)}宿から見て<b>「${escapeHtml(rel.name)}」</b>の日</p>
+        <p class="dk__text">${escapeHtml(SANKU_DAY_TEXT[rel.name])}</p>
+      </div>`);
+  }
+
+  /* マヤ暦 */
+  const dayMaya = dreamspellOf(ty, tm, td);
+  const myKin = mv.dreamspell.kin;
+  const myGlyphNo = (myKin - 1) % 20 + 1;
+  const dayGlyphNo = (dayMaya.kin - 1) % 20 + 1;
+  const grel = mayaGlyphRelation(myGlyphNo, dayGlyphNo);
+  const nextKin = nextKinDate(myKin, ty, tm, td);
+  const sameKin = dayMaya.kin === myKin;
+  blocks.push(`
+    <div class="dk">
+      <p class="dk__head">マヤ暦 <small>260日で一周</small></p>
+      <p class="dk__val">今日は<b>KIN${dayMaya.kin}「${escapeHtml(dayMaya.signature)}」</b></p>
+      <p class="dk__text">${escapeHtml(MAYA_GLYPH_DAY[dayMaya.glyph])}</p>
+      <p class="dk__text">音${dayMaya.toneNo}・${escapeHtml(dayMaya.tone)}は${escapeHtml(MAYA_TONE_TEXT[dayMaya.tone])}</p>
+      ${sameKin
+        ? `<p class="dk__text"><b>今日はあなたのKINそのものの日です。</b>260日に一度だけ回ってくる日で、マヤ暦での誕生日にあたります。</p>`
+        : (grel ? `<p class="dk__text">あなたの${escapeHtml(mv.dreamspell.glyph)}から見て<b>${escapeHtml(grel)}</b>の紋章の日。${escapeHtml(MAYA_GLYPH_REL_TEXT[grel])}</p>` : "")}
+      ${nextKin ? `<p class="dk__sub">あなたのKIN${myKin}が次にめぐるのは ${nextKin.y}年${nextKin.m}月${nextKin.d}日</p>` : ""}
+    </div>`);
+
+  /* 四柱推命の日運 */
+  const dk = dayKoyomi(ty, tm, td);
+  if (fp && fp.dayMaster !== null && fp.dayMaster !== undefined) {
+    const god = tenGod(fp.dayMaster, dk.stem);
+    blocks.push(`
+      <div class="dk">
+        <p class="dk__head">四柱推命 <small>10日で一周</small></p>
+        <p class="dk__val">今日の日柱は<b>${escapeHtml(dk.eto)}</b>。あなたの日主 ${escapeHtml(KAN[fp.dayMaster])} から見て<b>「${escapeHtml(god)}」</b>の日</p>
+        <p class="dk__text">${escapeHtml(TENGOD_INFO[god] || "")}</p>
+      </div>`);
+  }
+
+  /* 暦注 */
+  const goodTags = dk.good.map((t) => `<span class="dk__tag dk__tag--good">${escapeHtml(t)}</span>`).join("");
+  const badTags = dk.bad.filter((t) => t !== "仏滅").map((t) => `<span class="dk__tag dk__tag--bad">${escapeHtml(t)}</span>`).join("");
+  blocks.push(`
+    <div class="dk">
+      <p class="dk__head">今日の暦注</p>
+      <p class="dk__val">六曜は<b>${escapeHtml(dk.rokuyo || "—")}</b>、十二直は<b>${escapeHtml(dk.junichoku)}</b>、旧暦${dk.lunar ? `${dk.lunar.leap ? "閏" : ""}${dk.lunar.num}月${dk.lunar.day}日` : "—"}</p>
+      ${(goodTags || badTags) ? `<p class="dk__tags">${goodTags}${badTags}</p>` : '<p class="dk__text">名前のついた吉日・凶日はありません。</p>'}
+      <p class="dk__sub"><a href="calendar/">吉日カレンダーで今月ぜんたいを見る</a></p>
+    </div>`);
+
+  /* 生まれてからの日数 */
+  const born = jdn(p.y, p.m, p.d);
+  const lived = todayJdn - born;
+  let nextBd = jdn(ty, p.m, p.d);
+  if (nextBd < todayJdn) nextBd = jdn(ty + 1, p.m, p.d);
+  const toBd = nextBd - todayJdn;
+  const nextRound = (Math.floor(lived / 1000) + 1) * 1000;
+  blocks.push(`
+    <div class="dk">
+      <p class="dk__head">生まれてからの日数</p>
+      <p class="dk__val">今日で<b>${lived.toLocaleString("ja-JP")}日目</b>${toBd === 0 ? " ・ <b>今日は誕生日です</b>" : ` ・ 次の誕生日まであと${toBd}日`}</p>
+      <p class="dk__sub">${nextRound.toLocaleString("ja-JP")}日目は ${(() => { const t = jdnToDate(born + nextRound); return `${t.y}年${t.m}月${t.d}日`; })()}（あと${nextRound - lived}日）</p>
+    </div>`);
+
+  return `
+    <div class="daily__calc">
+      <p class="daily__calc-title">ここから下は計算で決まります</p>
+      <p class="daily__calc-lead">同じ日なら誰が出しても同じ答えになる部分です。星の数のような当てものではなく、暦の上で今日がどういう日かを並べています。</p>
+      ${blocks.join("")}
+    </div>`;
 }
 
 function buildShareText(p, f, today, w, fp, sk, mv) {
@@ -220,6 +311,14 @@ function buildShareText(p, f, today, w, fp, sk, mv) {
   const pill = [fp.year, fp.month, fp.day, fp.hour]
     .filter(Boolean).map((x) => KAN[x.stem] + SHI[x.branch]).join(" ");
   const signOfKey = (k) => ZODIAC[w.positions.find((x) => x.key === k).sign].name;
+  /* 今日ぶんの、計算で決まる部分 */
+  const ty = today.getFullYear(), tm = today.getMonth() + 1, td = today.getDate();
+  const tShuku = honmeiShukuByLunar(ty, tm, td);
+  const tMaya = dreamspellOf(ty, tm, td);
+  const tRel = (sk && sk.main && tShuku) ? sankuRelation(sk.main.index, tShuku.index).name : null;
+  const todayCalc = `今日の宿曜 ${tShuku ? tShuku.name + "宿" : "—"}`
+    + (tRel ? `(あなたから見て「${tRel}」の日)` : "")
+    + ` / 今日のKIN${tMaya.kin}「${tMaya.signature}」`;
   return [
     `【生まれ日診断】${fmtDate(p.y, p.m, p.d)}生まれ`,
     `ライフパスナンバー ${p.lifePath}「${num.key}」`,
@@ -230,6 +329,7 @@ function buildShareText(p, f, today, w, fp, sk, mv) {
     ``,
     `${label}の運勢 ${stars(f.overall)}`,
     f.message,
+    todayCalc,
     `ラッキーナンバー ${f.luckyNumber}・ラッキーカラー ${f.luckyColor}`,
     ``,
     `https://hakoniwalab.com/birthday-fortune/`,
@@ -506,7 +606,7 @@ function render(v) {
   sukuyoBody.innerHTML = buildSukuyoHtml(sk);
   mayaBody.innerHTML = buildMayaHtml(mv, y, m, d, jdn(ty, tm, td), dreamspellDrift(ty, tm, td));
   worldBody.innerHTML = buildWorldHtml(wc, hasTime);
-  dailyBody.innerHTML = buildDailyHtml(f, today);
+  dailyBody.innerHTML = buildDailyHtml(f, today, buildDailyCalcHtml(sk, mv, fp, p, today));
   flowBody.innerHTML = buildFlowHtml(yf, mf, KYUSEI[p.honmeisei].name);
   shareText = buildShareText(p, f, today, w, fp, sk, mv);
   introSection.hidden = true;
