@@ -270,6 +270,91 @@ const JUNICHOKU_TEXT = {
   閉: "閉じ塞がる日。金銭の収納や墓を建てるのに良いとされます",
 };
 
+/* ---------- 干支の表による吉日 ---------- */
+
+/*
+ * 天恩日。天の恩恵をすべての人が受ける日とされ、60干支のうち次の15日。
+ *   甲子〜戊辰(0〜4)、己卯〜癸未(15〜19)、己酉〜癸丑(45〜49)
+ * 2026-09-02(己卯)が天恩日、で公開暦と一致。
+ */
+function isTenOn(dayIndex) {
+  return (dayIndex >= 0 && dayIndex <= 4) || (dayIndex >= 15 && dayIndex <= 19) || (dayIndex >= 45 && dayIndex <= 49);
+}
+
+/*
+ * 母倉日。母が子を育てるように天が人を慈しむ日。節月の季節と日の十二支で決まる。
+ *   春(寅卯月)=亥・子  夏(巳午月)=寅・卯  秋(申酉月)=辰・戌・丑・未  冬(亥子月)=申・酉
+ *   土用の月(辰未戌丑月)=巳・午
+ * 2026-09-03(庚辰)・06(癸未)・09(丙戌)が母倉日、で公開暦と一致。
+ */
+function isBoso(monthBranch, dayBranch) {
+  if (monthBranch === 2 || monthBranch === 3) return dayBranch === 11 || dayBranch === 0;
+  if (monthBranch === 5 || monthBranch === 6) return dayBranch === 2 || dayBranch === 3;
+  if (monthBranch === 8 || monthBranch === 9) return [4, 10, 1, 7].includes(dayBranch);
+  if (monthBranch === 11 || monthBranch === 0) return dayBranch === 8 || dayBranch === 9;
+  return dayBranch === 5 || dayBranch === 6; // 辰・未・戌・丑月
+}
+
+/* ---------- 雑節(季節の節目。すべて太陽の位置か立春からの日数で決まる) ---------- */
+
+/*
+ * 太陽の黄経が lon になる日(JDN)。month は探す月の当たり(solarTermJd の窓)。
+ */
+function termDay(year, month, lon) {
+  return jstDayIndex(solarTermJd(year, month, lon));
+}
+
+const _zassetsuCache = new Map();
+
+/*
+ * その年の雑節を一覧にする。戻り値は { name, start, end } (JDN)。期間ものは start〜end。
+ *   節分     … 立春の前日
+ *   彼岸     … 春分・秋分をまん中にした7日間
+ *   八十八夜 … 立春を1日目として88日目
+ *   入梅     … 太陽黄経80度
+ *   半夏生   … 太陽黄経100度
+ *   二百十日 … 立春を1日目として210日目
+ *   土用     … 太陽黄経 297/27/117/207 度から、次の立春/立夏/立秋/立冬の前日まで
+ */
+function zassetsuOfYear(year) {
+  if (_zassetsuCache.has(year)) return _zassetsuCache.get(year);
+  const risshun = termDay(year, 2, 315);
+  const rikka = termDay(year, 5, 45);
+  const risshu = termDay(year, 8, 135);
+  const ritto = termDay(year, 11, 225);
+  const shunbun = termDay(year, 3, 0);
+  const shubun = termDay(year, 9, 180);
+  const list = [
+    { name: "節分", start: risshun - 1, end: risshun - 1, text: "立春の前日。季節を分ける日で、豆まきで邪気を払います。" },
+    { name: "冬の土用", start: termDay(year, 1, 297), end: risshun - 1, text: "立春前の約18日間。土を動かすこと(基礎工事・庭いじり)を避けるとされます。" },
+    { name: "春の彼岸", start: shunbun - 3, end: shunbun + 3, text: "春分をまん中にした7日間。先祖を供養する期間です。" },
+    { name: "春の土用", start: termDay(year, 4, 27), end: rikka - 1, text: "立夏前の約18日間。土を動かすことを避けるとされます。" },
+    { name: "八十八夜", start: risshun + 87, end: risshun + 87, text: "立春から88日目。霜の心配が終わり、茶摘み・種まきの目安とされます。" },
+    { name: "入梅", start: termDay(year, 6, 80), end: termDay(year, 6, 80), text: "暦の上での梅雨入り。太陽黄経80度の日です。" },
+    { name: "半夏生", start: termDay(year, 7, 100), end: termDay(year, 7, 100), text: "夏至から11日目ごろ。田植えを終える目安とされます。" },
+    { name: "夏の土用", start: termDay(year, 7, 117), end: risshu - 1, text: "立秋前の約18日間。「土用の丑の日」はこの期間の丑の日です。" },
+    { name: "二百十日", start: risshun + 209, end: risshun + 209, text: "立春から210日目。台風が多い厄日とされます。" },
+    { name: "秋の彼岸", start: shubun - 3, end: shubun + 3, text: "秋分をまん中にした7日間。先祖を供養する期間です。" },
+    { name: "秋の土用", start: termDay(year, 10, 207), end: ritto - 1, text: "立冬前の約18日間。土を動かすことを避けるとされます。" },
+  ];
+  _zassetsuCache.set(year, list);
+  return list;
+}
+
+/* その日に当たる雑節(複数ありうる)。年またぎの冬の土用は前年分も見る */
+function zassetsuOf(y, dayIdx) {
+  const out = [];
+  for (const yy of [y - 1, y]) {
+    for (const z of zassetsuOfYear(yy)) {
+      if (dayIdx >= z.start && dayIdx <= z.end) {
+        const span = z.end > z.start;
+        out.push({ name: z.name, text: z.text, span, start: z.start, end: z.end });
+      }
+    }
+  }
+  return out;
+}
+
 /* ---------- 二十八宿 ---------- */
 
 /*
@@ -386,6 +471,17 @@ function dayKoyomi(y, m, d) {
   // 大安
   if (r && r.name === "大安") good.push("大安");
 
+  // 天恩日・母倉日
+  const tenOn = isTenOn(dIndex);
+  const boso = isBoso(mBranch, dBranch);
+  if (tenOn) good.push("天恩日");
+  if (boso) good.push("母倉日");
+
+  // 雑節(節分・彼岸・土用など)
+  const zassetsu = zassetsuOf(y, dayIdx);
+  // 夏の土用の丑の日
+  const doyoUshi = zassetsu.some((z) => z.name === "夏の土用") && dBranch === 1;
+
   // 不成就日
   const fujoju = lunar && (FUJOJU[lunar.num] || []).includes(lunar.day);
   if (fujoju) bad.push("不成就日");
@@ -408,7 +504,9 @@ function dayKoyomi(y, m, d) {
     junichoku: JUNICHOKU[((dBranch - mBranch) % 12 + 12) % 12],
     sekki: sm.sekki,
     shuku: shukuOf(dayIdx),
-    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, fujoju, sanrinbo },
+    zassetsu,
+    doyoUshi,
+    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, tenOn, boso, fujoju, sanrinbo },
     good,
     bad,
   };

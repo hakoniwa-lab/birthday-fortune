@@ -104,11 +104,20 @@ function render() {
     ].filter(Boolean).join(" ");
     const bd = badges(k).map((x) => `<span class="bdg ${x.c}">${escapeHtml(x.t)}</span>`).join("");
     const shuku = setShuku.checked ? `<span class="calcell__s${k.shuku === "鬼" ? " is-oni" : ""}">${escapeHtml(k.shuku)}</span>` : "";
+    // 期間ものは初日だけ、単日の雑節と土用の丑は当日に印を出す(狭いので短縮)
+    const zLabel = (() => {
+      if (k.doyoUshi) return "丑の日";
+      const one = k.zassetsu.find((z) => !z.span) || k.zassetsu.find((z) => z.span && z.start === k.dayIdx);
+      if (!one) return "";
+      return one.name.replace(/^(春|夏|秋|冬)の/, "").replace("土用", "土用入").replace("彼岸", "彼岸入");
+    })();
+    const zHtml = zLabel ? `<span class="calcell__z">${escapeHtml(zLabel)}</span>` : "";
     cells.push(`<button type="button" class="${cls}" data-d="${k.d}">
       <span class="calcell__d">${k.d}</span>
       <span class="calcell__r">${escapeHtml(k.rokuyo || "")}</span>
       ${shuku}
       <span class="calcell__b">${bd}</span>
+      ${zHtml}
     </button>`);
   }
 
@@ -143,6 +152,9 @@ function select(d) {
   const badHtml = k.bad.length
     ? `<div class="tags">${k.bad.map((g) => `<span class="tag tag--bad">${escapeHtml(g)}</span>`).join("")}</div>`
     : "";
+  const zTags = (k.zassetsu.length || k.doyoUshi)
+    ? `<div class="tags">${k.zassetsu.map((z) => `<span class="tag tag--season">${escapeHtml(z.name)}</span>`).join("")}${k.doyoUshi ? '<span class="tag tag--season">土用の丑の日</span>' : ""}</div>`
+    : "";
 
   const notes = [];
   if (k.flags.tensha && k.flags.ichiryu) {
@@ -157,6 +169,13 @@ function select(d) {
   else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。");
   if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。");
   if (setShuku.checked && k.shuku === "鬼") notes.push("<strong>鬼宿日。</strong>二十八宿でもっとも良いとされる日です(婚礼だけは避けるとされます)。");
+  if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。");
+  if (k.flags.boso) notes.push("<strong>母倉日。</strong>天が人を慈しむ日。結婚・建築に良いとされます。");
+  if (k.doyoUshi) notes.push("<strong>土用の丑の日。</strong>夏の土用の期間の丑の日。うなぎを食べる習慣で知られます。");
+  for (const z of k.zassetsu) {
+    const span = z.span ? `(${(() => { const a = jdToJstParts(z.start - 0.375), b = jdToJstParts(z.end - 0.375); return `${a.m}/${a.d}〜${b.m}/${b.d}`; })()})` : "";
+    notes.push(`<strong>${escapeHtml(z.name)}${span}。</strong>${escapeHtml(z.text)}`);
+  }
   if (k.flags.fujoju) notes.push("<strong>不成就日。</strong>何を始めても成就しないとされる日です。");
   if (k.flags.sanrinbo) notes.push("<strong>三隣亡。</strong>建築・棟上げで避けられる日です。");
 
@@ -164,6 +183,7 @@ function select(d) {
     <p class="detail__date">${k.m}月${k.d}日<span>(${WD[k.weekday]})</span></p>
     ${goodHtml}
     ${badHtml}
+    ${zTags}
     <div class="detail__rows">
       <p class="detail__row"><span>六曜</span><b>${escapeHtml(k.rokuyo || "-")}</b></p>
       <p class="detail__row"><span>十二直</span><b>${escapeHtml(k.junichoku)}</b></p>
@@ -189,6 +209,8 @@ function renderGoodList() {
     { key: "ichiryu", name: "一粒万倍日", memo: "始めたことが大きく育つとされる日" },
     { key: "tsuchinotoMi", name: "己巳の日", memo: "60日に一度。弁財天の日、金運に良いとされる" },
     { key: "kinoeNe", name: "甲子の日", memo: "60日に一度。大黒天の日、始まりに良いとされる" },
+    { key: "tenOn", name: "天恩日", memo: "天の恩恵を受ける日。祝い事に良いとされる" },
+    { key: "boso", name: "母倉日", memo: "天が人を慈しむ日。結婚・建築に良いとされる" },
     { key: "tora", name: "寅の日", memo: "出ていったお金が戻るとされる日" },
     { key: "mi", name: "巳の日", memo: "弁財天に縁のある、金運の日" },
   ];
@@ -213,6 +235,25 @@ function renderGoodList() {
       )).join("")}</p>
     </div>`;
   }).join("");
+
+  // 雑節(期間ものは初日〜最終日で1行)
+  const seen = new Set();
+  const zRows = [];
+  for (const k of days) {
+    for (const z of k.zassetsu) {
+      if (seen.has(z.name)) continue;
+      seen.add(z.name);
+      const a = jdToJstParts(z.start - 0.375), b = jdToJstParts(z.end - 0.375);
+      zRows.push(`${z.name}: ${a.m}/${a.d}${z.span ? `〜${b.m}/${b.d}` : ""}`);
+    }
+    if (k.doyoUshi) zRows.push(`土用の丑の日: ${k.m}/${k.d}`);
+  }
+  if (zRows.length) {
+    html += `<div class="glist">
+      <p class="glist__name">雑節・季節の節目<small>太陽の位置と立春からの日数で決まる</small></p>
+      <p class="glist__zs">${zRows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
 
   const badDays = days.filter((k) => k.bad.length);
   if (badDays.length) {
