@@ -92,6 +92,35 @@ document.getElementById("g-gyoji").innerHTML = GYOJI.map(([n, t, h]) => row(n, t
 document.getElementById("g-moon").innerHTML = MOON_PHASES
   .map(([deg, name]) => row(name, MOON_PHASE_TEXT[name], `月と太陽の角度が${deg}度`)).join("");
 
+/* 七十二候は今年の日付つきで。今年に始まらない候(年末年始をまたぐもの)は前年・翌年から補う */
+{
+  const ky = new Date().getFullYear();
+  const byIdx = new Map();
+  for (const k of [...ko72OfYear(ky - 1), ...ko72OfYear(ky), ...ko72OfYear(ky + 1)]) {
+    if (!byIdx.has(k.idx) || k.y === ky) byIdx.set(k.idx, k);
+  }
+  document.getElementById("g-ko72").innerHTML = KO72.map(([name, yomi, meaning], idx) => {
+    const k = byIdx.get(idx);
+    const when = k ? `・${k.y}年${k.m}月${k.d}日から` : "";
+    return row(`${name}(${yomi})`, meaning, `${idx + 1}番目・${KO72_SEKKI[Math.floor(idx / 3)]}の${KO72_PART[idx % 3]}${when}`);
+  }).join("");
+}
+
+/* 祝日は今年の日付つきで */
+{
+  const hy = new Date().getFullYear();
+  const dates = new Map();
+  for (const [day, name] of holidaysOfYear(hy)) {
+    const p = jdToJstParts(day);
+    if (!dates.has(name)) dates.set(name, []);
+    dates.get(name).push(`${p.m}月${p.d}日`);
+  }
+  /* 項目数を年によって変えないよう、今年にないもの(体育の日、振替休日のない年など)も出す */
+  document.getElementById("g-holiday").innerHTML = Object.keys(HOLIDAY_TEXT)
+    .map((n) => row(n, HOLIDAY_TEXT[n], dates.has(n) ? `${hy}年は ${dates.get(n).join("・")}` : `${hy}年はありません`))
+    .join("");
+}
+
 /* 雑節は今年の日付つきで */
 const y = new Date().getFullYear();
 const P = (j) => { const p = jdToJstParts(j - 0.375); return `${p.m}月${p.d}日`; };

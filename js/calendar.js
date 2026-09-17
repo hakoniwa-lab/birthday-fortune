@@ -1,6 +1,11 @@
 /*
- * 吉日カレンダーの画面。暦の計算は koyomi.js(旧暦・暦注)と chart.js(干支)。
+ * 吉日カレンダーの画面。
+ *   暦の計算 … koyomi.js(旧暦・暦注)、holiday.js(祝日)、season72.js(七十二候)
+ *   占いの計算 … sukuyo.js(宿曜)、maya.js(マヤ暦)
  * 表示している月だけを計算する。astro.js 側にキャッシュがあるので月送りは速い。
+ *
+ * 生まれ日診断で入力した生年月日が端末に保存されていれば、それを読んで
+ * 「あなたの吉日」(宿曜の栄・親・命の日、自分のKIN・紋章の日)に印をつける。
  */
 
 function escapeHtml(str) {
@@ -20,6 +25,9 @@ const detail = document.getElementById("detail");
 const detailBody = document.getElementById("detail-body");
 const goodList = document.getElementById("goodlist");
 const listTitle = document.getElementById("list-title");
+const meNote = document.getElementById("me-note");
+const searchForm = document.getElementById("search-form");
+const searchResult = document.getElementById("search-result");
 
 const today = new Date();
 let viewY = today.getFullYear();
@@ -32,6 +40,9 @@ let selected = null;
 const SETTINGS_KEY = "birthday-fortune:calendar-settings";
 const setByDay = document.getElementById("set-byday");
 const setShuku = document.getElementById("set-shuku");
+const setMaya = document.getElementById("set-maya");
+const setMe = document.getElementById("set-me");
+const setKoDays = document.getElementById("set-kodays");
 
 function loadSettings() {
   try {
@@ -39,6 +50,9 @@ function loadSettings() {
     if (v && typeof v === "object") {
       if (typeof v.sekkiByDay === "boolean") setByDay.checked = v.sekkiByDay;
       if (typeof v.showShuku === "boolean") setShuku.checked = v.showShuku;
+      if (typeof v.showMaya === "boolean") setMaya.checked = v.showMaya;
+      if (typeof v.showMe === "boolean") setMe.checked = v.showMe;
+      if (typeof v.ko72ByDays === "boolean") setKoDays.checked = v.ko72ByDays;
     }
   } catch (e) { /* 読めなければ既定のまま */ }
   applySettings();
@@ -46,9 +60,80 @@ function loadSettings() {
 
 function applySettings() {
   setKoyomiSettings({ sekkiByDay: setByDay.checked, showShuku: setShuku.checked });
+  setKo72Mode(setKoDays.checked);
   try {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify({ sekkiByDay: setByDay.checked, showShuku: setShuku.checked }));
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify({
+      sekkiByDay: setByDay.checked,
+      showShuku: setShuku.checked,
+      showMaya: setMaya.checked,
+      showMe: setMe.checked,
+      ko72ByDays: setKoDays.checked,
+    }));
   } catch (e) { /* noop */ }
+}
+
+/* ---------- あなたの生年月日(生まれ日診断で保存したもの) ---------- */
+
+const BIRTH_KEY = "birthday-fortune:birth";
+
+function loadMe() {
+  try {
+    const v = JSON.parse(localStorage.getItem(BIRTH_KEY) || "null");
+    if (!v || !v.y || !v.m || !v.d) return null;
+    const shuku = honmeiShukuByLunar(Number(v.y), Number(v.m), Number(v.d));
+    if (!shuku) return null;
+    const ds = dreamspellOf(Number(v.y), Number(v.m), Number(v.d));
+    return {
+      y: Number(v.y), m: Number(v.m), d: Number(v.d),
+      shuku, kin: ds.kin, glyph: ds.glyph, glyphNo: (ds.kin - 1) % 20 + 1, signature: ds.signature,
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+const me = loadMe();
+
+function renderMeNote() {
+  if (me) {
+    meNote.innerHTML = `生まれ日診断で入力した <b>${me.y}年${me.m}月${me.d}日</b>(${escapeHtml(me.shuku.name)}宿・KIN${me.kin})をもとに、宿曜で「栄」「親」「命」になる日と、あなたのKIN・紋章の日に印をつけます。`;
+    setMe.disabled = false;
+  } else {
+    meNote.innerHTML = 'この端末にはまだ生年月日が保存されていません。<a href="../">生まれ日診断</a>で生年月日を入れると使えるようになります。';
+    setMe.checked = false;
+    setMe.disabled = true;
+  }
+}
+
+/* ---------- 日ごとの追加の計算 ---------- */
+
+/* monthKoyomi の結果に、祝日・マヤ暦・七十二候・あなたとの関係を足す */
+function enrich(k) {
+  k.holiday = holidayOf(k.y, k.m, k.d);
+  k.maya = dreamspellOf(k.y, k.m, k.d);
+  k.ko72Start = ko72StartOn(k.y, k.dayIdx);
+  /* 宿曜の宿(二十七宿)。旧暦の表で決まる。二十八宿(k.shuku)とは別物 */
+  k.sukuyoIdx = k.lunar ? (SHUKU_MONTH_BASE[k.lunar.num - 1] + k.lunar.day - 1) % 27 : null;
+  k.mine = null;
+  if (me && k.sukuyoIdx !== null) {
+    const rel = sankuRelation(me.shuku.index, k.sukuyoIdx);
+    const dayGlyphNo = (k.maya.kin - 1) % 20 + 1;
+    const kinDay = k.maya.kin === me.kin;
+    k.mine = {
+      rel,
+      sukuyoGood: rel.name === "栄" || rel.name === "親",
+      own: rel.name === "命",
+      kinDay,
+      glyphDay: !kinDay && dayGlyphNo === me.glyphNo,
+      glyphRel: kinDay ? null : mayaGlyphRelation(me.glyphNo, dayGlyphNo),
+    };
+    k.mine.any = k.mine.sukuyoGood || k.mine.own || k.mine.kinDay || k.mine.glyphDay;
+  }
+  return k;
+}
+
+function monthDays(y, m) {
+  return monthKoyomi(y, m).map(enrich);
 }
 
 /* ---------- 日ごとの見た目 ---------- */
@@ -80,10 +165,25 @@ function badges(k) {
   return b.slice(0, 2);
 }
 
+/* セルは幅が狭い(スマホで1マス約45px)ので、祝日名は「の日」を落とす */
+function shortHoliday(name) {
+  if (name === "国民の休日") return "休日";
+  return name.replace("の行われる日", "").replace(/の日$/, "");
+}
+
+/* あなたの吉日の印。いちばん強いものを1つだけ。2桁の日付に重ならないよう1文字にする */
+function meMark(mine) {
+  if (mine.kinDay) return { t: "K", title: "あなたのKINの日(260日に一度)" };
+  if (mine.sukuyoGood) return { t: mine.rel.name, title: `宿曜で「${mine.rel.name}」の日` };
+  if (mine.own) return { t: "命", title: "宿曜で自分の宿の日(命)" };
+  if (mine.glyphDay) return { t: "紋", title: "あなたの紋章の日(20日に一度)" };
+  return null;
+}
+
 /* ---------- カレンダーを描く ---------- */
 
 function render() {
-  days = monthKoyomi(viewY, viewM);
+  days = monthDays(viewY, viewM);
   calTitle.textContent = `${viewY}年${viewM}月`;
 
   const firstWd = new Date(viewY, viewM - 1, 1).getDay();
@@ -104,12 +204,15 @@ function render() {
       isToday ? "is-today" : "",
       k.weekday === 0 ? "is-sun" : "",
       k.weekday === 6 ? "is-sat" : "",
+      k.holiday ? "is-holiday" : "",
     ].filter(Boolean).join(" ");
     const bd = badges(k).map((x) => `<span class="bdg ${x.c}">${escapeHtml(x.t)}</span>`).join("");
     const shuku = setShuku.checked ? `<span class="calcell__s${k.shuku === "鬼" ? " is-oni" : ""}">${escapeHtml(k.shuku)}</span>` : "";
-    // 期間ものは初日だけ、単日の雑節と土用の丑は当日に印を出す(狭いので短縮)
+    const kin = setMaya.checked ? `<span class="calcell__k">K${k.maya.kin}</span>` : "";
+    // 祝日があればいちばん優先。次に二十四節気、行事、雑節
     const zLabel = (() => {
-      if (k.sekki24) return k.sekki24.name;                 // 二十四節気がいちばん優先
+      if (k.holiday) return "";
+      if (k.sekki24) return k.sekki24.name;
       if (k.events.length) return k.events[0].name.replace("の節句", "");
       if (k.doyoUshi) return "丑の日";
       const one = k.zassetsu.find((z) => !z.span) || k.zassetsu.find((z) => z.span && z.start === k.dayIdx);
@@ -118,11 +221,15 @@ function render() {
     })();
     const zCls = k.sekki24 ? "calcell__z is-sekki" : "calcell__z";
     const zHtml = zLabel ? `<span class="${zCls}">${escapeHtml(zLabel)}</span>` : "";
+    const hHtml = k.holiday ? `<span class="calcell__h" title="${escapeHtml(k.holiday)}">${escapeHtml(shortHoliday(k.holiday))}</span>` : "";
     const moonHtml = k.moonPhaseName ? `<span class="calcell__moon">${MOON_MARK[k.moonPhaseName]}</span>` : "";
-    cells.push(`<button type="button" class="${cls}" data-d="${k.d}">
+    const mark = setMe.checked && k.mine && k.mine.any ? meMark(k.mine) : null;
+    const meHtml = mark ? `<span class="calcell__me" title="${escapeHtml(mark.title)}">${escapeHtml(mark.t)}</span>` : "";
+    cells.push(`<button type="button" class="${cls}${mark ? " has-me" : ""}" data-d="${k.d}">
+      ${meHtml}
       <span class="calcell__d">${k.d}</span>
       <span class="calcell__r">${escapeHtml(k.rokuyo || "")}</span>
-      ${shuku}
+      ${hHtml}${shuku}${kin}
       <span class="calcell__b">${bd}</span>
       ${zHtml}${moonHtml}
     </button>`);
@@ -152,7 +259,11 @@ function select(d) {
     ? `旧暦 ${k.lunar.leap ? "閏" : ""}${k.lunar.num}月${k.lunar.day}日`
     : "";
   const sekkiLabel = `${k.sekki.name}(${k.sekki.m}月${k.sekki.d}日)から始まる${SHI[k.sekki.branch]}月`;
+  const ko = ko72On(k.y, k.m, k.d);
 
+  const holidayHtml = k.holiday
+    ? `<div class="tags"><span class="tag tag--holiday">${escapeHtml(k.holiday)}</span></div>`
+    : "";
   const goodHtml = k.good.length
     ? `<div class="tags">${k.good.map((g) => `<span class="tag tag--good">${escapeHtml(g)}</span>`).join("")}</div>`
     : '<p class="muted">とくに吉日とされる日ではありません。</p>';
@@ -161,6 +272,7 @@ function select(d) {
     : "";
   const seasonNames = [
     ...(k.sekki24 ? [k.sekki24.name] : []),
+    ...(k.ko72Start ? [k.ko72Start.name] : []),
     ...k.events.map((e) => e.name),
     ...k.zassetsu.map((z) => z.name),
     ...(k.doyoUshi ? ["土用の丑の日"] : []),
@@ -174,6 +286,7 @@ function select(d) {
     : "";
 
   const notes = [];
+  if (k.holiday) notes.push(`<strong>${escapeHtml(k.holiday)}。</strong>${escapeHtml(HOLIDAY_TEXT[k.holiday] || "")}`);
   if (k.flags.tensha && k.flags.ichiryu) {
     notes.push("<strong>天赦日と一粒万倍日が重なる日です。</strong>暦の上でもっとも良いとされ、年に1〜2回しかありません。");
   } else if (k.flags.tensha) {
@@ -189,6 +302,9 @@ function select(d) {
   if (k.sekki24) {
     notes.push(`<strong>${escapeHtml(k.sekki24.name)}(${k.sekki24.hh}時${String(k.sekki24.mi).padStart(2, "0")}分)。</strong>${escapeHtml(SEKKI24_TEXT[k.sekki24.name] || "")}`);
   }
+  if (k.ko72Start) {
+    notes.push(`<strong>今日から七十二候の「${escapeHtml(k.ko72Start.name)}」。</strong>${escapeHtml(k.ko72Start.meaning)}ころ。`);
+  }
   for (const e of k.events) notes.push(`<strong>${escapeHtml(e.name)}。</strong>${escapeHtml(e.text)}`);
   if (k.moonPhaseName) notes.push(`<strong>${escapeHtml(k.moonPhaseName)}。</strong>${escapeHtml(MOON_PHASE_TEXT[k.moonPhaseName] || "")}`);
   for (const n of k.senjitsu) notes.push(`<strong>${escapeHtml(n)}。</strong>${escapeHtml(SENJITSU_TEXT[n] || "")}`);
@@ -202,12 +318,34 @@ function select(d) {
   if (k.flags.fujoju) notes.push("<strong>不成就日。</strong>何を始めても成就しないとされる日です。");
   if (k.flags.sanrinbo) notes.push("<strong>三隣亡。</strong>建築・棟上げで避けられる日です。");
 
+  /* あなたにとってのこの日 */
+  let meHtml = "";
+  if (setMe.checked && k.mine) {
+    const m = k.mine;
+    const lines = [
+      `<p class="detail__me-line"><span>宿曜</span><b>この日は${escapeHtml(SHUKU27[k.sukuyoIdx][0])}宿。あなたの${escapeHtml(me.shuku.name)}宿から見て「${escapeHtml(m.rel.name)}」の日</b></p>`,
+      `<p class="detail__memo">${escapeHtml(SANKU_DAY_TEXT[m.rel.name])}</p>`,
+    ];
+    if (m.kinDay) {
+      lines.push('<p class="detail__me-line"><span>マヤ暦</span><b>あなたのKINそのものの日(260日に一度)</b></p>');
+    } else if (m.glyphRel) {
+      lines.push(`<p class="detail__me-line"><span>マヤ暦</span><b>あなたの${escapeHtml(me.glyph)}から見て${escapeHtml(m.glyphRel)}の紋章の日</b></p>`);
+      lines.push(`<p class="detail__memo">${escapeHtml(MAYA_GLYPH_REL_TEXT[m.glyphRel])}</p>`);
+    }
+    meHtml = `<div class="detail__me">
+      <p class="detail__me-title">あなたにとってのこの日</p>
+      ${lines.join("")}
+    </div>`;
+  }
+
   detailBody.innerHTML = `
     <p class="detail__date">${k.m}月${k.d}日<span>(${WD[k.weekday]})</span></p>
+    ${holidayHtml}
     ${goodHtml}
     ${badHtml}
     ${zTags}
     ${senTags}
+    ${meHtml}
     <div class="detail__rows">
       <p class="detail__row"><span>六曜</span><b>${escapeHtml(k.rokuyo || "-")}</b></p>
       <p class="detail__row"><span>十二直</span><b>${escapeHtml(k.junichoku)}</b></p>
@@ -215,16 +353,26 @@ function select(d) {
       <p class="detail__row"><span>日の干支</span><b>${escapeHtml(k.eto)}</b></p>
       <p class="detail__row"><span>旧暦</span><b>${escapeHtml(lunarLabel)}</b></p>
       <p class="detail__row"><span>節月</span><b>${escapeHtml(sekkiLabel)}</b></p>
+      ${ko ? `<p class="detail__row"><span>七十二候</span><b>${escapeHtml(ko.name)}(${escapeHtml(ko.yomi)})</b></p>` : ""}
+      <p class="detail__row"><span>マヤ暦</span><b>KIN${k.maya.kin} ${escapeHtml(k.maya.signature)}</b></p>
     </div>
     <p class="detail__memo">${escapeHtml(ROKUYO_TEXT[k.rokuyo] || "")}</p>
     <p class="detail__memo">${escapeHtml(k.junichoku)}: ${escapeHtml(JUNICHOKU_TEXT[k.junichoku] || "")}</p>
     ${setShuku.checked ? `<p class="detail__memo">${escapeHtml(k.shuku)}宿: ${escapeHtml(SHUKU_TEXT[k.shuku] || "")}</p>` : ""}
+    ${ko ? `<p class="detail__memo">${escapeHtml(ko.name)}: ${escapeHtml(ko.sekki)}の${escapeHtml(ko.part)}。${escapeHtml(ko.meaning)}ころ(${ko.m}月${ko.d}日から)</p>` : ""}
+    <p class="detail__memo">KIN${k.maya.kin}: ${escapeHtml(MAYA_GLYPH_DAY[k.maya.glyph] || "")}</p>
     ${notes.length ? `<ul class="detail__notes">${notes.map((n) => `<li>${n}</li>`).join("")}</ul>` : ""}
   `;
   detail.hidden = false;
 }
 
 /* ---------- 月内の吉日まとめ ---------- */
+
+function dayChips(list, extraCls) {
+  return list.map((k) => (
+    `<button type="button" class="daychip${extraCls ? " " + extraCls : ""}" data-d="${k.d}">${k.d}日<small>${WD[k.weekday]}</small></button>`
+  )).join("");
+}
 
 function renderGoodList() {
   listTitle.textContent = `${viewY}年${viewM}月の吉日`;
@@ -239,8 +387,28 @@ function renderGoodList() {
     { key: "mi", name: "巳の日", memo: "弁財天に縁のある、金運の日" },
   ];
 
-  const best = days.filter((k) => k.flags.tensha && k.flags.ichiryu);
   let html = "";
+
+  /* あなたの吉日 */
+  if (setMe.checked && me) {
+    const good = days.filter((k) => k.mine && k.mine.sukuyoGood);
+    const own = days.filter((k) => k.mine && k.mine.own);
+    const kin = days.filter((k) => k.mine && k.mine.kinDay);
+    const glyph = days.filter((k) => k.mine && k.mine.glyphDay);
+    const rows = [];
+    if (good.length) rows.push(`<p class="glist__sub">宿曜で「栄」「親」の日</p><p class="glist__days">${dayChips(good, "daychip--me")}</p>`);
+    if (own.length) rows.push(`<p class="glist__sub">宿曜で自分の宿の日(命)</p><p class="glist__days">${dayChips(own, "daychip--me")}</p>`);
+    if (kin.length) rows.push(`<p class="glist__sub">あなたのKIN${me.kin}の日</p><p class="glist__days">${dayChips(kin, "daychip--me")}</p>`);
+    if (glyph.length) rows.push(`<p class="glist__sub">あなたの紋章(${escapeHtml(me.glyph)})の日</p><p class="glist__days">${dayChips(glyph, "daychip--me")}</p>`);
+    if (rows.length) {
+      html += `<div class="glist glist--me">
+        <p class="glist__name">あなたの吉日<small>${me.y}年${me.m}月${me.d}日生まれ(${escapeHtml(me.shuku.name)}宿・KIN${me.kin})から計算</small></p>
+        ${rows.join("")}
+      </div>`;
+    }
+  }
+
+  const best = days.filter((k) => k.flags.tensha && k.flags.ichiryu);
   if (best.length) {
     html += `<p class="best-line"><span class="chip chip--best">最強</span>
       ${best.map((k) => `${k.m}月${k.d}日(${WD[k.weekday]})`).join("、")}
@@ -254,19 +422,33 @@ function renderGoodList() {
     if (!list.length) return "";
     return `<div class="glist">
       <p class="glist__name">${escapeHtml(kd.name)}<small>${escapeHtml(kd.memo)}</small></p>
-      <p class="glist__days">${list.map((k) => (
-        `<button type="button" class="daychip" data-d="${k.d}">${k.d}日<small>${WD[k.weekday]}</small></button>`
-      )).join("")}</p>
+      <p class="glist__days">${dayChips(list)}</p>
     </div>`;
   }).join("");
 
-  // 二十四節気・行事・月相
+  // 祝日
+  const holidayRows = days.filter((k) => k.holiday).map((k) => `${k.holiday}: ${k.m}/${k.d}(${WD[k.weekday]})`);
+  if (holidayRows.length) {
+    html += `<div class="glist">
+      <p class="glist__name">祝日・休日<small>祝日法の規則から計算。振替休日と国民の休日も含みます</small></p>
+      <p class="glist__zs">${holidayRows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
+
+  // 二十四節気・七十二候・行事・月相
   const sekkiRows = days.filter((k) => k.sekki24)
     .map((k) => `${k.sekki24.name}: ${k.m}/${k.d} ${k.sekki24.hh}:${String(k.sekki24.mi).padStart(2, "0")}`);
   if (sekkiRows.length) {
     html += `<div class="glist">
       <p class="glist__name">二十四節気<small>太陽の黄経が15度進むごとの区切り</small></p>
       <p class="glist__zs">${sekkiRows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
+  const koRows = days.filter((k) => k.ko72Start).map((k) => `${k.ko72Start.name}(${k.ko72Start.yomi}): ${k.m}/${k.d}`);
+  if (koRows.length) {
+    html += `<div class="glist">
+      <p class="glist__name">七十二候<small>二十四節気をさらに3つに分けた、約5日ごとの季節</small></p>
+      <p class="glist__zs">${koRows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
     </div>`;
   }
   const eventRows = days.filter((k) => k.events.length)
@@ -335,13 +517,90 @@ function renderGoodList() {
   if (badDays.length) {
     html += `<div class="glist glist--bad">
       <p class="glist__name">凶とされる日<small>仏滅・不成就日・三隣亡</small></p>
-      <p class="glist__days">${badDays.map((k) => (
-        `<button type="button" class="daychip daychip--bad" data-d="${k.d}">${k.d}日<small>${WD[k.weekday]}</small></button>`
-      )).join("")}</p>
+      <p class="glist__days">${dayChips(badDays, "daychip--bad")}</p>
     </div>`;
   }
 
   goodList.innerHTML = html || '<p class="muted">この月に該当する吉日はありません。</p>';
+}
+
+/* ---------- 条件で日を探す ---------- */
+
+const SEARCH_GOOD = {
+  tensha: { name: "天赦日", test: (k) => k.flags.tensha },
+  ichiryu: { name: "一粒万倍日", test: (k) => k.flags.ichiryu },
+  taian: { name: "大安", test: (k) => k.rokuyo === "大安" },
+  tora: { name: "寅の日", test: (k) => k.flags.tora },
+  mi: { name: "巳の日", test: (k) => k.flags.mi },
+  tsuchinotoMi: { name: "己巳の日", test: (k) => k.flags.tsuchinotoMi },
+  kinoeNe: { name: "甲子の日", test: (k) => k.flags.kinoeNe },
+  tenOn: { name: "天恩日", test: (k) => k.flags.tenOn },
+  boso: { name: "母倉日", test: (k) => k.flags.boso },
+};
+
+const SEARCH_LIMIT = 60;
+
+function searchDays(opts) {
+  const startIdx = jdn(today.getFullYear(), today.getMonth() + 1, today.getDate());
+  const endIdx = startIdx + 365;
+  const hits = [];
+  let y = today.getFullYear(), m = today.getMonth() + 1;
+  for (let i = 0; i < 13; i++) {
+    for (const k of monthDays(y, m)) {
+      if (k.dayIdx < startIdx || k.dayIdx > endIdx) continue;
+      if (!opts.good.every((key) => SEARCH_GOOD[key].test(k))) continue;
+      if (opts.offDay && !(k.weekday === 0 || k.weekday === 6 || k.holiday)) continue;
+      if (opts.mine && !(k.mine && k.mine.any)) continue;
+      if (opts.noButsumetsu && k.rokuyo === "仏滅") continue;
+      if (opts.noFujoju && k.flags.fujoju) continue;
+      if (opts.noSanrinbo && k.flags.sanrinbo) continue;
+      hits.push(k);
+    }
+    m++;
+    if (m > 12) { m = 1; y++; }
+  }
+  return hits;
+}
+
+function renderSearch() {
+  const fd = new FormData(searchForm);
+  const opts = {
+    good: fd.getAll("good"),
+    offDay: fd.get("offday") === "1",
+    mine: fd.get("mine") === "1",
+    noButsumetsu: fd.get("nobutsu") === "1",
+    noFujoju: fd.get("nofujoju") === "1",
+    noSanrinbo: fd.get("nosanrin") === "1",
+  };
+  if (!opts.good.length && !opts.offDay && !opts.mine) {
+    searchResult.innerHTML = '<p class="muted">吉日か日にちの条件を、少なくとも1つ選んでください。</p>';
+    return;
+  }
+  const hits = searchDays(opts);
+  const label = [
+    ...opts.good.map((key) => SEARCH_GOOD[key].name),
+    ...(opts.offDay ? ["土日祝"] : []),
+    ...(opts.mine ? ["あなたの吉日"] : []),
+  ].join("＋");
+  if (!hits.length) {
+    searchResult.innerHTML = `<p class="search__count">今日から1年のあいだに「${escapeHtml(label)}」がそろう日はありませんでした。条件を減らしてみてください。</p>`;
+    return;
+  }
+  const rows = hits.slice(0, SEARCH_LIMIT).map((k) => {
+    const tags = [
+      ...(k.holiday ? [k.holiday] : []),
+      ...k.good,
+      ...(k.mine && k.mine.any ? [meMark(k.mine).title] : []),
+      ...k.bad.map((b) => `(${b})`),
+    ];
+    return `<li class="search__item">
+      <button type="button" class="search__day" data-y="${k.y}" data-m="${k.m}" data-d="${k.d}">${k.m}月${k.d}日<small>(${WD[k.weekday]}) ${k.y}年</small></button>
+      <span class="search__tags">${escapeHtml(tags.join("・"))}</span>
+    </li>`;
+  }).join("");
+  searchResult.innerHTML = `
+    <p class="search__count">「${escapeHtml(label)}」がそろう日は、今日から1年で<b>${hits.length}日</b>ありました。${hits.length > SEARCH_LIMIT ? `先の${SEARCH_LIMIT}日だけ表示しています。` : ""}日付を押すとカレンダーで開きます。</p>
+    <ul class="search__list">${rows}</ul>`;
 }
 
 /* ---------- 操作 ---------- */
@@ -353,8 +612,9 @@ function move(delta) {
   render();
 }
 
-setByDay.addEventListener("change", () => { applySettings(); render(); });
-setShuku.addEventListener("change", () => { applySettings(); render(); });
+for (const el of [setByDay, setShuku, setMaya, setMe, setKoDays]) {
+  el.addEventListener("change", () => { applySettings(); render(); });
+}
 
 document.getElementById("btn-prev").addEventListener("click", () => move(-1));
 document.getElementById("btn-next").addEventListener("click", () => move(1));
@@ -365,8 +625,22 @@ document.getElementById("btn-today").addEventListener("click", () => {
   detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
 });
 
+searchForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  renderSearch();
+});
+
 // セルと日付チップのクリックは、まとめて拾う
 document.addEventListener("click", (e) => {
+  const jump = e.target.closest(".search__day[data-d]");
+  if (jump) {
+    viewY = Number(jump.dataset.y);
+    viewM = Number(jump.dataset.m);
+    render();
+    select(Number(jump.dataset.d));
+    document.getElementById("calgrid").scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
   const el = e.target.closest(".calcell[data-d], .daychip[data-d]");
   if (!el) return;
   select(Number(el.dataset.d));
@@ -383,4 +657,9 @@ document.addEventListener("keydown", (e) => {
 });
 
 loadSettings();
+renderMeNote();   // 生年月日がなければ、保存された設定より優先して印をオフにする
+if (!me) {
+  const mineBox = document.getElementById("search-mine");
+  if (mineBox) { mineBox.disabled = true; mineBox.closest("label").classList.add("is-disabled"); }
+}
 render();

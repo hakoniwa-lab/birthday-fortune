@@ -28,6 +28,7 @@ const sanmeiBody = document.getElementById("sanmei-body");
 const sukuyoBody = document.getElementById("sukuyo-body");
 const mayaBody = document.getElementById("maya-body");
 const worldBody = document.getElementById("world-body");
+const yakuBody = document.getElementById("yaku-body");
 const btnRestart = document.getElementById("btn-restart");
 const btnCopy = document.getElementById("btn-copy");
 const formError = document.getElementById("form-error");
@@ -163,6 +164,14 @@ function buildProfileHtml(p) {
         <p class="item__head"><span class="badge">誕生石</span>${escapeHtml(bs.name)}</p>
         <p class="item__text">石言葉は「${escapeHtml(bs.word)}」。</p>
       </div>
+      ${(() => {
+        const ko = ko72On(p.y, p.m, p.d);
+        if (!ko) return "";
+        return `<div class="item">
+        <p class="item__head"><span class="badge">生まれた季節</span>${escapeHtml(ko.name)}<small>(${escapeHtml(ko.yomi)})</small></p>
+        <p class="item__text">七十二候では${escapeHtml(ko.sekki)}の${escapeHtml(ko.part)}。${escapeHtml(ko.meaning)}ころに生まれました。</p>
+      </div>`;
+      })()}
     </div>
   `;
 }
@@ -185,11 +194,123 @@ function buildPeriodHtml(f, sub) {
   </div>`;
 }
 
-function buildFlowHtml(yf, mf, honmeiName) {
+function buildFlowHtml(yf, mf, honmeiName, houiHtml) {
   return `
     <p class="chart__lead">九星気学では、自分の星が毎年ひとつずつ盤の上を移っていき、<strong>9年でひと回り</strong>します。いま自分がその周期のどこにいるかは、計算で決まります。</p>
     ${buildPeriodHtml(yf, `${honmeiName}が${PALACE_INFO[yf.palace].palace}に回座。年の区切りは1月1日ではなく立春です。`)}
     ${buildPeriodHtml(mf, `月の区切りは節入り(立春・啓蟄など)です。`)}
+    ${houiHtml}
+  `;
+}
+
+/* ---------- 九星気学の吉方位 ---------- */
+
+const STAR_SHORT = ["", "一白", "二黒", "三碧", "四緑", "五黄", "六白", "七赤", "八白", "九紫"];
+
+/* 地図と同じく北を上にした3×3の盤 */
+function houiBoardHtml(r) {
+  const at = (dir) => r.dirs.find((d) => d.dir === dir);
+  const cell = (dir) => {
+    const d = at(dir);
+    const cls = d.good ? "houi__cell is-good" : (d.bad.length ? "houi__cell is-bad" : "houi__cell");
+    const label = d.good ? "吉" : (d.bad.length ? d.bad[0] : "");
+    return `<div class="${cls}">
+      <span class="houi__dir">${dir}</span>
+      <span class="houi__star">${STAR_SHORT[d.star]}</span>
+      <span class="houi__label">${escapeHtml(label)}${d.bad.length > 1 ? "ほか" : ""}</span>
+    </div>`;
+  };
+  return `<div class="houi__board">
+    ${cell("北西")}${cell("北")}${cell("北東")}
+    ${cell("西")}<div class="houi__cell houi__cell--center"><span class="houi__dir">中宮</span><span class="houi__star">${STAR_SHORT[r.center]}</span></div>${cell("東")}
+    ${cell("南西")}${cell("南")}${cell("東南")}
+  </div>`;
+}
+
+function buildHouiHtml(honmei, fYear) {
+  const years = [fYear, fYear + 1].map((y) => yearDirections(y, honmei));
+  const friends = friendStars(honmei).map((s) => STAR_SHORT[s]).join("・");
+  const block = (r, label) => {
+    const badList = r.dirs.filter((d) => d.bad.length)
+      .map((d) => `${d.dir}(${d.bad.join("・")})`).join("、");
+    return `<div class="houi">
+      <p class="houi__title">${label}(${r.year}年の立春から)</p>
+      ${houiBoardHtml(r)}
+      <p class="houi__good">吉方位: <b>${r.good.length ? r.good.join("・") : "なし"}</b></p>
+      <p class="item__note">凶方位: ${escapeHtml(badList)}</p>
+      ${r.hakkou ? '<p class="item__note item__note--warn">本命星が中宮に入る年(八方塞がり)です。吉方位があっても、大きな移動は慎重にとする考え方があります。</p>' : ""}
+    </div>`;
+  };
+  return `
+    <p class="chart__sub">吉方位</p>
+    <p class="item__text">あなたの本命星と相性の良い星(${escapeHtml(friends)})がいる方位のうち、凶方位に当たらないところが吉方位です。引っ越しや旅行の方角を決めるときに使われます。</p>
+    ${block(years[0], "今年")}
+    ${block(years[1], "来年")}
+    <p class="item__note">盤は地図と同じく北を上にしています(九星気学の本では南を上に描くのが一般的です)。月ごとの方位や小児殺など、流派によって加える凶方位は含めていません。</p>
+  `;
+}
+
+/* ---------- 厄年と年祝い ---------- */
+
+function warekiYear(y) {
+  if (y >= 2019) return `令和${y === 2019 ? "元" : y - 2018}年`;
+  if (y >= 1989) return `平成${y === 1989 ? "元" : y - 1988}年`;
+  if (y >= 1926) return `昭和${y === 1926 ? "元" : y - 1925}年`;
+  return `大正${y - 1911}年`;
+}
+
+function buildYakuHtml(birthY, today) {
+  const ty = today.getFullYear();
+  const kazoe = kazoeAge(birthY, ty);
+  const rs = risshunDateOf(ty);
+  const status = (sex) => {
+    const st = yakuOf(birthY, ty, sex);
+    return st
+      ? `<b>${sex}なら${st.kind}${st.taiyaku ? "(大厄)" : ""}</b>`
+      : `${sex}なら厄年ではありません`;
+  };
+  const yearCell = (y) => `<td class="${y === ty ? "is-now" : (y < ty ? "is-past" : "")}">${y}年<small>${warekiYear(y)}</small></td>`;
+  const table = (sex) => `
+    <p class="chart__sub">${sex}の厄年</p>
+    <div class="chart__scroll">
+      <table class="yaku__table">
+        <thead><tr><th>本厄の年齢</th><th>前厄</th><th>本厄</th><th>後厄</th></tr></thead>
+        <tbody>
+          ${yakuYears(birthY, sex).map((r) => `<tr>
+            <th>数え${r.honAge}歳${r.taiyaku ? "<small>大厄</small>" : ""}</th>
+            ${yearCell(r.pre)}${yearCell(r.main)}${yearCell(r.post)}
+          </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>`;
+  const chojuRows = chojuYears(birthY).map((c) => {
+    const past = c.manY < ty && c.kazoeY < ty;
+    const now = c.manY === ty || c.kazoeY === ty;
+    return `<tr class="${now ? "is-now" : (past ? "is-past" : "")}">
+      <th>${c.name}<small>${c.yomi}・${c.age}歳</small></th>
+      <td>${c.manY}年</td>
+      <td>${c.kanreki ? "同じ" : c.kazoeY + "年"}</td>
+      <td class="yaku__memo">${escapeHtml(c.text)}</td>
+    </tr>`;
+  }).join("");
+
+  return `
+    <p class="chart__lead">厄年も年祝いも、<strong>数え年</strong>で決まります。数え年は生まれたときを1歳とし、元日を迎えるたびに1つ増える数え方です。</p>
+    <div class="item">
+      <p class="item__head">${ty}年の数え年は ${kazoe}歳</p>
+      <p class="item__text">${status("男性")}。${status("女性")}。</p>
+      <p class="item__note">厄年の期間は元日から大晦日までとするのが一般的ですが、立春(${ty}年は${rs.m}月${rs.d}日)から翌年の節分までとする寺社もあります。年齢は神社本庁の案内(男性25・42・61歳、女性19・33・37・61歳)に合わせています。</p>
+    </div>
+    ${table("男性")}
+    ${table("女性")}
+    <p class="chart__sub">年祝い(長寿のお祝い)</p>
+    <div class="chart__scroll">
+      <table class="yaku__table yaku__table--choju">
+        <thead><tr><th>お祝い</th><th>満年齢で祝う年</th><th>数え年で祝う年</th><th></th></tr></thead>
+        <tbody>${chojuRows}</tbody>
+      </table>
+    </div>
+    <p class="item__note">昔は数え年で祝いましたが、今は満年齢で祝うことも多いので両方の年を出しています。還暦だけは「満60歳＝数え61歳」なので、どちらでも同じ年です。</p>
   `;
 }
 
@@ -218,7 +339,7 @@ function buildDailyHtml(f, today, extra) {
 /*
  * 今日の運勢のうち「計算で決まる」部分。
  * 上の星の数と違って、こちらは誰が出しても同じ答えになる。
- *   宿曜   … 本命宿から見た今日の宿(27日で一周)
+ *   宿曜   … 本命宿から見た今日の宿(旧暦のひと月で27宿が一巡)
  *   マヤ暦 … 今日のKINと、自分の紋章との関係(20日/260日で一周)
  *   四柱推命 … 今日の日干を自分の日主から見た通変星(10日で一周)
  *   暦注   … 六曜と吉日凶日
@@ -234,7 +355,7 @@ function buildDailyCalcHtml(sk, mv, fp, p, today) {
     const rel = sankuRelation(sk.main.index, todayShuku.index);
     blocks.push(`
       <div class="dk">
-        <p class="dk__head">宿曜 <small>27日で一周</small></p>
+        <p class="dk__head">宿曜 <small>旧暦のひと月で一巡</small></p>
         <p class="dk__val">今日は<b>${escapeHtml(todayShuku.name)}宿</b>。あなたの${escapeHtml(sk.main.name)}宿から見て<b>「${escapeHtml(rel.name)}」</b>の日</p>
         <p class="dk__text">${escapeHtml(SANKU_DAY_TEXT[rel.name])}</p>
       </div>`);
@@ -273,13 +394,17 @@ function buildDailyCalcHtml(sk, mv, fp, p, today) {
   }
 
   /* 暦注 */
+  const holiday = holidayOf(ty, tm, td);
+  const todayKo = ko72On(ty, tm, td);
   const goodTags = dk.good.map((t) => `<span class="dk__tag dk__tag--good">${escapeHtml(t)}</span>`).join("");
   const badTags = dk.bad.filter((t) => t !== "仏滅").map((t) => `<span class="dk__tag dk__tag--bad">${escapeHtml(t)}</span>`).join("");
+  const holidayTag = holiday ? `<span class="dk__tag dk__tag--holiday">${escapeHtml(holiday)}</span>` : "";
   blocks.push(`
     <div class="dk">
       <p class="dk__head">今日の暦注</p>
       <p class="dk__val">六曜は<b>${escapeHtml(dk.rokuyo || "—")}</b>、十二直は<b>${escapeHtml(dk.junichoku)}</b>、旧暦${dk.lunar ? `${dk.lunar.leap ? "閏" : ""}${dk.lunar.num}月${dk.lunar.day}日` : "—"}</p>
-      ${(goodTags || badTags) ? `<p class="dk__tags">${goodTags}${badTags}</p>` : '<p class="dk__text">名前のついた吉日・凶日はありません。</p>'}
+      ${(holidayTag || goodTags || badTags) ? `<p class="dk__tags">${holidayTag}${goodTags}${badTags}</p>` : '<p class="dk__text">名前のついた吉日・凶日はありません。</p>'}
+      ${todayKo ? `<p class="dk__text">七十二候は<b>「${escapeHtml(todayKo.name)}」</b>(${escapeHtml(todayKo.yomi)})。${escapeHtml(todayKo.meaning)}ころ(${todayKo.m}月${todayKo.d}日から)。</p>` : ""}
       <p class="dk__sub"><a href="calendar/">吉日カレンダーで今月ぜんたいを見る</a></p>
     </div>`);
 
@@ -607,7 +732,8 @@ function render(v) {
   mayaBody.innerHTML = buildMayaHtml(mv, y, m, d, jdn(ty, tm, td), dreamspellDrift(ty, tm, td));
   worldBody.innerHTML = buildWorldHtml(wc, hasTime);
   dailyBody.innerHTML = buildDailyHtml(f, today, buildDailyCalcHtml(sk, mv, fp, p, today));
-  flowBody.innerHTML = buildFlowHtml(yf, mf, KYUSEI[p.honmeisei].name);
+  flowBody.innerHTML = buildFlowHtml(yf, mf, KYUSEI[p.honmeisei].name, buildHouiHtml(p.honmeisei, fYear));
+  yakuBody.innerHTML = buildYakuHtml(y, today);
   shareText = buildShareText(p, f, today, w, fp, sk, mv);
   introSection.hidden = true;
   resultSection.hidden = false;
