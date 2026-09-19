@@ -29,6 +29,7 @@ const sukuyoBody = document.getElementById("sukuyo-body");
 const mayaBody = document.getElementById("maya-body");
 const worldBody = document.getElementById("world-body");
 const yakuBody = document.getElementById("yaku-body");
+const offerBody = document.getElementById("offer-body");
 const btnRestart = document.getElementById("btn-restart");
 const btnCopy = document.getElementById("btn-copy");
 const formError = document.getElementById("form-error");
@@ -697,6 +698,40 @@ function buildWorldHtml(wc, hasTime) {
   `;
 }
 
+/* ---------- 広告(A8.net) ----------
+ * ラッキーショップ: 商品リンクで、本命星と干支のカテゴリへ飛ばす(九星=294+本命星 1〜9、十二支=443+子0〜亥11)
+ * blue-rose: 商品リンクが使えないので、広告主のテキスト素材「【blue-rose】」をそのまま使う(素材の文言は変えない)
+ * どちらも効果をうたわない。サイトの立場(占いに科学的根拠はない)に合わせて注記を添える
+ */
+const LUCKY_MAT = "4BCFNI+7DJLUA+1JT6+BW8O2";
+const LUCKY_PIXEL = `<img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=${LUCKY_MAT}" alt="">`;
+const SHI_YOMI = ["ね", "うし", "とら", "う", "たつ", "み", "うま", "ひつじ", "さる", "とり", "いぬ", "い"];
+const BLUE_ROSE_LINK = `<a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=4BCFNI+8PRPUA+5SGG+BX3J6" target="_blank" rel="nofollow sponsored noopener">【blue-rose】<span class="badge badge--pr">PR</span></a><img border="0" width="1" height="1" src="https://www19.a8.net/0.gif?a8mat=4BCFNI+8PRPUA+5SGG+BX3J6" alt="">`;
+
+function luckyLink(categoryId, label) {
+  const url = encodeURIComponent(`https://www.lucky-shop.jp/category/${categoryId}/`);
+  return `<a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=${LUCKY_MAT}&amp;a8ejpredirect=${url}" target="_blank" rel="nofollow sponsored noopener">${escapeHtml(label)}<span class="badge badge--pr">PR</span></a>`;
+}
+
+function buildOfferHtml(p) {
+  const ks = KYUSEI[p.honmeisei];
+  const s = p.eto.shiIndex;
+  const animal = `${SHI[s]}(${SHI_YOMI[s]})年`;
+  return `
+    <div class="item">
+      <p class="item__head"><span class="badge">縁起物</span>${escapeHtml(ks.name)}・${escapeHtml(animal)}生まれの方へ</p>
+      <p class="item__text">本命星や干支にちなんだ置物や小物を扱うお店があります。自分へのお守りや贈り物として、気持ちの区切りに選ぶ人もいます。</p>
+      <div class="offer-links">${luckyLink(294 + p.honmeisei, `${ks.name}の縁起物を見る`)}${luckyLink(443 + s, `${animal}の縁起物を見る`)}${LUCKY_PIXEL}</div>
+      <p class="item__note">※ 縁起物に科学的な効果はありません。気持ちを整える小物として楽しむものです。</p>
+    </div>
+    <div class="item">
+      <p class="item__head"><span class="badge">相談</span>占い師に直接聞いてみたい方へ</p>
+      <p class="item__text">この診断は、生年月日から計算した一般的な読み方です。自分の状況に合わせて話を聞きたいときは、チャットで占い師に相談できるサービスもあります。</p>
+      <div class="offer-links">${BLUE_ROSE_LINK}</div>
+      <p class="item__note">※ 鑑定は有料です。料金と使い方は、利用する前にサイトで確かめてください。</p>
+    </div>`;
+}
+
 function render(v) {
   const { y, m, d } = v;
   const hasTime = v.hour !== null && v.hour !== undefined && v.hour !== "";
@@ -734,6 +769,7 @@ function render(v) {
   dailyBody.innerHTML = buildDailyHtml(f, today, buildDailyCalcHtml(sk, mv, fp, p, today));
   flowBody.innerHTML = buildFlowHtml(yf, mf, KYUSEI[p.honmeisei].name, buildHouiHtml(p.honmeisei, fYear));
   yakuBody.innerHTML = buildYakuHtml(y, today);
+  offerBody.innerHTML = buildOfferHtml(p);
   shareText = buildShareText(p, f, today, w, fp, sk, mv);
   introSection.hidden = true;
   resultSection.hidden = false;

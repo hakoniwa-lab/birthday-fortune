@@ -349,6 +349,8 @@ html, body {
   gap: 6px;
 }
 
+.offer-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+
 .badge--pr {
   background: var(--color-accent);
   color: var(--color-primary-contrast);
