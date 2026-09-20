@@ -310,6 +310,7 @@ function select(d) {
   for (const n of k.senjitsu) notes.push(`<strong>${escapeHtml(n)}。</strong>${escapeHtml(SENJITSU_TEXT[n] || "")}`);
   if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。");
   if (k.flags.boso) notes.push("<strong>母倉日。</strong>天が人を慈しむ日。結婚・建築に良いとされます。");
+  for (const g of k.gedan) notes.push(`<strong>${escapeHtml(g)}。</strong>${escapeHtml(GEDAN_TEXT[g] || "")}。`);
   if (k.doyoUshi) notes.push("<strong>土用の丑の日。</strong>夏の土用の期間の丑の日。うなぎを食べる習慣で知られます。");
   for (const z of k.zassetsu) {
     const span = z.span ? `(${(() => { const a = jdToJstParts(z.start - 0.375), b = jdToJstParts(z.end - 0.375); return `${a.m}/${a.d}〜${b.m}/${b.d}`; })()})` : "";
@@ -357,7 +358,7 @@ function select(d) {
       <p class="detail__row"><span>マヤ暦</span><b>KIN${k.maya.kin} ${escapeHtml(k.maya.signature)}</b></p>
     </div>
     <p class="detail__memo">${escapeHtml(ROKUYO_TEXT[k.rokuyo] || "")}</p>
-    <p class="detail__memo">${escapeHtml(k.junichoku)}: ${escapeHtml(JUNICHOKU_TEXT[k.junichoku] || "")}</p>
+    <p class="detail__memo">${escapeHtml(k.junichoku)}${k.flags.geppa ? "(月破大耗)" : ""}: ${escapeHtml(JUNICHOKU_TEXT[k.junichoku] || "")}</p>
     ${setShuku.checked ? `<p class="detail__memo">${escapeHtml(k.shuku)}宿: ${escapeHtml(SHUKU_TEXT[k.shuku] || "")}</p>` : ""}
     ${ko ? `<p class="detail__memo">${escapeHtml(ko.name)}: ${escapeHtml(ko.sekki)}の${escapeHtml(ko.part)}。${escapeHtml(ko.meaning)}ころ(${ko.m}月${ko.d}日から)</p>` : ""}
     <p class="detail__memo">KIN${k.maya.kin}: ${escapeHtml(MAYA_GLYPH_DAY[k.maya.glyph] || "")}</p>
@@ -383,6 +384,7 @@ function renderGoodList() {
     { key: "kinoeNe", name: "甲子の日", memo: "60日に一度。大黒天の日、始まりに良いとされる" },
     { key: "tenOn", name: "天恩日", memo: "天の恩恵を受ける日。祝い事に良いとされる" },
     { key: "boso", name: "母倉日", memo: "天が人を慈しむ日。結婚・建築に良いとされる" },
+    { key: "tsukitoku", name: "月徳日", memo: "その月の福を司る日。家の修理や土を動かすことに良いとされる" },
     { key: "tora", name: "寅の日", memo: "出ていったお金が戻るとされる日" },
     { key: "mi", name: "巳の日", memo: "弁財天に縁のある、金運の日" },
   ];
@@ -536,6 +538,9 @@ const SEARCH_GOOD = {
   kinoeNe: { name: "甲子の日", test: (k) => k.flags.kinoeNe },
   tenOn: { name: "天恩日", test: (k) => k.flags.tenOn },
   boso: { name: "母倉日", test: (k) => k.flags.boso },
+  daimyo: { name: "大明日", test: (k) => k.flags.daimyo },
+  kamiyoshi: { name: "神吉日", test: (k) => k.flags.kamiyoshi },
+  tsukitoku: { name: "月徳日", test: (k) => k.flags.tsukitoku },
 };
 
 const SEARCH_LIMIT = 60;

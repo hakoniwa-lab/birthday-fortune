@@ -262,7 +262,7 @@ const JUNICHOKU_TEXT = {
   平: "平らに成る日。旅行や結婚に良いとされます",
   定: "定まる日。開店や移転に良く、訴訟には向かないとされます",
   執: "執り行う日。祝い事や種まきに良いとされます",
-  破: "破れる日。訴訟や談判には良いが、祝い事は避けるとされます",
+  破: "破れる日。訴訟や談判には良いが、祝い事は避けるとされます。中国由来の択日でいう月破大耗(げっぱだいもう)と同じ日です",
   危: "危ぶむ日。何事も控えめにするのが良いとされます",
   成: "成し遂げる日。新しいことを始めるのに良いとされます",
   納: "納め入れる日。買い物や収穫に良いとされます",
@@ -293,6 +293,48 @@ function isBoso(monthBranch, dayBranch) {
   if (monthBranch === 8 || monthBranch === 9) return [4, 10, 1, 7].includes(dayBranch);
   if (monthBranch === 11 || monthBranch === 0) return dayBranch === 8 || dayBranch === 9;
   return dayBranch === 5 || dayBranch === 6; // 辰・未・戌・丑月
+}
+
+/*
+ * 暦注下段の吉日。どれも江戸時代の暦に載っていたもので、日の干支か節月で決まる。
+ * 一覧は こよみのページ「暦注の説明(その3)下段」と Wikipedia「暦注下段」で同じだった(2026-09-20に確認)。
+ *
+ * ★どれも4〜5割の日にあたる★ ので、天赦日や一粒万倍日と同じ扱いにするとカレンダーが吉日だらけになる。
+ * good(色分け・タグ)には入れず、gedan として別に返す。
+ */
+
+/* 大明日。陰陽が和合する日で、建築・移転・旅行など善い行いに良いとされる。60干支のうち25日 */
+const DAIMYO = [5, 6, 7, 8, 9, 13, 15, 18, 20, 23, 28, 31, 38, 40, 41, 42, 43, 45, 46, 47, 52, 54, 55, 56, 57];
+
+/* 神吉日。神社参拝・祭礼・先祖のお祀りに良いとされる。60干支のうち33日 */
+const KAMIYOSHI = [1, 3, 5, 6, 8, 9, 13, 15, 18, 20, 21, 24, 27, 30, 32, 33, 35, 36, 37, 39,
+  41, 42, 43, 44, 45, 47, 48, 51, 54, 55, 56, 57, 59];
+
+/* 月徳日。その月の福を司る日。節月の十二支ごとに決まった日の十干(寅午戌月=丙、卯未亥月=甲、辰申子月=壬、巳酉丑月=庚) */
+const TSUKITOKU_STEM = { 2: 2, 6: 2, 10: 2, 3: 0, 7: 0, 11: 0, 4: 8, 8: 8, 0: 8, 5: 6, 9: 6, 1: 6 };
+
+const GEDAN_TEXT = {
+  大明日: "陰陽が和合する日。建築・移転・旅行など、善いことに良いとされます",
+  神吉日: "神事に良い日。神社参拝・祭礼・先祖のお祀りに良いとされます",
+  月徳日: "その月の福を司る日。家の修理や、土を動かすことに良いとされます",
+};
+
+const GEDAN_HOW = {
+  大明日: "日の干支が 己巳・庚午・辛未・壬申・癸酉・丁丑・己卯・壬午・甲申・丁亥・壬辰・乙未・壬寅・甲辰・乙巳・丙午・丁未・己酉・庚戌・辛亥・丙辰・戊午・己未・庚申・辛酉 の25日",
+  神吉日: "日の干支で決まる33日(乙丑・丁卯・己巳・庚午・壬申・癸酉・丁丑・己卯・壬午・甲申・乙酉・戊子・辛卯・甲午・丙申・丁酉・己亥・庚子・辛丑・癸卯・乙巳・丙午・丁未・戊申・己酉・辛亥・壬子・乙卯・戊午・己未・庚申・辛酉・癸亥)",
+  月徳日: "節月の十二支ごとの日の十干(寅・午・戌の月＝丙、卯・未・亥の月＝甲、辰・申・子の月＝壬、巳・酉・丑の月＝庚)",
+};
+
+function isDaimyo(dayIndex) {
+  return DAIMYO.includes(dayIndex);
+}
+
+function isKamiyoshi(dayIndex) {
+  return KAMIYOSHI.includes(dayIndex);
+}
+
+function isTsukitoku(monthBranch, dayStem) {
+  return TSUKITOKU_STEM[monthBranch] === dayStem;
 }
 
 /* ---------- 雑節(季節の節目。すべて太陽の位置か立春からの日数で決まる) ---------- */
@@ -477,6 +519,15 @@ function dayKoyomi(y, m, d) {
   if (tenOn) good.push("天恩日");
   if (boso) good.push("母倉日");
 
+  // 暦注下段(大明日・神吉日・月徳日)。数が多いので good とは分けて返す
+  const daimyo = isDaimyo(dIndex);
+  const kamiyoshi = isKamiyoshi(dIndex);
+  const tsukitoku = isTsukitoku(mBranch, dStem);
+  const gedan = [];
+  if (daimyo) gedan.push("大明日");
+  if (kamiyoshi) gedan.push("神吉日");
+  if (tsukitoku) gedan.push("月徳日");
+
   // 雑節(節分・彼岸・土用など)
   const zassetsu = zassetsuOf(y, dayIdx);
   // 夏の土用の丑の日
@@ -509,8 +560,10 @@ function dayKoyomi(y, m, d) {
     sekki24: sekki24On(y, dayIdx),
     senjitsu: senjitsuOf(y, dayIdx),
     events: eventsOf(y, m, d, dayIdx, lunar),
-    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, tenOn, boso, fujoju, sanrinbo },
+    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, tenOn, boso, fujoju, sanrinbo,
+      daimyo, kamiyoshi, tsukitoku, geppa: ((dBranch - mBranch) % 12 + 12) % 12 === 6 },
     good,
+    gedan,
     bad,
   };
 }

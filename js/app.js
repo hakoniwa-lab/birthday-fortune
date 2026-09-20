@@ -405,6 +405,7 @@ function buildDailyCalcHtml(sk, mv, fp, p, today) {
       <p class="dk__head">今日の暦注</p>
       <p class="dk__val">六曜は<b>${escapeHtml(dk.rokuyo || "—")}</b>、十二直は<b>${escapeHtml(dk.junichoku)}</b>、旧暦${dk.lunar ? `${dk.lunar.leap ? "閏" : ""}${dk.lunar.num}月${dk.lunar.day}日` : "—"}</p>
       ${(holidayTag || goodTags || badTags) ? `<p class="dk__tags">${holidayTag}${goodTags}${badTags}</p>` : '<p class="dk__text">名前のついた吉日・凶日はありません。</p>'}
+      ${dk.gedan.length ? `<p class="dk__text">昔の暦の下の段(暦注下段)では<b>${dk.gedan.map(escapeHtml).join("・")}</b>。${escapeHtml(GEDAN_TEXT[dk.gedan[0]])}。</p>` : ""}
       ${todayKo ? `<p class="dk__text">七十二候は<b>「${escapeHtml(todayKo.name)}」</b>(${escapeHtml(todayKo.yomi)})。${escapeHtml(todayKo.meaning)}ころ(${todayKo.m}月${todayKo.d}日から)。</p>` : ""}
       <p class="dk__sub"><a href="calendar/">吉日カレンダーで今月ぜんたいを見る</a></p>
     </div>`);
