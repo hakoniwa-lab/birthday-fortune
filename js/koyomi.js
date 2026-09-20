@@ -337,6 +337,132 @@ function isTsukitoku(monthBranch, dayStem) {
   return TSUKITOKU_STEM[monthBranch] === dayStem;
 }
 
+/* ---------- 大黄道(十二天神) ---------- */
+
+/*
+ * 中国の択日で使う十二神。節月の十二支を起点に、日の十二支で決まる。
+ * 『欽定協紀辨方書』巻七(神樞經・李鼎祚の説)より:
+ *   「青龍明堂金匱天德玉堂司命は月内の天黄道の神なり」=吉
+ *   「天刑朱雀白虎天牢元武勾陳は月中の黒道なり」=凶
+ *   「青龍は正月(寅月)子に起こり…皆 六陽辰を順行す」→ 節月が1つ進むごとに起点が2つ進む
+ * 日本の十二直(建除十二神)は同じ択日の別系統で、こちらを「小黄道」と呼ぶ。
+ */
+const TENSHIN = ["青龍", "明堂", "天刑", "朱雀", "金匱", "天徳", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陳"];
+const TENSHIN_GOOD = ["青龍", "明堂", "金匱", "天徳", "玉堂", "司命"];   // 黄道(吉)
+const TENSHIN_TEXT = {
+  青龍: "何をするにも良いとされる日",
+  明堂: "人に会う・相談ごとに良いとされる日",
+  天刑: "争いごと・訴訟を避けるとされる日",
+  朱雀: "口論を避けるとされる日(祝い事には用いる説もある)",
+  金匱: "金銭・契約に良いとされる日",
+  天徳: "何事にも徳がある日(宝光ともいう)",
+  白虎: "荒事を避けるとされる日",
+  玉堂: "静かな用事・書きものに良いとされる日",
+  天牢: "出発や新しいことを避けるとされる日",
+  玄武: "盗難・隠しごとに注意するとされる日",
+  司命: "何事にもよく、特に願いごとに良いとされる日",
+  勾陳: "滞りやすいとされる日",
+};
+
+/* 節月の十二支と日の十二支から十二天神を出す。寅月は子日が青龍、以後 節月が1つ進むごとに起点が2つ進む */
+function tenshinOf(monthBranch, dayBranch) {
+  const start = (((monthBranch - 2) * 2) % 12 + 12) % 12;
+  return TENSHIN[((dayBranch - start) % 12 + 12) % 12];
+}
+
+/* ---------- 彭祖百忌 ---------- */
+
+/*
+ * 日の十干・十二支ごとの「その日に避けること」。『欽定協紀辨方書』巻三十五「百忌日」の原文(22句)。
+ * 原文は短い漢文なので、読み下しに近い日本語を添える。
+ */
+const PENGZU_STEM = [
+  ["甲不開倉", "蔵(くら)を開かない"],
+  ["乙不栽植", "植え付けをしない"],
+  ["丙不修竈", "かまど(台所)を直さない"],
+  ["丁不剃頭", "髪を剃らない"],
+  ["戊不受田", "田畑を受け取らない"],
+  ["己不破券", "証文を破らない(約束を反故にしない)"],
+  ["庚不經絡", "鍼や灸の治療をしない"],
+  ["辛不合醬", "醤(ひしお)・味噌を仕込まない"],
+  ["壬不決水", "水路を開かない"],
+  ["癸不詞訟", "訴えを起こさない"],
+];
+const PENGZU_BRANCH = [
+  ["子不問卜", "占いを立てない"],
+  ["丑不冠帶", "冠をつけない(晴れの支度をしない)"],
+  ["寅不祭祀", "祭りごとをしない"],
+  ["卯不穿井", "井戸を掘らない"],
+  ["辰不哭泣", "泣きごとをしない"],
+  ["巳不遠行", "遠出をしない"],
+  ["午不苫蓋", "屋根を葺かない"],
+  ["未不服藥", "薬を飲み始めない"],
+  ["申不安牀", "寝床を据えない"],
+  ["酉不會客", "客を招かない"],
+  ["戌不乞狗", "犬をもらわない"],
+  ["亥不嫁娶", "婚礼をしない"],
+];
+
+/* ---------- 斎日(六斎日・十斎日) ---------- */
+
+/*
+ * 仏教で身をつつしむ日。旧暦の日付で決まる。
+ *   六斎日 … 8・14・15・23・29・30日(ja.wikipedia「六斎日」)
+ *   十斎日 … 六斎日に 1・18・24・28日を足した10日(コトバンク「十斎日」)
+ * 旧暦の月が29日までの月には30日がないので、その月は1日少なくなる。
+ */
+const ROKUSAI = [8, 14, 15, 23, 29, 30];
+const JUSSAI = [1, 8, 14, 15, 18, 23, 24, 28, 29, 30];
+
+/* ---------- 日家九星(日盤) ---------- */
+
+/*
+ * 日ごとの九星。冬至に最も近い甲子の日を一白として陽遁(数が増える)、
+ * 夏至に最も近い甲子の日を九紫として陰遁(数が減る)で巡る。
+ *
+ * ★閏を入れる流派もある★ 陽遁・陰遁はそれぞれ180日で、合わせて360日。1年(約365日)と合わないので、
+ * 11〜12年に一度ずれが溜まる。これを直すために「九星の閏」(甲午の日から始めて30日延ばす)を入れる暦もある。
+ * ただし閏の入れ方に決まった作法はなく、暦によって日盤が食い違う(こよみのページ「九星の陰遁と陽遁」)。
+ * ここでは閏を入れない素直な方法を採っている。2026-09-20 に暦注カレンダー(rekichu.com)の日家九星と
+ * 28日分(1997〜2027年、切り替えの前後や閏を入れる流派がずれる時期を含む)を突き合わせ、全部一致した。
+ */
+const KYUSEI_NAME = ["一白水星", "二黒土星", "三碧木星", "四緑木星", "五黄土星", "六白金星", "七赤金星", "八白土星", "九紫火星"];
+
+/* dayIdx に最も近い甲子の日 */
+function nearestKinoeNe(dayIdx) {
+  const diff = ((0 - ganzhiOfDayIdx(dayIdx)) % 60 + 60) % 60;
+  return diff <= 30 ? dayIdx + diff : dayIdx + diff - 60;
+}
+
+/* year の冬至(isWinter)または夏至から、切り替えの日と始まりの星 */
+function kyuseiSwitch(year, isWinter) {
+  const solstice = isWinter ? termDay(year, 12, 270) : termDay(year, 6, 90);
+  return { day: nearestKinoeNe(solstice), star: isWinter ? 1 : 9, yoton: isWinter };
+}
+
+const _kyuseiCache = new Map();
+
+function kyuseiSwitchesOf(year) {
+  if (_kyuseiCache.has(year)) return _kyuseiCache.get(year);
+  const list = [kyuseiSwitch(year - 1, true), kyuseiSwitch(year, false), kyuseiSwitch(year, true)];
+  _kyuseiCache.set(year, list);
+  return list;
+}
+
+/* その日の九星(1=一白 … 9=九紫)と、陽遁か陰遁か */
+function kyuseiOfDay(year, dayIdx) {
+  let cur = null;
+  for (const y of [year - 1, year, year + 1]) {
+    for (const s of kyuseiSwitchesOf(y)) {
+      if (s.day <= dayIdx && (!cur || s.day > cur.day)) cur = s;
+    }
+  }
+  const diff = dayIdx - cur.day;
+  const n = cur.yoton ? cur.star - 1 + diff : cur.star - 1 - diff;
+  return { star: ((n % 9) + 9) % 9 + 1, yoton: cur.yoton, from: cur.day };
+}
+
+
 /* ---------- 雑節(季節の節目。すべて太陽の位置か立春からの日数で決まる) ---------- */
 
 /*
@@ -519,6 +645,12 @@ function dayKoyomi(y, m, d) {
   if (tenOn) good.push("天恩日");
   if (boso) good.push("母倉日");
 
+  // 大黄道(十二天神)・彭祖百忌・斎日・日家九星
+  const tenshin = tenshinOf(mBranch, dBranch);
+  const pengzu = [PENGZU_STEM[dStem], PENGZU_BRANCH[dBranch]];
+  const saijitsu = lunar ? (ROKUSAI.includes(lunar.day) ? "六斎日" : (JUSSAI.includes(lunar.day) ? "十斎日" : null)) : null;
+  const kyusei = kyuseiOfDay(y, dayIdx);
+
   // 暦注下段(大明日・神吉日・月徳日)。数が多いので good とは分けて返す
   const daimyo = isDaimyo(dIndex);
   const kamiyoshi = isKamiyoshi(dIndex);
@@ -553,6 +685,11 @@ function dayKoyomi(y, m, d) {
     lunar,
     rokuyo: r ? r.name : null,
     junichoku: JUNICHOKU[((dBranch - mBranch) % 12 + 12) % 12],
+    tenshin,
+    tenshinGood: TENSHIN_GOOD.includes(tenshin),
+    pengzu,
+    saijitsu,
+    kyusei,
     sekki: sm.sekki,
     shuku: shukuOf(dayIdx),
     zassetsu,

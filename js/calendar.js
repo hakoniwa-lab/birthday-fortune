@@ -311,6 +311,9 @@ function select(d) {
   if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。");
   if (k.flags.boso) notes.push("<strong>母倉日。</strong>天が人を慈しむ日。結婚・建築に良いとされます。");
   for (const g of k.gedan) notes.push(`<strong>${escapeHtml(g)}。</strong>${escapeHtml(GEDAN_TEXT[g] || "")}。`);
+  notes.push(`<strong>十二天神は${escapeHtml(k.tenshin)}。</strong>${escapeHtml(TENSHIN_TEXT[k.tenshin] || "")}。中国の択日(通書)で使う十二神です。`);
+  if (k.saijitsu) notes.push(`<strong>${escapeHtml(k.saijitsu)}。</strong>${k.saijitsu === "六斎日" ? "仏教で身をつつしむとされる月6日のうちの1日(旧暦8・14・15・23・29・30日)" : "六斎日に4日を足した十斎日のうちの1日(旧暦1・18・24・28日)"}です。`);
+  notes.push(`<strong>彭祖百忌では${escapeHtml(k.pengzu[0][0])}・${escapeHtml(k.pengzu[1][0])}。</strong>この日は${escapeHtml(k.pengzu[0][1])}、${escapeHtml(k.pengzu[1][1])}、と昔の暦にあります。`);
   if (k.doyoUshi) notes.push("<strong>土用の丑の日。</strong>夏の土用の期間の丑の日。うなぎを食べる習慣で知られます。");
   for (const z of k.zassetsu) {
     const span = z.span ? `(${(() => { const a = jdToJstParts(z.start - 0.375), b = jdToJstParts(z.end - 0.375); return `${a.m}/${a.d}〜${b.m}/${b.d}`; })()})` : "";
@@ -350,6 +353,8 @@ function select(d) {
     <div class="detail__rows">
       <p class="detail__row"><span>六曜</span><b>${escapeHtml(k.rokuyo || "-")}</b></p>
       <p class="detail__row"><span>十二直</span><b>${escapeHtml(k.junichoku)}</b></p>
+      <p class="detail__row"><span>十二天神</span><b>${escapeHtml(k.tenshin)}</b>${k.tenshinGood ? "(黄道)" : "(黒道)"}</p>
+      <p class="detail__row"><span>日家九星</span><b>${escapeHtml(KYUSEI_NAME[k.kyusei.star - 1])}</b>${k.kyusei.yoton ? "(陽遁)" : "(陰遁)"}</p>
       ${setShuku.checked ? `<p class="detail__row"><span>二十八宿</span><b>${escapeHtml(k.shuku)}宿</b></p>` : ""}
       <p class="detail__row"><span>日の干支</span><b>${escapeHtml(k.eto)}</b></p>
       <p class="detail__row"><span>旧暦</span><b>${escapeHtml(lunarLabel)}</b></p>
@@ -541,6 +546,8 @@ const SEARCH_GOOD = {
   daimyo: { name: "大明日", test: (k) => k.flags.daimyo },
   kamiyoshi: { name: "神吉日", test: (k) => k.flags.kamiyoshi },
   tsukitoku: { name: "月徳日", test: (k) => k.flags.tsukitoku },
+  koudou: { name: "黄道日(十二天神)", test: (k) => k.tenshinGood },
+  rokusai: { name: "六斎日", test: (k) => k.saijitsu === "六斎日" },
 };
 
 const SEARCH_LIMIT = 60;

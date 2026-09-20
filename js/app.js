@@ -406,6 +406,7 @@ function buildDailyCalcHtml(sk, mv, fp, p, today) {
       <p class="dk__val">六曜は<b>${escapeHtml(dk.rokuyo || "—")}</b>、十二直は<b>${escapeHtml(dk.junichoku)}</b>、旧暦${dk.lunar ? `${dk.lunar.leap ? "閏" : ""}${dk.lunar.num}月${dk.lunar.day}日` : "—"}</p>
       ${(holidayTag || goodTags || badTags) ? `<p class="dk__tags">${holidayTag}${goodTags}${badTags}</p>` : '<p class="dk__text">名前のついた吉日・凶日はありません。</p>'}
       ${dk.gedan.length ? `<p class="dk__text">昔の暦の下の段(暦注下段)では<b>${dk.gedan.map(escapeHtml).join("・")}</b>。${escapeHtml(GEDAN_TEXT[dk.gedan[0]])}。</p>` : ""}
+      <p class="dk__text">日家九星は<b>${escapeHtml(KYUSEI_NAME[dk.kyusei.star - 1])}</b>(${dk.kyusei.yoton ? "陽遁" : "陰遁"})、中国の択日でいう十二天神は<b>${escapeHtml(dk.tenshin)}</b>(${dk.tenshinGood ? "黄道" : "黒道"})。${escapeHtml(TENSHIN_TEXT[dk.tenshin] || "")}。</p>
       ${todayKo ? `<p class="dk__text">七十二候は<b>「${escapeHtml(todayKo.name)}」</b>(${escapeHtml(todayKo.yomi)})。${escapeHtml(todayKo.meaning)}ころ(${todayKo.m}月${todayKo.d}日から)。</p>` : ""}
       <p class="dk__sub"><a href="calendar/">吉日カレンダーで今月ぜんたいを見る</a></p>
     </div>`);

@@ -124,6 +124,25 @@ document.getElementById("g-moon").innerHTML = MOON_PHASES
     .join("");
 }
 
+/* 十二天神(大黄道) */
+document.getElementById("g-tenshin").innerHTML = TENSHIN
+  .map((n) => row(n, TENSHIN_TEXT[n], TENSHIN_GOOD.includes(n) ? "黄道(吉)" : "黒道(凶)")).join("");
+
+/* 日家九星 */
+document.getElementById("g-kyusei").innerHTML = KYUSEI_NAME
+  .map((n, i) => row(n, `日ごとの九星の${i + 1}番目。陽遁では次の日が${KYUSEI_NAME[(i + 1) % 9]}、陰遁では${KYUSEI_NAME[(i + 8) % 9]}になります。`,
+    `九星の${i + 1}`)).join("");
+
+/* 斎日 */
+document.getElementById("g-saijitsu").innerHTML = [
+  ["六斎日(ろくさいにち)", "仏教で身をつつしむ月6日。出家者は行いを省み、在家の人は八斎戒を守るとされた日。", "旧暦の8・14・15・23・29・30日"],
+  ["十斎日(じっさいにち)", "六斎日に4日を足した10日。日ごとに縁のある仏・菩薩が決まっているとされる。", "旧暦の1・8・14・15・18・23・24・28・29・30日"],
+].map(([n, t, h]) => row(n, t, h)).join("");
+
+/* 彭祖百忌 */
+document.getElementById("g-pengzu").innerHTML = PENGZU_STEM.concat(PENGZU_BRANCH)
+  .map(([kanbun, imi]) => row(kanbun, `この日は${imi}、という言い伝え。`, kanbun[0] + "の日")).join("");
+
 /* 雑節は今年の日付つきで */
 const y = new Date().getFullYear();
 const P = (j) => { const p = jdToJstParts(j - 0.375); return `${p.m}月${p.d}日`; };
