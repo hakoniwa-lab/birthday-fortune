@@ -569,6 +569,25 @@ function shukuOf(dayIdx) {
   return SHUKU[((dayIdx - base) % 28 + 28) % 28];
 }
 
+/*
+ * 麒麟日・鳳凰日。季節ごとに決まった二十八宿の日。台湾の暦書(農民暦)の解説に
+ * 「春井、夏尾、秋牛、冬壁是麒麟；春危、夏昴、秋胃、冬畢是鳳凰」とある。
+ * 本来は婚礼の日取りで、麒麟は白虎を、鳳凰は朱雀(どちらも凶神)を制するとされる。
+ *
+ * 季節は節月で切る(立春・立夏・立秋・立冬)。旧暦の月ではない。天赦日と同じ。
+ * 検算: 暦を扱う登録者27万人のYouTubeチャンネルが挙げた日付17日のうち16日と一致
+ *   麒麟日 2025-11-26・12-24・2026-01-21・02-26・05-05・06-02・08-28・09-25
+ *   鳳凰日 2022-07-17・2025-12-01・2026-01-26・02-16・07-12・08-08・09-05・10-03
+ *   合わないのは「2026-06-13 鳳凰日」の1日だけ(胃宿＝秋の宿。夏の規則では 06-14 の昴宿)。
+ *   2026-02-16 は旧暦では大晦日(冬)だが危宿で鳳凰日 → 季節は旧暦の月でなく立春で切っている。
+ *   2026-05-05(立夏の当日)を麒麟日にしている → 節入りの日は日切り。
+ *   台湾の報道(NOWnews 2021-04-01「今日は麒麟日」)も井宿・春で一致 → 二十八宿の並びは日本と同じ。
+ * 年に12〜16回(1950〜2050年で実測。麒麟日12〜16、鳳凰日12〜14)。季節の切り替わりで宿が飛んだり
+ * 重なったりするため。2027年は5月に麒麟日、8月に鳳凰日が無い。
+ */
+const KIRIN_SHUKU = { spring: "井", summer: "尾", autumn: "牛", winter: "壁" };
+const HOUOU_SHUKU = { spring: "危", summer: "昴", autumn: "胃", winter: "畢" };
+
 /* ---------- 流派の設定 ---------- */
 
 /*
@@ -622,7 +641,8 @@ function dayKoyomi(y, m, d) {
   if (ichiryu) good.push("一粒万倍日");
 
   // 天赦日
-  const ts = TENSHA[seasonOfMonthBranch(mBranch)];
+  const season = seasonOfMonthBranch(mBranch);
+  const ts = TENSHA[season];
   const tensha = ts.stem === dStem && ts.branch === dBranch;
   if (tensha) good.push("天赦日");
 
@@ -635,6 +655,13 @@ function dayKoyomi(y, m, d) {
   if (tsuchinotoMi) good.push("己巳の日");
   else if (mi) good.push("巳の日");
   if (kinoeNe) good.push("甲子の日");
+
+  // 麒麟日・鳳凰日(季節ごとに決まった二十八宿の日)
+  const shuku = shukuOf(dayIdx);
+  const kirin = KIRIN_SHUKU[season] === shuku;
+  const houou = HOUOU_SHUKU[season] === shuku;
+  if (kirin) good.push("麒麟日");
+  if (houou) good.push("鳳凰日");
 
   // 大安
   if (r && r.name === "大安") good.push("大安");
@@ -691,13 +718,13 @@ function dayKoyomi(y, m, d) {
     saijitsu,
     kyusei,
     sekki: sm.sekki,
-    shuku: shukuOf(dayIdx),
+    shuku,
     zassetsu,
     doyoUshi,
     sekki24: sekki24On(y, dayIdx),
     senjitsu: senjitsuOf(y, dayIdx),
     events: eventsOf(y, m, d, dayIdx, lunar),
-    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, tenOn, boso, fujoju, sanrinbo,
+    flags: { ichiryu, tensha, tora, mi, tsuchinotoMi, kinoeNe, kirin, houou, tenOn, boso, fujoju, sanrinbo,
       daimyo, kamiyoshi, tsukitoku, geppa: ((dBranch - mBranch) % 12 + 12) % 12 === 6 },
     good,
     gedan,

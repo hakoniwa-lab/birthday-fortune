@@ -298,6 +298,8 @@ function select(d) {
   if (k.flags.tsuchinotoMi) notes.push("<strong>己巳の日。</strong>60日に一度の、巳の日の中でも特別な金運の日とされます。");
   else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。");
   if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。");
+  if (k.flags.kirin) notes.push(`<strong>麒麟日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、麒麟が白虎(凶神)を制するとされます。日本では金運の日としても知られます。`);
+  if (k.flags.houou) notes.push(`<strong>鳳凰日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、鳳凰が朱雀(凶神)を制するとされます。日本では金運の日としても知られます。`);
   if (setShuku.checked && k.shuku === "鬼") notes.push("<strong>鬼宿日。</strong>二十八宿でもっとも良いとされる日です(婚礼だけは避けるとされます)。");
   if (k.sekki24) {
     notes.push(`<strong>${escapeHtml(k.sekki24.name)}(${k.sekki24.hh}時${String(k.sekki24.mi).padStart(2, "0")}分)。</strong>${escapeHtml(SEKKI24_TEXT[k.sekki24.name] || "")}`);
@@ -387,6 +389,8 @@ function renderGoodList() {
     { key: "ichiryu", name: "一粒万倍日", memo: "始めたことが大きく育つとされる日" },
     { key: "tsuchinotoMi", name: "己巳の日", memo: "60日に一度。弁財天の日、金運に良いとされる" },
     { key: "kinoeNe", name: "甲子の日", memo: "60日に一度。大黒天の日、始まりに良いとされる" },
+    { key: "kirin", name: "麒麟日", memo: "季節ごとに決まった二十八宿の日。年に12〜16回" },
+    { key: "houou", name: "鳳凰日", memo: "季節ごとに決まった二十八宿の日。年に12〜16回" },
     { key: "tenOn", name: "天恩日", memo: "天の恩恵を受ける日。祝い事に良いとされる" },
     { key: "boso", name: "母倉日", memo: "天が人を慈しむ日。結婚・建築に良いとされる" },
     { key: "tsukitoku", name: "月徳日", memo: "その月の福を司る日。家の修理や土を動かすことに良いとされる" },
@@ -541,6 +545,8 @@ const SEARCH_GOOD = {
   mi: { name: "巳の日", test: (k) => k.flags.mi },
   tsuchinotoMi: { name: "己巳の日", test: (k) => k.flags.tsuchinotoMi },
   kinoeNe: { name: "甲子の日", test: (k) => k.flags.kinoeNe },
+  kirin: { name: "麒麟日", test: (k) => k.flags.kirin },
+  houou: { name: "鳳凰日", test: (k) => k.flags.houou },
   tenOn: { name: "天恩日", test: (k) => k.flags.tenOn },
   boso: { name: "母倉日", test: (k) => k.flags.boso },
   daimyo: { name: "大明日", test: (k) => k.flags.daimyo },
