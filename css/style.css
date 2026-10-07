@@ -1011,6 +1011,7 @@ html, body {
 .calcell__z.is-sekki { color: var(--color-primary); font-weight: 800; }
 .calcell__moon { font-size: 0.6rem; line-height: 1.1; color: var(--color-text-muted); }
 .tag--sen { background: var(--color-bg); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+.tag--kyo { background: var(--color-bg); color: var(--color-warn-text); border: 1px dashed var(--color-warn-text); font-weight: 400; }
 
 /* マヤ暦のKIN表示 */
 .kin {

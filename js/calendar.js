@@ -284,6 +284,10 @@ function select(d) {
   const senTags = k.senjitsu.length
     ? `<div class="tags">${k.senjitsu.map((n) => `<span class="tag tag--sen">${escapeHtml(n)}</span>`).join("")}</div>`
     : "";
+  const kyoNames = [...k.gedanBad, ...k.juFuku];
+  const kyoTags = kyoNames.length
+    ? `<div class="tags">${kyoNames.map((n) => `<span class="tag tag--kyo">${escapeHtml(n)}</span>`).join("")}</div>`
+    : "";
 
   const notes = [];
   if (k.holiday) notes.push(`<strong>${escapeHtml(k.holiday)}。</strong>${escapeHtml(HOLIDAY_TEXT[k.holiday] || "")}`);
@@ -297,6 +301,7 @@ function select(d) {
   }
   if (k.flags.tsuchinotoMi) notes.push("<strong>己巳の日。</strong>60日に一度の、巳の日の中でも特別な金運の日とされます。");
   else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。");
+  if (k.flags.tatsu) notes.push("<strong>辰の日。</strong>龍神に縁のある日として、金運・開運の日に挙げられることが多い日です。天赦日などと違い、昔の暦注にある日ではありません。");
   if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。");
   if (k.flags.kirin) notes.push(`<strong>麒麟日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、麒麟が白虎(凶神)を制するとされます。日本では金運の日としても知られます。`);
   if (k.flags.houou) notes.push(`<strong>鳳凰日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、鳳凰が朱雀(凶神)を制するとされます。日本では金運の日としても知られます。`);
@@ -313,6 +318,16 @@ function select(d) {
   if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。");
   if (k.flags.boso) notes.push("<strong>母倉日。</strong>天が人を慈しむ日。結婚・建築に良いとされます。");
   for (const g of k.gedan) notes.push(`<strong>${escapeHtml(g)}。</strong>${escapeHtml(GEDAN_TEXT[g] || "")}。`);
+  for (const g of k.gedanBad) {
+    // 天火日と狼藉日は必ず同じ日なので、説明は1行にまとめる
+    if (g === "狼藉日" && k.gedanBad.includes("天火日")) continue;
+    const name = g === "天火日" && k.gedanBad.includes("狼藉日") ? "天火日・狼藉日" : g;
+    const text = g === "天火日" && k.gedanBad.includes("狼藉日")
+      ? `${GEDAN_BAD_TEXT.天火日}。狼藉日(三箇の悪日)とも重なり、何事も失敗するとされます`
+      : GEDAN_BAD_TEXT[g];
+    notes.push(`<strong>${escapeHtml(name)}。</strong>${escapeHtml(text || "")}。`);
+  }
+  for (const g of k.juFuku) notes.push(`<strong>${escapeHtml(g)}。</strong>${escapeHtml(JUFUKU_TEXT[g] || "")}。`);
   notes.push(`<strong>十二天神は${escapeHtml(k.tenshin)}。</strong>${escapeHtml(TENSHIN_TEXT[k.tenshin] || "")}。中国の択日(通書)で使う十二神です。`);
   if (k.saijitsu) notes.push(`<strong>${escapeHtml(k.saijitsu)}。</strong>${k.saijitsu === "六斎日" ? "仏教で身をつつしむとされる月6日のうちの1日(旧暦8・14・15・23・29・30日)" : "六斎日に4日を足した十斎日のうちの1日(旧暦1・18・24・28日)"}です。`);
   notes.push(`<strong>彭祖百忌では${escapeHtml(k.pengzu[0][0])}・${escapeHtml(k.pengzu[1][0])}。</strong>この日は${escapeHtml(k.pengzu[0][1])}、${escapeHtml(k.pengzu[1][1])}、と昔の暦にあります。`);
@@ -351,6 +366,7 @@ function select(d) {
     ${badHtml}
     ${zTags}
     ${senTags}
+    ${kyoTags}
     ${meHtml}
     <div class="detail__rows">
       <p class="detail__row"><span>六曜</span><b>${escapeHtml(k.rokuyo || "-")}</b></p>
@@ -396,6 +412,7 @@ function renderGoodList() {
     { key: "tsukitoku", name: "月徳日", memo: "その月の福を司る日。家の修理や土を動かすことに良いとされる" },
     { key: "tora", name: "寅の日", memo: "出ていったお金が戻るとされる日" },
     { key: "mi", name: "巳の日", memo: "弁財天に縁のある、金運の日" },
+    { key: "tatsu", name: "辰の日", memo: "龍神に縁のある日として紹介されることが多い日(昔の暦注には無い)" },
   ];
 
   let html = "";
@@ -532,6 +549,24 @@ function renderGoodList() {
     </div>`;
   }
 
+  // 暦注下段の凶日・流財日(月に2〜3日ずつ。日付だけ並べる)
+  const kyoMap = new Map();
+  for (const k of days) {
+    for (const n of k.gedanBad) {
+      if (n === "狼藉日") continue;   // 天火日と同じ日
+      const key = n === "天火日" ? "天火日・狼藉日" : n;
+      if (!kyoMap.has(key)) kyoMap.set(key, []);
+      kyoMap.get(key).push(k.d);
+    }
+  }
+  if (kyoMap.size) {
+    const rows = [...kyoMap.entries()].map(([n, ds]) => `${n}: ${ds.map((d) => `${d}日`).join("、")}`);
+    html += `<div class="glist">
+      <p class="glist__name">昔の暦で避けるとされる日<small>暦注下段の凶日と流財日。どれも月に2〜3日あるので色分けには入れていません</small></p>
+      <p class="glist__zs">${rows.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</p>
+    </div>`;
+  }
+
   goodList.innerHTML = html || '<p class="muted">この月に該当する吉日はありません。</p>';
 }
 
@@ -543,6 +578,7 @@ const SEARCH_GOOD = {
   taian: { name: "大安", test: (k) => k.rokuyo === "大安" },
   tora: { name: "寅の日", test: (k) => k.flags.tora },
   mi: { name: "巳の日", test: (k) => k.flags.mi },
+  tatsu: { name: "辰の日", test: (k) => k.flags.tatsu },
   tsuchinotoMi: { name: "己巳の日", test: (k) => k.flags.tsuchinotoMi },
   kinoeNe: { name: "甲子の日", test: (k) => k.flags.kinoeNe },
   kirin: { name: "麒麟日", test: (k) => k.flags.kirin },
@@ -572,6 +608,9 @@ function searchDays(opts) {
       if (opts.noButsumetsu && k.rokuyo === "仏滅") continue;
       if (opts.noFujoju && k.flags.fujoju) continue;
       if (opts.noSanrinbo && k.flags.sanrinbo) continue;
+      if (opts.noJushi && k.gedanBad.some((n) => n === "受死日" || n === "十死日")) continue;
+      if (opts.noSanga && k.gedanBad.some((n) => n === "大禍日" || n === "狼藉日" || n === "滅門日")) continue;
+      if (opts.noRyuzai && k.gedanBad.includes("流財日")) continue;
       hits.push(k);
     }
     m++;
@@ -589,6 +628,9 @@ function renderSearch() {
     noButsumetsu: fd.get("nobutsu") === "1",
     noFujoju: fd.get("nofujoju") === "1",
     noSanrinbo: fd.get("nosanrin") === "1",
+    noJushi: fd.get("nojushi") === "1",
+    noSanga: fd.get("nosanga") === "1",
+    noRyuzai: fd.get("noryuzai") === "1",
   };
   if (!opts.good.length && !opts.offDay && !opts.mine) {
     searchResult.innerHTML = '<p class="muted">吉日か日にちの条件を、少なくとも1つ選んでください。</p>';
