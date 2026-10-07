@@ -510,8 +510,8 @@ worldcal.js は astro.js と sukuyo.js の `ayanamsha()` を使う。
 
 ## 2026-10-07(4) 解説記事4本目・5本目「流財日はいつ？」「土用の間日はいつ？」
 
-- `guide/ryuzaibi/` と `guide/doyo-mabi/`。**表・FAQの日付は計算結果から生成**(scratchpad の `gen.js`→`articles.json`→`build_articles.py`。
-  手で写していない)。年が変わったら同じ手順で作り直す
+- `guide/ryuzaibi/` と `guide/doyo-mabi/`。**表・FAQの日付は計算結果から生成**(リポジトリの外の `tools/koyomi-articles/` にある `gen.js`→`articles.json`→`build_articles.py`。
+  手で写していない。本文の文章も build_articles.py の中)。年が変わったら同じ手順で作り直す
 - 流財日: 原典『臞仙肘後經』が避けるのは「買田地房産一切交易」「納財取債」「出財放債」の3つ。「お金を使うな」は書かれていない。
   『欽定協紀辨方書』『選擇通德類情』は不採用。知恵袋の「12日おき」一覧は10日中0日一致(名指しせず書いた)
 - 流財日の目玉: **未の月(小暑〜立秋の前日)の午の日は、毎年かならず一粒万倍日・流財日・受死日・三隣亡の4つが重なる**。
