@@ -138,6 +138,8 @@ function render(a, b) {
       ${relBox("相手から見たあなた", s.godBA, TENGOD_INFO[s.godBA])}
     </div>
     ${relBox("日支どうし", s.branch.key, `${s.branch.name}。${s.branch.text}`)}
+    ${(() => { const ex = branchExtras(c.a.pillars.day.branch, c.b.pillars.day.branch);
+      return ex.length ? `<p class="item__text">${ex.map((k) => BRANCH_EXTRA_TEXT[k]).join(" ")}</p><p class="item__note">支合と破のように、良いとされる関係とぶつかるとされる関係が同時に成り立つこともあります。<a href="../guide/eto-aisho/">干支の相性早見表</a>で6つの関係を一覧にしています。</p>` : ""; })()}
   `;
 
   // 宿曜(三九の秘法)
@@ -161,6 +163,26 @@ function render(a, b) {
     el("sec-sukuyo").innerHTML = '<p class="item__text">この年は旧暦の表を持っていないため、宿曜は出せません。</p>';
   }
 
+  // マヤ暦(ドリームスペル)
+  const dsA = dreamspellOf(a.y, a.m, a.d), dsB = dreamspellOf(b.y, b.m, b.d);
+  const mp = mayaPair(dsA, dsB);
+  const mt = MAYA_PAIR_TEXT[mp.rel];
+  const extras = [
+    mp.kin === "同じKIN" ? "KINまで同じです(260日に一度の同じ日の生まれ)。" : "",
+    mp.kin === "反対KIN" ? "KINの差が130で、二人は<b>反対KIN</b>の関係です(音が同じで紋章が反対)。" : "",
+    mp.kin === "神秘KIN" ? "KINの和が261で、二人は<b>神秘KIN</b>の関係です。" : "",
+    mp.sameTone && mp.kin !== "同じKIN" && mp.kin !== "反対KIN" ? `銀河の音が同じ(${dsA.toneNo})です。リズムの取り方が似ています。` : "",
+    mp.sameWave && mp.kin !== "同じKIN" ? `同じウェイブスペル(${escapeHtml(dsA.wave.glyph)}の13日間)の生まれです。` : "",
+  ].filter(Boolean);
+  const leapNote = (dsA.isLeapDay || dsB.isLeapDay) ? '<p class="item__note">2月29日はドリームスペルでは数えない日のため、前日と同じKINとして扱う流儀もあります。</p>' : "";
+  el("sec-maya").innerHTML = `
+    <p class="chart__lead">KIN${dsA.kin} ${escapeHtml(dsA.signature)} × KIN${dsB.kin} ${escapeHtml(dsB.signature)}</p>
+    ${relBox(`太陽の紋章 ${escapeHtml(dsA.glyph)} × ${escapeHtml(dsB.glyph)}`, mt.key, mt.text)}
+    ${extras.length ? `<p class="item__text">${extras.join(" ")}</p>` : ""}
+    ${leapNote}
+    <p class="item__note">ここでのKINは、1987年に考案された「13の月の暦(ドリームスペル)」の数え方です。2月29日を数えないため、古代マヤのツォルキンとは日付がずれます。</p>
+  `;
+
   shareText = [
     `【相性診断】${a.y}/${a.m}/${a.d} × ${b.y}/${b.m}/${b.d}`,
     `数秘: ${n.groups[0]}と${n.groups[1]}`,
@@ -168,6 +190,7 @@ function render(a, b) {
     `九星: ${c.kyusei.relation}`,
     `四柱: ${s.godAB}／${s.godBA}、日支は${s.branch.name}`,
     sukuyoShare,
+    `マヤ暦: KIN${dsA.kin}とKIN${dsB.kin}(${mt.key}${mp.kin ? "・" + mp.kin : ""})`,
     ``,
     `https://hakoniwalab.com/birthday-fortune/compatibility/`,
   ].join("\n");

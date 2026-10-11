@@ -600,3 +600,15 @@ Search Console の検索語と Google のサジェストから拾った(ネタ�
   - `guide/shichigosan-hayami/`: OurPhoto ／ `guide/doyo-ushi/`: 越前かに問屋ますよね(うなぎ)
   - `guide/tenshanichi-2026-2027/`(手書き部分)と `guide/saikyo-kaiunbi-ranking/`: CIMABUE・JOGGO(財布)、INKANS(印鑑)＋「運気を変える効果はありません」
   - 審査中(通ったら置く): スタジオキャラット・fotowa・夢館(七五三着物)・スタジオシエル・すまいのいろはPlus/くふうイエタテカウンター(三隣亡の記事)・ベビーカレンダー
+
+## 2026-10-12(2) 開運日・月・相性の記事と、相性診断にマヤ暦
+
+YouTube とサジェストから拾ったネタ W1〜W3・X1〜X5。記事は `tools/koyomi-articles/` の gen_*.js → build_*.py。
+
+- `guide/kaiunbi-nannenburi/`(gen_rare.js・1900〜2200年の全日): **2026/3/5(天赦日＋一粒万倍日＋寅の日＋大安)は23年ぶり**(前回2003/3/6、次は2032/4/2・2033/3/28・2034/3/23、その次2059年)。**天赦日＋一粒万倍日＋寅の日は301年151回すべて三隣亡**(春の天赦日＝戊寅、寅の日が一粒万倍日になるのは卯の月だけ、卯の月の寅の日＝三隣亡)。「400年に一度」と言われた2025/10/6(十五夜＋天赦日＋一粒万倍日)は1901・2025・2087・2144年。甲子との「3つ重なり」は冬の天赦日＝甲子なので実質2つ
+- `guide/shingetsu-mangetsu-2026-2027/`(gen_moon.js): 時刻は国立天文台 暦要項の朔弦望(`naoj_sakubo.json`)、星座は月の黄経。自前計算は国立天文台と50回すべて2分以内
+- `guide/kaiunbi-2026-11/`〜`2027-03/`(gen_monthly.js): 月ごとの吉日・凶日と◎(金運の吉日でお金の凶日と重ならない日)。月を足すときは gen_monthly.js の MONTHS
+- `guide/kyusei-aisho/` と本命星ごとの9本(gen_kyusei_aisho.js): 五行の関係は aisho.js の gogyoRelation、吉方位は houi.js の yearDirections。81通りで向きを入れ替えると対になる検算つき。八方塞がりの年は吉方位を出さない
+- `guide/eto-aisho/`・`sukuyo-aisho/`・`suhi-aisho/`(gen_aisho_more.js): 刑・害・破は Wikipedia「十二支」の決まり方。**巳と申は支合＋刑＋破**。宿曜は27×26で対(栄↔親ほか)の検算つき
+- 相性診断: マヤ暦(紋章の同じ・類似・反対・神秘、反対KIN＝差130、神秘KIN＝和261、同じ音・同じウェイブスペル)を追加。ガイドKINは決まり方を確認できなかったので出していない。日支に刑・害・破(`branchExtras`)。ヘッダーの「4つの角度」を「6つ」に
+- CSS: `.spec--wrap` は見出し(thead th)も折り返す
