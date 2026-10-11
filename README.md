@@ -594,3 +594,9 @@ Search Console の検索語と Google のサジェストから拾った(ネタ�
 - `inunohi/` 戌の日カレンダー(`js/inunohi-app.js`)。出産予定日→妊娠5か月(16週0日〜19週6日＝予定日の168〜141日前)の戌の日と前後の4・6か月。六曜・土日祝つき、家族に送る文面。入力は localStorage `birthday-fortune:inunohi`。**大安で土日祝の戌の日は年2日だけ**(2027年は1/31と9/4)。妊娠中の人が見るので受死日などの凶日は出さない
 - 月破大耗・受死日の記事に「細かい疑問に答える」(買い物・納車・参拝・打ち消し・気にしない・病院・入籍・読み方)を追加。**天赦日は月破大耗と一度も重ならない**(1950〜2050年の615日)
 - CSS: `.spec.spec--wrap`(日付を並べる列を折り返す。最小幅なし)と `.nw`(日付ひとつの途中で切らない)
+- 広告(2026-10-12、A8): 素材は `tools/koyomi-articles/article_kit.py` の `A8`(文字素材の文言は変えない)と `a8_cta()`・`WALLET_CTA`。枠は `.art-cta`(houyou-calendar と同じ形)
+  - `inunohi/`: Pearls・Milk tea(マタニティ服)、アロベビー(保湿クリーム)、BANK OF MEMORIES(エコー写真)、ベビープラネット(ママ向け保険相談、「すすめられることもあるので比べてから」と添えた)
+  - `oiwai/`(手書き): OurPhoto(出張撮影)、ベルビーべべ・Berpy(出産祝い)、アルファー食品(お赤飯)、真多呂人形(雛人形)。フッターにPR表記を追加
+  - `guide/shichigosan-hayami/`: OurPhoto ／ `guide/doyo-ushi/`: 越前かに問屋ますよね(うなぎ)
+  - `guide/tenshanichi-2026-2027/`(手書き部分)と `guide/saikyo-kaiunbi-ranking/`: CIMABUE・JOGGO(財布)、INKANS(印鑑)＋「運気を変える効果はありません」
+  - 審査中(通ったら置く): スタジオキャラット・fotowa・夢館(七五三着物)・スタジオシエル・すまいのいろはPlus/くふうイエタテカウンター(三隣亡の記事)・ベビーカレンダー

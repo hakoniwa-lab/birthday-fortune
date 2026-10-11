@@ -351,6 +351,11 @@ html, body {
 
 .offer-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
 
+/* 記事の中の広告枠(houyou-calendar と同じ形) */
+.art-cta { text-align: center; margin: 16px 0 4px; padding: 14px 12px; border: 1px dashed var(--color-border); border-radius: var(--radius-md); }
+.card--article .art-cta p { font-size: 0.85rem; margin: 0 0 10px; }
+.art-cta__links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+
 .badge--pr {
   background: var(--color-accent);
   color: var(--color-primary-contrast);
