@@ -356,7 +356,7 @@ function buildDailyHtml(f, today, L, honmeiName, flow, calcHtml) {
         ${tile("アイテム", L.luck.item, L.luck.itemWhy)}
         ${tile("方位", dirVal, dirWhy)}
       </div>
-      <p class="lucky__basis">今日はあなたの${escapeHtml(honmeiName)}が${escapeHtml(where)}。${escapeHtml(virtue)}。カラー・フード・ドリンク・アイテムは、この場所に結びつけられてきた象(『易経』説卦伝の八卦と五行)から選んでいます。</p>
+      <p class="lucky__basis">今日はあなたの${escapeHtml(honmeiName)}が${escapeHtml(where)}。${escapeHtml(virtue)}。カラー・フード・ドリンク・アイテムは、この場所に結びつけられてきた象(『易経』説卦伝の八卦と五行)から選んでいます。<a href="calendar/glossary/#lucky">9つの場所ごとの中身と言葉の意味 →</a></p>
     </div>
 
     <div class="daily__rows">
