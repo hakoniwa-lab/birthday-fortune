@@ -7,7 +7,7 @@
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/calendar/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -32,22 +32,22 @@
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/ryuzaibi/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/doyo-mabi/</loc>
-    <lastmod>2026-10-07</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/geppa-taimou/</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/jushibi-jisshibi/</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -67,7 +67,7 @@
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/oiwai/</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -88,6 +88,31 @@
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/seijinshiki-hayami/</loc>
     <lastmod>2026-10-11</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/inunohi/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/fujojubi/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/sanrinbo/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/setsubun-ehou/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/doyo-ushi/</loc>
+    <lastmod>2026-10-12</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>

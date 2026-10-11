@@ -993,6 +993,10 @@ html, body {
 .spec th small { display: block; font-size: 0.7rem; font-weight: 400; color: var(--color-text-muted); }
 /* 干支や六曜のような短い語は折り返さない */
 .spec td:nth-child(2), .spec td:nth-child(3) { white-space: nowrap; }
+/* 日付を何個も並べる列は折り返す。日付ひとつ(.nw)の途中では切らない */
+.spec.spec--wrap { min-width: 0; }
+.spec.spec--wrap td { white-space: normal; }
+.spec .nw { white-space: nowrap; }
 
 @media (min-width: 640px) {
   .art-title { font-size: 1.8rem; }
