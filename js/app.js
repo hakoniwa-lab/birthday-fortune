@@ -312,6 +312,7 @@ function buildYakuHtml(birthY, today) {
       </table>
     </div>
     <p class="item__note">昔は数え年で祝いましたが、今は満年齢で祝うことも多いので両方の年を出しています。還暦だけは「満60歳＝数え61歳」なので、どちらでも同じ年です。</p>
+    <p class="item__note"><a href="guide/yakudoshi-happoufusagari/">厄年と八方塞がりが重なるのはいつ？(女性の19歳・37歳は必ず重なる)</a>・<a href="guide/chouju-iwai-hayami/">長寿祝いの早見表</a>・<a href="oiwai/">赤ちゃんのお祝い日程カレンダー</a></p>
   `;
 }
 

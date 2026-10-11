@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>赤ちゃんのお祝い日程カレンダー｜お宮参り・お食い初め・初節句・七五三を生年月日から計算</title>
+<meta name="description" content="赤ちゃんの生年月日を入れるだけで、お七夜・お宮参り・お食い初め(百日祝い)・ハーフバースデー・初節句・初誕生・七五三の日付を、六曜と前後の土日祝(大安に★)つきで一覧にします。お宮参りの日数やお食い初めの100日・110日・120日など、地域で違う数え方を選べます。カレンダー登録と家族への共有も。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/oiwai/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="赤ちゃんのお祝い日程カレンダー | HAKONIWA LAB">
+<meta property="og:description" content="生年月日から、お宮参り・お食い初め・初節句・七五三までの日付を六曜と土日祝つきで。数え方を選べて、カレンダー登録と家族への共有もできます。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/oiwai/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"お宮参りは生後何日目ですか？","acceptedAnswer":{"@type":"Answer","text":"神社本庁は、一般的に男の子は31日目、女の子は33日目に行われているとしています。ただし地域によって違い、島根県神社庁は「男の子は生後30日、女の子は生後31日が過ぎてから」が主流としています。母子の体調や天候を見て、前後の都合のよい日を選ぶのが一般的です。"}},{"@type":"Question","name":"お食い初めは生まれた日を1日目として数えますか？","acceptedAnswer":{"@type":"Answer","text":"生まれた日を1日目として数えるのが一般的で、生後100日目は生まれた日の99日後になります。神社本庁はお七夜を「7日目」としていて、この数え方と同じです。地域によっては110日目や120日目に行うこともあります。"}},{"@type":"Question","name":"初節句が生まれてすぐの時期に来たらどうしますか？","acceptedAnswer":{"@type":"Answer","text":"生まれてまもない時期に節句が来る場合は、翌年に祝う家庭もあります。はっきりした決まりはないので、赤ちゃんと家族の体調や都合で決めてかまいません。この計算機では、生まれてから60日に満たないときに翌年の日付も添えています。"}},{"@type":"Question","name":"お祝いの日は大安でないといけませんか？","acceptedAnswer":{"@type":"Answer","text":"決まりはありません。六曜は神社の行事と決まった関係がなく、家族の集まりやすい土日祝で選ぶ家庭が多くあります。気にする親族がいるときの目安として、前後の土日祝のうち大安の日に★を付けています。"}},{"@type":"Question","name":"入力した生年月日はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべてお使いの端末の中で行い、次に開いたときにすぐ表示できるよう、入力内容は端末(ブラウザ)の中にだけ保存します。"}}]}</script>
+<style>
+.ow-sex { display: flex; gap: 8px; justify-content: center; margin: 10px 0 4px; }
+.ow-sex label { flex: 1; max-width: 160px; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 10px 6px; text-align: center; font-weight: 700; cursor: pointer; background: var(--color-surface); }
+.ow-sex input { margin-right: 6px; }
+.ow-opts { text-align: left; margin: 12px 0 4px; font-size: 0.85rem; }
+.ow-opts summary { cursor: pointer; color: var(--color-primary); font-weight: 700; }
+.ow-opts label { display: block; margin: 10px 0 4px; font-weight: 700; font-size: 0.8rem; }
+.ow-opts .quiz-select, .ow-opts input[type="text"], .ow-opts input[type="number"] { width: 100%; }
+.ow-opts .ow-check { display: flex; gap: 6px; align-items: center; font-weight: 400; }
+.ow-head { font-size: 1.05rem; font-weight: 800; margin: 0 0 4px; }
+.ow-lead { font-size: 0.8rem; color: var(--color-text-muted); margin: 0 0 12px; }
+.ow-item { border-top: 1px solid var(--color-border); padding: 12px 0; text-align: left; }
+.ow-item.is-past { opacity: 0.55; }
+.ow-item__name { font-weight: 800; color: var(--color-primary); margin: 0 0 2px; }
+.ow-item__name small { margin-left: 8px; font-size: 0.7rem; color: var(--color-text-muted); }
+.ow-item__date { font-size: 1.02rem; font-weight: 700; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ow-item__sub { font-size: 0.78rem; color: var(--color-text-muted); margin: 2px 0 6px; }
+.ow-tag { font-size: 0.7rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; background: var(--color-bg); border: 1px solid var(--color-border); }
+.ow-tag--taian { background: color-mix(in srgb, var(--color-accent) 20%, var(--color-bg)); border-color: var(--color-accent); }
+.ow-cand { display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; margin: 4px 0; font-size: 0.8rem; }
+.ow-cand span { width: 100%; font-size: 0.7rem; color: var(--color-text-muted); }
+.ow-cand b { font-weight: 600; padding: 2px 7px; border-radius: var(--radius-sm); background: var(--color-bg); }
+.ow-cand b.is-taian { background: color-mix(in srgb, var(--color-accent) 22%, var(--color-bg)); font-weight: 800; }
+.ow-cand b.is-day { outline: 1px dashed var(--color-primary); }
+.ow-actions { display: grid; gap: 8px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ お祝い日程カレンダー</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">生年月日を入れるだけ</p>
+    <h1 class="app-header__title">赤ちゃんの<br>お祝い日程カレンダー</h1>
+    <p class="app-header__lead">お七夜・お宮参り・お食い初め・ハーフバースデー・初節句・初誕生・七五三の日付を、六曜と前後の土日祝つきで一覧にします。地域で違う数え方も選べます。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="ow-form">
+          <p class="form-help" style="margin-top:0">赤ちゃんの生年月日</p>
+          <div class="date-row">
+            <select id="ow-year" class="quiz-select" aria-label="年"></select>
+            <select id="ow-month" class="quiz-select" aria-label="月"></select>
+            <select id="ow-day" class="quiz-select" aria-label="日"></select>
+          </div>
+          <div class="ow-sex" role="radiogroup" aria-label="性別">
+            <label><input type="radio" name="ow-sex" value="boy" checked>男の子</label>
+            <label><input type="radio" name="ow-sex" value="girl">女の子</label>
+          </div>
+          <details class="ow-opts">
+            <summary>数え方を変える(地域の習わしに合わせる)</summary>
+            <label for="ow-miya">お宮参り</label>
+            <select id="ow-miya" class="quiz-select">
+              <option value="jinja">男の子31日目・女の子33日目(神社本庁の案内)</option>
+              <option value="shimane">男の子31日目・女の子32日目</option>
+              <option value="custom">日数を自分で決める</option>
+            </select>
+            <div id="ow-miya-custom" hidden>
+              <label for="ow-miya-days">生後何日目</label>
+              <input type="number" id="ow-miya-days" class="quiz-select" min="1" max="200" value="31">
+            </div>
+            <label for="ow-kuizome">お食い初め</label>
+            <select id="ow-kuizome" class="quiz-select">
+              <option value="100">100日目(百日祝い)</option>
+              <option value="110">110日目</option>
+              <option value="120">120日目</option>
+            </select>
+            <label for="ow-shichi">七五三</label>
+            <select id="ow-shichi" class="quiz-select">
+              <option value="man">満年齢で祝う</option>
+              <option value="kazoe">数え年で祝う(1年早い)</option>
+            </select>
+            <label class="ow-check"><input type="checkbox" id="ow-boy3" checked>男の子の3歳も祝う</label>
+            <label class="ow-check"><input type="checkbox" id="ow-zero">生まれた日を0日目として数える(ふつうは1日目)</label>
+            <label for="ow-name">名前(カレンダーと共有の文面に入ります。なくても可)</label>
+            <input type="text" id="ow-name" class="quiz-select" maxlength="20" placeholder="例: はると">
+          </details>
+          <button type="submit" class="btn btn--primary btn--large">日程を出す</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行い、入力内容は端末(ブラウザ)の中にだけ保存します。外部には送りません。</p>
+      </div>
+
+      <div class="card" id="ow-result" hidden>
+        <div id="ow-result-body"></div>
+        <div class="ow-actions">
+          <button type="button" class="btn btn--primary" id="ow-ics">カレンダーに登録する(.ics)</button>
+          <button type="button" class="btn" id="ow-share">家族に日程を送る</button>
+          <p class="form-help" id="ow-status" role="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>それぞれのお祝いと、日にちの数え方</h2>
+      <h3>お七夜(生後7日目)</h3>
+      <p>生まれて7日目に命名をして、名前を書いた紙を神棚や床の間に貼り、親族でお祝いします。昔は子どもが無事に育つとは限らなかったので、7日目を大事な節目にしたのが始まりとされます。日数は生まれた日を1日目として数えます。</p>
+      <h3>お宮参り(初宮参り)</h3>
+      <p>赤ちゃんが初めて氏神さまにお参りし、誕生の報告と健やかな成長を祈る行事です。神社本庁は「一般的に男の子は31日目、女の子は33日目」としていますが、地域によって違い、島根県神社庁は「男の子は生後30日、女の子は生後31日が過ぎてから」が主流としています。この計算機では両方を選べて、日数を自分で決めることもできます。母子の体調や天候を見て、前後の都合のよい日を選ぶのが一般的です。</p>
+      <h3>お食い初め(百日祝い)</h3>
+      <p>食べ物に一生困らないようにと願い、お膳を用意して食べるまねをする儀式です。100日目に祝うことから「百日(ももか)の祝い」とも呼ばれます。地域によっては110日目や120日目に行うこともあります。</p>
+      <h3>初節句</h3>
+      <p>生まれて初めての節句で、女の子は3月3日の桃の節句(上巳)、男の子は5月5日の端午の節句に祝います。生まれてまもない時期に節句が来るときは、翌年に祝う家庭もあります。はっきりした決まりはないので、計算機では生まれてから60日に満たないときに翌年の日付も添えています。</p>
+      <h3>七五三</h3>
+      <p>女の子は3歳と7歳、男の子は3歳と5歳の年の11月15日ごろに祝います。もとは数え年でしたが、今は満年齢・数え年のどちらでもよいとされます。10月〜11月の土日祝で日取りを決める家庭も多いので、その年の大安の土日祝も並べています。くわしくは<a href="../guide/shichigosan-hayami/">七五三の早見表</a>にまとめています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>六曜と土日祝の見かた</h2>
+      <p>それぞれの行事について、その日の六曜と祝日、前後7日の土日祝を出しています。大安の日には★を付けました。六曜は神社の行事と決まった関係はなく、家族が集まりやすい日を優先してかまいません。気にする親族がいるときの目安にしてください。</p>
+      <p>六曜は旧暦の月と日から決まり、旧暦は新月と太陽の位置を天文計算で求めています。祝日は祝日法の規則(振替休日・国民の休日を含む)から計算しています。どちらも<a href="../calendar/">吉日カレンダー</a>と同じ計算です。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>お宮参りは生後何日目ですか？</summary><p>神社本庁は、一般的に男の子は31日目、女の子は33日目に行われているとしています。ただし地域によって違い、島根県神社庁は「男の子は生後30日、女の子は生後31日が過ぎてから」が主流としています。母子の体調や天候を見て、前後の都合のよい日を選ぶのが一般的です。</p></details>
+      <details class="faq-item"><summary>お食い初めは生まれた日を1日目として数えますか？</summary><p>生まれた日を1日目として数えるのが一般的で、生後100日目は生まれた日の99日後になります。神社本庁はお七夜を「7日目」としていて、この数え方と同じです。地域によっては110日目や120日目に行うこともあります。</p></details>
+      <details class="faq-item"><summary>初節句が生まれてすぐの時期に来たらどうしますか？</summary><p>生まれてまもない時期に節句が来る場合は、翌年に祝う家庭もあります。はっきりした決まりはないので、赤ちゃんと家族の体調や都合で決めてかまいません。この計算機では、生まれてから60日に満たないときに翌年の日付も添えています。</p></details>
+      <details class="faq-item"><summary>お祝いの日は大安でないといけませんか？</summary><p>決まりはありません。六曜は神社の行事と決まった関係がなく、家族の集まりやすい土日祝で選ぶ家庭が多くあります。気にする親族がいるときの目安として、前後の土日祝のうち大安の日に★を付けています。</p></details>
+      <details class="faq-item"><summary>入力した生年月日はどこかに送られますか？</summary><p>送られません。計算はすべてお使いの端末の中で行い、次に開いたときにすぐ表示できるよう、入力内容は端末(ブラウザ)の中にだけ保存します。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../guide/shichigosan-hayami/">七五三はいつ？2026〜2030年の早見表と10・11月の大安の土日</a></li>
+        <li><a href="../calendar/">吉日カレンダー</a> — 六曜・祝日・一粒万倍日などを月ごとに表示します</li>
+        <li><a href="../">生まれ日診断</a> — 生年月日から星座・九星・干支などをまとめて出します</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料</h2>
+      <ul class="sources">
+        <li><a href="https://www.jinjahoncho.or.jp/omairi/shussan/" target="_blank" rel="noopener">神社本庁「出産と育児」</a>(お七夜は7日目、初宮参りは男の子31日目・女の子33日目、お食い初め・百日の祝い)</li>
+        <li><a href="https://www.jinjahoncho.or.jp/omairi/sekku/" target="_blank" rel="noopener">神社本庁「節供」</a>(上巳の節供3月3日、端午の節供5月5日)</li>
+        <li><a href="https://www.jinjahoncho.or.jp/omairi/shichigosan/" target="_blank" rel="noopener">神社本庁「七五三」</a></li>
+        <li><a href="https://www.shimane-jinjacho.or.jp/shinto/index.html" target="_blank" rel="noopener">島根県神社庁「人生儀礼・行事」</a>(初宮詣は男の子は生後30日、女の子は生後31日が過ぎてから)</li>
+        <li><a href="https://imidas.jp/rekigyoji/detail/L-55-049-07-11-G222.html" target="_blank" rel="noopener">imidas「七五三」</a>(食い初めは生後100日、あるいは120日目)</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>行事の日取りや数え方は、地域・神社・家庭によって違います。表示は目安です。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+
+<script src="../js/astro.js"></script>
+<script src="../js/fortune.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/holiday.js"></script>
+<script src="../js/oiwai.js"></script>
+<script src="../js/oiwai-app.js"></script>
+</body>
+</html>
