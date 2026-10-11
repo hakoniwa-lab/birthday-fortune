@@ -656,20 +656,47 @@ html, body {
 }
 .daily__row span { color: var(--color-text-muted); }
 .daily__row b { color: var(--color-accent); }
-.daily__lucky {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin: 0 0 12px;
-}
-.daily__lucky p {
-  margin: 0;
+/* 今日のラッキー(九星の回座・数秘・日盤の吉方位から決まる) */
+.lucky {
   background: var(--color-bg);
-  border-radius: var(--radius-sm);
-  padding: 10px 6px;
+  border-radius: var(--radius-md);
+  padding: 12px 10px 10px;
+  margin: 0 0 14px;
 }
-.daily__lucky span { display: block; font-size: 0.7rem; color: var(--color-text-muted); }
-.daily__lucky b { font-size: 1.05rem; }
+.lucky__title { font-size: 0.8rem; font-weight: 800; color: var(--color-primary); letter-spacing: 0.06em; margin: 0 0 2px; }
+.lucky__key { font-size: 0.8rem; color: var(--color-text-muted); margin: 0 0 10px; }
+.lucky__key b { font-size: 1.05rem; color: var(--color-text); margin-left: 4px; }
+.lucky__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.lucky__tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.lucky__name { font-size: 0.68rem; color: var(--color-text-muted); }
+.lucky__val { font-size: 0.95rem; line-height: 1.35; overflow-wrap: anywhere; }
+.lucky__why { font-size: 0.62rem; line-height: 1.4; color: var(--color-text-muted); overflow-wrap: anywhere; }
+.lucky__basis { font-size: 0.74rem; color: var(--color-text-muted); text-align: left; margin: 10px 2px 0; }
+@media (max-width: 360px) { .lucky__grid { grid-template-columns: repeat(2, 1fr); } }
+
+.daily__h { font-size: 0.85rem; font-weight: 800; color: var(--color-primary); margin: 18px 0 8px; }
+
+/* これからの7日間 */
+.flow7__table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.flow7__table th, .flow7__table td { padding: 6px 4px; border-bottom: 1px solid var(--color-border); text-align: center; vertical-align: middle; white-space: nowrap; }
+.flow7__table thead th { font-size: 0.68rem; color: var(--color-text-muted); font-weight: 700; }
+.flow7__table tbody th { text-align: left; font-weight: 700; }
+.flow7__table tbody th small { display: block; font-size: 0.62rem; font-weight: 400; color: var(--color-text-muted); }
+.flow7__table tr.is-rest th { color: var(--color-warn-text); }
+.flow7__table tr.is-best th, .flow7__table tr.is-best td {
+  background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  font-weight: 800;
+}
+.flow7__stars { color: var(--color-accent); letter-spacing: -0.02em; }
 .daily__advice { font-size: 0.9rem; font-weight: 700; color: var(--color-primary); margin: 0 0 6px; }
 
 .card--article h3 { font-size: 0.95rem; margin: 14px 0 6px; }

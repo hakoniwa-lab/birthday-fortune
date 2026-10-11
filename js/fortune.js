@@ -181,31 +181,27 @@ function makeRng(seed) {
   };
 }
 
-/* 1〜5の星。3〜4が出やすく、1と5は控えめ */
-function starFrom(r) {
-  if (r < 0.06) return 1;
-  if (r < 0.24) return 2;
-  if (r < 0.58) return 3;
-  if (r < 0.88) return 4;
-  return 5;
-}
-
 /*
- * 生年月日と日付から、その日の運勢を決める。
- * pools には data.js の配列(色・アイテム・一言)を渡す。
+ * 日運。palace は九星の日盤で本命星が入る宮(daily.js の dayPalaceOf)。
+ * 星の数は年運・月運と同じく、回座から決まる数(DAY_PALACE_BASE_STARS)を軸に、
+ * 生年月日と日付から作る疑似乱数で ±1 だけ動かす。日運は1日で終わるので星1つも出る。
+ * メッセージとアドバイスは文例から選ぶ(ここだけは暦と関係がない)。
  */
-function dailyFortune(y, m, d, date, pools) {
+function dailyFortune(y, m, d, date, pools, palace) {
   const key = `${y}-${m}-${d}|${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   const rng = makeRng(seedFromString(key));
   const pick = (arr) => arr[Math.floor(rng() * arr.length)];
+  const base = DAY_PALACE_BASE_STARS[palace] || 3;
+  const star = () => {
+    const r = rng();
+    return Math.max(1, Math.min(5, base + (r < 0.25 ? -1 : (r > 0.75 ? 1 : 0))));
+  };
   return {
-    overall: starFrom(rng()),
-    love: starFrom(rng()),
-    work: starFrom(rng()),
-    money: starFrom(rng()),
-    luckyNumber: 1 + Math.floor(rng() * 9),
-    luckyColor: pick(pools.colors),
-    luckyItem: pick(pools.items),
+    palace,
+    overall: star(),
+    love: star(),
+    work: star(),
+    money: star(),
     message: pick(pools.messages),
     advice: pick(pools.advices),
   };
@@ -294,6 +290,13 @@ function kyuseiPalace(honmei, center) {
  * (毎回まったくの乱数にすると、九星の周期と食い違って意味が消えるため)
  */
 const PALACE_BASE_STARS = { 1: 2, 2: 3, 3: 4, 4: 5, 5: 2, 6: 4, 7: 5, 8: 3, 9: 5 };
+
+/*
+ * 日運の軸。並び(坎・中宮が低く、巽・兌・離が高い)は年運・月運と同じで、1段ずつ控えめにしてある。
+ * 日運は ±1 の揺れが毎日つくので、年運と同じ軸だと星5つの日が3割を超えてしまうため。
+ * 9つの宮に均等に回ると、星1〜5はおよそ 6%・22%・36%・28%・8%
+ */
+const DAY_PALACE_BASE_STARS = { 1: 2, 2: 3, 3: 3, 4: 4, 5: 2, 6: 3, 7: 4, 8: 3, 9: 4 };
 
 /*
  * 年運・月運の星は下限を2にする。1年ずっと星1つと出るのは、

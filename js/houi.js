@@ -10,7 +10,7 @@
  * 検証: 2026年(一白水星中宮)の本命星 一白・二黒・九紫 の3つで、
  *       公開されている九星気学サイトの吉方位・凶方位と全方位一致。
  *
- * 流派によって、月の凶方位や小児殺などを加える場合がある。ここでは年だけを扱う。
+ * 流派によって、月の凶方位や小児殺などを加える場合がある。ここでは年と日を扱う(日は歳破の代わりに日破)。
  *
  * fortune.js(kyuseiYearCenter) に依存する。
  */
@@ -48,6 +48,22 @@ function friendStars(honmei) {
 function yearDirections(year, honmei) {
   const center = kyuseiYearCenter(year);
   const branch = ((year - 4) % 12 + 12) % 12;
+  return { year, ...boardDirections(center, branch, "歳破", honmei) };
+}
+
+/*
+ * 日盤と方位ごとの吉凶。日盤の中宮はその日の日家九星(koyomi.js の kyuseiOfDay)。
+ * 陰遁の期間も、星の並べ方は年盤・月盤と同じ順(中宮→北西→西→北東→南→北→南西→東→東南)。
+ * 公開されている日盤(八雲院)と照合して、陰遁の日も同じ並べ方であることを確かめた。
+ * 歳破の代わりに日破(その日の十二支の反対側)を使う。
+ */
+function dayDirections(y, m, d, honmei) {
+  const k = dayKoyomi(y, m, d);
+  return { y, m, d, yoton: k.kyusei.yoton, ...boardDirections(k.kyusei.star, k.branch, "日破", honmei) };
+}
+
+/* 中宮の星・その期間の十二支・破の名前(歳破/日破)から、方位ごとの吉凶を出す */
+function boardDirections(center, branch, haName, honmei) {
   const saiha = HOUI_OPPOSITE[BRANCH_DIR[branch]];
 
   const starByDir = {};
@@ -67,14 +83,14 @@ function yearDirections(year, honmei) {
     if (gooDir && dir === HOUI_OPPOSITE[gooDir]) bad.push("暗剣殺");
     if (dir === honDir) bad.push("本命殺");
     if (honDir && dir === HOUI_OPPOSITE[honDir]) bad.push("本命的殺");
-    if (dir === saiha) bad.push("歳破");
+    if (dir === saiha) bad.push(haName);
     if (HOUI_PALACE[star] === HOUI_OPPOSITE[dir]) bad.push("定位対冲");
     const friend = isFriendStar(honmei, star);
     return { dir, star, bad, good: friend && bad.length === 0, friend };
   });
 
   return {
-    year, center, honmei,
+    center, honmei,
     hakkou: center === honmei,            // 本命星が中宮 ＝ 八方塞がり
     dirs,
     good: dirs.filter((d) => d.good).map((d) => d.dir),
@@ -87,5 +103,6 @@ const HOUI_BAD_TEXT = {
   本命殺: "自分の本命星のいる方位。体調や自分自身に影響が出やすいとされる",
   本命的殺: "本命殺の反対側。目標や判断を誤りやすいとされる",
   歳破: "その年の十二支の反対側。物事が破れやすいとされる",
+  日破: "その日の十二支の反対側。その日のうちは物事が破れやすいとされる",
   定位対冲: "星が本来の定位置の反対側に来ている方位。落ち着かず物事がこじれやすいとされる",
 };

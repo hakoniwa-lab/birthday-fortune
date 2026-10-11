@@ -315,26 +315,105 @@ function buildYakuHtml(birthY, today) {
   `;
 }
 
-function buildDailyHtml(f, today, extra) {
-  const label = `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日`;
+const WD_SHORT = ["日", "月", "火", "水", "木", "金", "土"];
+
+/*
+ * 今日の運勢。並びは「ひと目で分かるもの → これからの流れ → 方位 → 占いごとの説明」。
+ *   L … daily.js の dailyLuckyOf、flow … dailyFlow
+ */
+function buildDailyHtml(f, today, L, honmeiName, flow, calcHtml) {
+  const label = `${today.getMonth() + 1}月${today.getDate()}日(${WD_SHORT[today.getDay()]})`;
+  const tile = (name, val, why) => `
+      <div class="lucky__tile">
+        <span class="lucky__name">${name}</span>
+        <b class="lucky__val">${escapeHtml(val)}</b>
+        <small class="lucky__why">${escapeHtml(why)}</small>
+      </div>`;
+  const good = L.dirs.dirs.filter((d) => d.good).map((d) => d.dir);
+  const dirVal = good.length ? good.join("・") : "なし";
+  const dirWhy = L.hakkou
+    ? "本命星が盤の中央に入る日(八方塞がり)"
+    : (good.length ? "日盤で相性のよい星がいて、凶方位でない方角" : "相性のよい星のいる方角が、どれも凶方位と重なる日");
+  const where = L.palace === 5
+    ? `日盤の中央(中宮)に入る日です`
+    : `日盤の${L.luck.dir}(${PALACE_INFO[L.palace].palace}・${L.luck.star}の定位置)に入る日です`;
+  const virtue = L.luck.virtue
+    ? GUA_VIRTUE_TEXT[L.luck.virtue]
+    : "五黄は盤の中央の星。外へ広げるより、足元を固める日";
   return `
     <p class="daily__date">${escapeHtml(label)}の運勢</p>
     <p class="daily__overall"><span class="daily__stars">${stars(f.overall)}</span></p>
     <p class="daily__msg">${escapeHtml(f.message)}</p>
+
+    <div class="lucky">
+      <p class="lucky__title">今日のラッキー</p>
+      <p class="lucky__key">キーワード<b>「${escapeHtml(L.luck.keyword)}」</b></p>
+      <div class="lucky__grid">
+        ${tile("カラー", L.luck.color, L.luck.colorWhy)}
+        ${tile("ナンバー", String(L.nums.day), "数秘術のパーソナルデー")}
+        ${tile("フード", L.luck.food, L.luck.foodWhy)}
+        ${tile("ドリンク", L.luck.drink, L.luck.drinkWhy)}
+        ${tile("アイテム", L.luck.item, L.luck.itemWhy)}
+        ${tile("方位", dirVal, dirWhy)}
+      </div>
+      <p class="lucky__basis">今日はあなたの${escapeHtml(honmeiName)}が${escapeHtml(where)}。${escapeHtml(virtue)}。カラー・フード・ドリンク・アイテムは、この場所に結びつけられてきた象(『易経』説卦伝の八卦と五行)から選んでいます。</p>
+    </div>
+
     <div class="daily__rows">
       <p class="daily__row"><span>恋愛・人間関係</span><b>${stars(f.love)}</b></p>
       <p class="daily__row"><span>仕事・勉強</span><b>${stars(f.work)}</b></p>
       <p class="daily__row"><span>金運</span><b>${stars(f.money)}</b></p>
     </div>
-    <div class="daily__lucky">
-      <p><span>ラッキーナンバー</span><b>${f.luckyNumber}</b></p>
-      <p><span>ラッキーカラー</span><b>${escapeHtml(f.luckyColor)}</b></p>
-      <p><span>ラッキーアイテム</span><b>${escapeHtml(f.luckyItem)}</b></p>
-    </div>
     <p class="daily__advice">${escapeHtml(f.advice)}</p>
-    <p class="item__note">ここまでは生年月日と今日の日付から作った数で決めています。日付が変わると内容も変わり、同じ日のうちは何度見ても同じです。</p>
-    ${extra}
+    <p class="item__note">星の数は、九星の日盤であなたの星が入る場所を軸にしています(今年・今月の運勢と同じ考え方)。同じ日なら何度見ても同じです。メッセージとアドバイスだけは文例から選んでいて、暦とは関係がありません。</p>
+
+    ${buildFlow7Html(flow)}
+    ${buildDayHouiHtml(L)}
+    ${calcHtml}
   `;
+}
+
+/* これからの7日間。星の数・宿曜の三九・四柱推命の通変星・九星で入る方位 */
+function buildFlow7Html(flow) {
+  const rows = flow.map((o, i) => {
+    const day = `${o.m}/${o.d}(${WD_SHORT[o.wd]})`;
+    const tag = i === 0 ? "<small>今日</small>" : (o.holiday ? `<small>${escapeHtml(o.holiday)}</small>` : "");
+    return `<tr class="${o.best ? "is-best" : ""}${o.wd === 0 || o.wd === 6 || o.holiday ? " is-rest" : ""}">
+      <th>${o.best ? "◎ " : ""}${day}${tag}</th>
+      <td class="flow7__stars">${stars(o.stars)}</td>
+      <td>${o.rel ? escapeHtml(o.rel) : "—"}</td>
+      <td>${o.god ? escapeHtml(o.god) : "—"}</td>
+      <td>${escapeHtml(PALACE_LUCK[o.palace].dir)}</td>
+    </tr>`;
+  }).join("");
+  const best = flow.find((o) => o.best);
+  return `
+    <div class="flow7">
+      <p class="daily__h">これからの7日間</p>
+      <div class="chart__scroll">
+        <table class="flow7__table">
+          <thead><tr><th>日付</th><th>運勢</th><th>宿曜</th><th>通変星</th><th>星の位置</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <p class="item__note">◎は、宿曜で「衰・危・壊」にあたる日を除いて、いちばん星の多い日(同じなら「栄・親・友」の日)で、今回は${best.m}月${best.d}日です。宿曜は27日、通変星は10日、九星は9日でひと巡りします。「星の位置」は日盤であなたの星が入る方位です。</p>
+    </div>`;
+}
+
+/* 今日の吉方位(日盤) */
+function buildDayHouiHtml(L) {
+  const r = L.dirs;
+  const good = r.dirs.filter((d) => d.good).map((d) => d.dir);
+  const badList = r.dirs.filter((d) => d.bad.length).map((d) => `${d.dir}(${d.bad.join("・")})`).join("、");
+  return `
+    <div class="houi houi--day">
+      <p class="daily__h">今日の吉方位(日盤)</p>
+      ${houiBoardHtml(r)}
+      <p class="houi__good">吉方位: <b>${good.length ? good.join("・") : "なし"}</b></p>
+      <p class="item__note">凶方位: ${escapeHtml(badList)}</p>
+      ${L.hakkou ? '<p class="item__note item__note--warn">本命星が日盤の中央に入る日(八方塞がり)です。遠出や大きな買い物は別の日にする考え方があります。</p>' : ""}
+      <p class="item__note">日盤の吉方位は、その日のうちの外出や買い物の方角に使われます。今日の日盤の中央は${STAR_SHORT[r.center]}(${r.yoton ? "陽遁" : "陰遁"})。凶方位は五黄殺・暗剣殺・本命殺・本命的殺・日破・定位対冲で、月命星を使う凶方位などは含めていません。</p>
+    </div>`;
 }
 
 /*
@@ -345,10 +424,34 @@ function buildDailyHtml(f, today, extra) {
  *   四柱推命 … 今日の日干を自分の日主から見た通変星(10日で一周)
  *   暦注   … 六曜と吉日凶日
  */
-function buildDailyCalcHtml(sk, mv, fp, p, today) {
+function buildDailyCalcHtml(sk, mv, fp, p, today, L) {
   const ty = today.getFullYear(), tm = today.getMonth() + 1, td = today.getDate();
   const todayJdn = jdn(ty, tm, td);
   const blocks = [];
+
+  /* 数秘術 パーソナルイヤー・マンス・デー */
+  const pn = PERSONAL_NUMBER_TEXT;
+  blocks.push(`
+    <div class="dk">
+      <p class="dk__head">数秘術 <small>年・月・日の数</small></p>
+      <p class="dk__val">今日は<b>${L.nums.day}「${escapeHtml(pn[L.nums.day].key)}」</b>の日。${escapeHtml(pn[L.nums.day].text)}日です</p>
+      <p class="dk__text">${ty}年はパーソナルイヤー<b>${L.nums.year}「${escapeHtml(pn[L.nums.year].key)}」</b>、${tm}月はパーソナルマンス<b>${L.nums.month}「${escapeHtml(pn[L.nums.month].key)}」</b>。</p>
+      <p class="dk__sub">誕生月と誕生日に、今年・今月・今日の数を足して1桁にした数です。年の切り替えは1月1日の流儀で計算しています(誕生日で切り替える流儀もあります)。</p>
+    </div>`);
+
+  /* 西洋占星術 今日の月 */
+  const mz = ZODIAC[L.moon.sign];
+  const change = L.moon.change
+    ? `<p class="dk__text">今日は${L.moon.change.hour}時${String(L.moon.change.minute).padStart(2, "0")}分ごろ、月が${escapeHtml(ZODIAC[L.moon.change.from].name)}から${escapeHtml(ZODIAC[L.moon.change.to].name)}へ移ります。</p>`
+    : "";
+  blocks.push(`
+    <div class="dk">
+      <p class="dk__head">西洋占星術 <small>月は2日半ほどで次の星座へ</small></p>
+      <p class="dk__val">今日の月は<b>${escapeHtml(mz.name)}</b>。あなたの太陽星座${escapeHtml(ZODIAC[p.zodiac].name)}から見て<b>${escapeHtml(L.aspect.name)}</b></p>
+      <p class="dk__text">${escapeHtml(MOON_SIGN_DAY[L.moon.sign])}。${escapeHtml(L.aspect.text)}。</p>
+      ${change}
+      <p class="dk__sub">月の星座は日本時間の正午の位置で、角度は星座どうしで数えています。</p>
+    </div>`);
 
   /* 宿曜の日運 */
   const todayShuku = honmeiShukuByLunar(ty, tm, td);
@@ -375,7 +478,8 @@ function buildDailyCalcHtml(sk, mv, fp, p, today) {
       <p class="dk__head">マヤ暦 <small>260日で一周</small></p>
       <p class="dk__val">今日は<b>KIN${dayMaya.kin}「${escapeHtml(dayMaya.signature)}」</b></p>
       <p class="dk__text">${escapeHtml(MAYA_GLYPH_DAY[dayMaya.glyph])}</p>
-      <p class="dk__text">音${dayMaya.toneNo}・${escapeHtml(dayMaya.tone)}は${escapeHtml(MAYA_TONE_TEXT[dayMaya.tone])}</p>
+      <p class="dk__text">紋章の色は<b>${escapeHtml(dayMaya.color)}</b>。${escapeHtml(MAYA_COLOR_DAY[dayMaya.color])}日です。</p>
+      <p class="dk__text">KIN${dayMaya.wave.startKin}「${escapeHtml(dayMaya.wave.glyph)}」から始まる13日間の<b>${dayMaya.toneNo}日目</b>。音${dayMaya.toneNo}・${escapeHtml(dayMaya.tone)}は${escapeHtml(MAYA_TONE_TEXT[dayMaya.tone])}</p>
       ${sameKin
         ? `<p class="dk__text"><b>今日はあなたのKINそのものの日です。</b>260日に一度だけ回ってくる日で、マヤ暦での誕生日にあたります。</p>`
         : (grel ? `<p class="dk__text">あなたの${escapeHtml(mv.dreamspell.glyph)}から見て<b>${escapeHtml(grel)}</b>の紋章の日。${escapeHtml(MAYA_GLYPH_REL_TEXT[grel])}</p>` : "")}
@@ -428,13 +532,13 @@ function buildDailyCalcHtml(sk, mv, fp, p, today) {
 
   return `
     <div class="daily__calc">
-      <p class="daily__calc-title">ここから下は計算で決まります</p>
-      <p class="daily__calc-lead">同じ日なら誰が出しても同じ答えになる部分です。星の数のような当てものではなく、暦の上で今日がどういう日かを並べています。</p>
+      <p class="daily__calc-title">占いごとに見る今日</p>
+      <p class="daily__calc-lead">どれも暦と生年月日から計算していて、同じ日なら誰が出しても同じ答えになります。</p>
       ${blocks.join("")}
     </div>`;
 }
 
-function buildShareText(p, f, today, w, fp, sk, mv) {
+function buildShareText(p, f, today, w, fp, sk, mv, L) {
   const num = NUMEROLOGY[p.lifePath];
   const label = `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
   const pill = [fp.year, fp.month, fp.day, fp.hour]
@@ -459,7 +563,7 @@ function buildShareText(p, f, today, w, fp, sk, mv) {
     `${label}の運勢 ${stars(f.overall)}`,
     f.message,
     todayCalc,
-    `ラッキーナンバー ${f.luckyNumber}・ラッキーカラー ${f.luckyColor}`,
+    `ラッキーカラー ${L.luck.color}・ナンバー ${L.nums.day}・フード ${L.luck.food}・方位 ${L.dirs.dirs.filter((d) => d.good).map((d) => d.dir).join("・") || "なし"}`,
     ``,
     `https://hakoniwalab.com/birthday-fortune/`,
   ].join("\n");
@@ -746,7 +850,6 @@ function render(v) {
 
   const today = new Date();
   const p = buildProfile(y, m, d, today, hour, minute);
-  const f = dailyFortune(y, m, d, today, DAILY_POOLS);
   const w = westernChart(y, m, d, hour, minute, place);
   const fp = fourPillars(y, m, d, hour, minute, pref ? pref[2] : null);
 
@@ -761,6 +864,9 @@ function render(v) {
 
   const sk = sukuyoOf(y, m, d, hour, minute);
   const mv = mayaOf(y, m, d);
+  const L = dailyLuckyOf(p, today);
+  const f = dailyFortune(y, m, d, today, DAILY_POOLS, L.palace);
+  const flow = dailyFlow(p, sk, fp, today, 7, DAILY_POOLS);
   const wc = worldCalendarsOf(y, m, d, hour, minute);
 
   resultBody.innerHTML = buildProfileHtml(p);
@@ -769,11 +875,11 @@ function render(v) {
   sukuyoBody.innerHTML = buildSukuyoHtml(sk);
   mayaBody.innerHTML = buildMayaHtml(mv, y, m, d, jdn(ty, tm, td), dreamspellDrift(ty, tm, td));
   worldBody.innerHTML = buildWorldHtml(wc, hasTime);
-  dailyBody.innerHTML = buildDailyHtml(f, today, buildDailyCalcHtml(sk, mv, fp, p, today));
+  dailyBody.innerHTML = buildDailyHtml(f, today, L, KYUSEI[p.honmeisei].name, flow, buildDailyCalcHtml(sk, mv, fp, p, today, L));
   flowBody.innerHTML = buildFlowHtml(yf, mf, KYUSEI[p.honmeisei].name, buildHouiHtml(p.honmeisei, fYear));
   yakuBody.innerHTML = buildYakuHtml(y, today);
   offerBody.innerHTML = buildOfferHtml(p);
-  shareText = buildShareText(p, f, today, w, fp, sk, mv);
+  shareText = buildShareText(p, f, today, w, fp, sk, mv, L);
   introSection.hidden = true;
   resultSection.hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
