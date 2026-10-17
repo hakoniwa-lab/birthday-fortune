@@ -108,6 +108,35 @@ function fmtDate(y, m, d) {
   return `${y}年${m}月${d}日`;
 }
 
+/* 守り本尊。年の区切りを書いているお寺(大師山法楽寺)にならって立春で区切った年で出し、
+   1月1日〜節分生まれで元日で区切ると仏が変わる人には両方を書く */
+function buildMamoriHtml(p) {
+  const kr = MAMORI_OF_SHI[p.etoRisshun.shiIndex];
+  const kj = MAMORI_OF_SHI[p.eto.shiIndex];
+  const mh = MAMORI_HONZON[kr];
+  const year = (e) => `${e.shi}(${e.shiYomi})年`;
+  let note = "";
+  if (p.eto.shiIndex !== p.etoRisshun.shiIndex) {
+    const rt = p.risshunTime;
+    const why = p.m === 2 && p.d === p.risshun
+      ? `立春の時刻(2月${rt.d}日 ${String(rt.hh).padStart(2, "0")}:${String(rt.mi).padStart(2, "0")})より前の生まれなので`
+      : "1月1日〜節分の生まれなので";
+    note = kr === kj
+      ? `<p class="item__note">※ 立春より前の生まれなので、立春で区切ると前年の${escapeHtml(year(p.etoRisshun))}になりますが、守り本尊はどちらで数えても${escapeHtml(mh.name)}です。</p>`
+      : `<p class="item__note item__note--warn">※ ${why}、年の区切り方で守り本尊が変わります。立春で区切ると${escapeHtml(year(p.etoRisshun))}の<b>${escapeHtml(mh.name)}</b>、元日で区切ると${escapeHtml(year(p.eto))}の<b>${escapeHtml(MAMORI_HONZON[kj].name)}</b>。区切りを書いているお寺(大師山法楽寺)は、立春から翌年の節分までを1年としています。</p>`;
+  } else if (p.risshunAmbiguous) {
+    const alt = eto(p.kyuseiYear === p.y ? p.y - 1 : p.y);
+    const ka = MAMORI_OF_SHI[alt.shiIndex];
+    if (ka !== kr) note = `<p class="item__note item__note--warn">※ 立春当日の生まれなので、生まれた時刻によっては${escapeHtml(year(alt))}の${escapeHtml(MAMORI_HONZON[ka].name)}になります。</p>`;
+  }
+  return `<div class="item">
+        <p class="item__head"><span class="badge">守り本尊</span>${escapeHtml(mh.name)}<small>(${escapeHtml(mh.yomi)})</small></p>
+        <p class="item__text">${escapeHtml(year(p.etoRisshun))}生まれの守り本尊。${escapeHtml(mh.text)}</p>
+        ${note}
+        <p class="item__note"><a href="guide/mamori-honzon/">守り本尊の早見表と、1月〜節分生まれの数え方</a></p>
+      </div>`;
+}
+
 function buildProfileHtml(p) {
   const num = NUMEROLOGY[p.lifePath];
   const ks = KYUSEI[p.honmeisei];
@@ -149,6 +178,7 @@ function buildProfileHtml(p) {
         <p class="item__text">${escapeHtml(ETO_TEXT[p.eto.shiIndex].text)}</p>
         ${etoNote}
       </div>
+      ${buildMamoriHtml(p)}
       <div class="item">
         <p class="item__head"><span class="badge">星座</span>${escapeHtml(zd.name)}<small>(${escapeHtml(zd.elem)}のエレメント)</small></p>
         <p class="item__text">${escapeHtml(zd.text)}</p>
@@ -821,15 +851,22 @@ function luckyLink(categoryId, label) {
   return `<a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=${LUCKY_MAT}&amp;a8ejpredirect=${url}" target="_blank" rel="nofollow sponsored noopener">${escapeHtml(label)}<span class="badge badge--pr">PR</span></a>`;
 }
 
+/* 守り本尊のペンダント(通常商品)。商品番号は 2303<MAMORI_HONZON の番号>000(2026-10-17 に8つとも確認) */
+function luckyItemLink(k, label) {
+  const url = encodeURIComponent(`https://www.lucky-shop.jp/item/2303${k}000.html`);
+  return `<a class="result-card__link result-card__link--offer" href="https://px.a8.net/svt/ejp?a8mat=${LUCKY_MAT}&amp;a8ejpredirect=${url}" target="_blank" rel="nofollow sponsored noopener">${escapeHtml(label)}<span class="badge badge--pr">PR</span></a>`;
+}
+
 function buildOfferHtml(p) {
   const ks = KYUSEI[p.honmeisei];
   const s = p.eto.shiIndex;
   const animal = `${SHI[s]}(${SHI_YOMI[s]})年`;
+  const mk = MAMORI_OF_SHI[p.etoRisshun.shiIndex];
   return `
     <div class="item">
       <p class="item__head"><span class="badge">縁起物</span>${escapeHtml(ks.name)}・${escapeHtml(animal)}生まれの方へ</p>
-      <p class="item__text">本命星や干支にちなんだ置物や小物を扱うお店があります。自分へのお守りや贈り物として、気持ちの区切りに選ぶ人もいます。</p>
-      <div class="offer-links">${luckyLink(294 + p.honmeisei, `${ks.name}の縁起物を見る`)}${luckyLink(443 + s, `${animal}の縁起物を見る`)}${LUCKY_PIXEL}</div>
+      <p class="item__text">本命星や干支、守り本尊にちなんだ置物や小物を扱うお店があります。自分へのお守りや贈り物として、気持ちの区切りに選ぶ人もいます。</p>
+      <div class="offer-links">${luckyLink(294 + p.honmeisei, `${ks.name}の縁起物を見る`)}${luckyLink(443 + s, `${animal}の縁起物を見る`)}${luckyItemLink(mk, `守り本尊(${MAMORI_HONZON[mk].name})のペンダントを見る`)}${LUCKY_PIXEL}</div>
       <p class="item__note">※ 縁起物に科学的な効果はありません。気持ちを整える小物として楽しむものです。</p>
     </div>
     <div class="item">
