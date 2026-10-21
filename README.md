@@ -633,5 +633,24 @@ YouTube とサジェストから拾ったネタ W1〜W3・X1〜X5。記事は `t
 - 寅の日(出戻り)は言い伝えとして出典(みんなのウェディング・ベストカレンダー・マイナビ)を並べるだけ。重日・復日は Wikipedia「暦注下段」の「婚礼は再婚に繋がる」。三隣亡は建築の凶日なので候補から外さず印だけ
 - 婚姻届の扱いは横浜市・杉並区・広島市・江戸川区の案内、民法739条・戸籍法16条・25条(e-Gov API)、法務省(令和6年3月1日の戸籍証明書の添付不要)で確認
 - ベストカレンダーの日のページ(`/2027/10/30` など先の日付)は「今日」のページに転送されることがある。日ページの吉日欄で照合しない
-- 広告(「入籍に合わせて用意するもの」の枠): THE KISS(s00000007784002)・L&Co.(s00000022655001)・ソルトウェディングの結婚報告はがき(s00000013963003、リンク先は年賀家族 nenga-kazoku.com/wedding/)は 2026-10-21 に即時提携して掲載、INKANS は提携済みのもの。同日ハナユメの結婚式場探し(s00000015770001、審査ありの表示だったが即時に提携完了、素材ID 008)も掲載。同日、提携済みの挨拶状ドットコム(s00000007052003、素材「挨拶状ドットコム 結婚報告はがき」→ kekkon.aisatsujo.jp)と OurPhoto(s00000024452001、七五三と別の素材「出張撮影のマッチングサイト」)も足した。素材は `article_kit.py` の `A8`(saltwedding・thekiss・lco・hanayume・aisatsujo_kekkon・ourphoto_match)。**挨拶状ドットコムは社名・サービス名を title/meta タグや検索キーワードに使うのが禁止**(違反は全報酬キャンセル)。A8 はファーストビューでの広告表示を求めているので、この記事は冒頭に `.pr-note`(`page(..., pr_note=True)`、CSS は style.css)を出している。**ほかの birthday-fortune の広告ありページには冒頭の PR 表記がまだ無い**。審査中のゼクシィ相談カウンター・ハナユメ指輪探しは a8-approval-watch-2 が見ている。結婚系のほかの候補(審査あり)は `output/affiliate-inventory/2026-10-21_入籍ページの候補.md`
+- 広告(「入籍に合わせて用意するもの」の枠): THE KISS(s00000007784002)・L&Co.(s00000022655001)・ソルトウェディングの結婚報告はがき(s00000013963003、リンク先は年賀家族 nenga-kazoku.com/wedding/)は 2026-10-21 に即時提携して掲載、INKANS は提携済みのもの。同日ハナユメの結婚式場探し(s00000015770001、審査ありの表示だったが即時に提携完了、素材ID 008)も掲載。同日、提携済みの挨拶状ドットコム(s00000007052003、素材「挨拶状ドットコム 結婚報告はがき」→ kekkon.aisatsujo.jp)と OurPhoto(s00000024452001、七五三と別の素材「出張撮影のマッチングサイト」)も足した。素材は `article_kit.py` の `A8`(saltwedding・thekiss・lco・hanayume・aisatsujo_kekkon・ourphoto_match)。**挨拶状ドットコムは社名・サービス名を title/meta タグや検索キーワードに使うのが禁止**(違反は全報酬キャンセル)。A8 はファーストビューでの広告表示を求めているので、この記事は冒頭に `.pr-note`(`page(..., pr_note=True)`、CSS は style.css)を出している。ほかの広告ありページも 2026-10-21 に全部冒頭へ PR 表記を出した(下の「広告のあるページの冒頭の PR 表記」)。審査中のゼクシィ相談カウンター・ハナユメ指輪探しは a8-approval-watch-2 が見ている。結婚系のほかの候補(審査あり)は `output/affiliate-inventory/2026-10-21_入籍ページの候補.md`
 - 導線: カレンダーの条件検索の説明文と「もっと詳しく」(手書き)、最強開運日ランキング(build_ranking.py)、月別の開運日(build_monthly.py の関連ページ)
+
+## 2026-10-21(2) 広告のあるページの冒頭の PR 表記
+
+A8 の案件ページに「広告とわかる表示をファーストビュー等にわかりやすく」(無いと提携解除の可能性)とあるので、A8 の広告(px.a8.net)が入っているページすべての見出しの直下に PR 表記を出した。各リンクの「PR」バッジとフッターの注記はそのまま。
+
+- 記事(見出しの下に `<p class="pr-note">この記事にはプロモーション(広告)が含まれます。</p>`): 生成元の `page(..., pr_note=True)` で出す
+  - `build_ushi.py` → guide/doyo-ushi/
+  - `build_aisho_more.py` → guide/eto-aisho/・sukuyo-aisho/・suhi-aisho/
+  - `build_kyusei_aisho.py` → guide/kyusei-aisho/ と星別9ページ
+  - `build_mamori.py` → guide/mamori-honzon/
+  - `build_lifestage.py`(独自の `page()` に `pr_note` を足した) → guide/shichigosan-hayami/ だけ(厄年・長寿・成人式の3本は広告が無いので出さない)
+  - `build_nyuseki.py` → guide/nyuseki-kichijitsu/(先に対応済み)
+- 診断・カレンダーのページ(`</header>` の直後に「このページにはプロモーション(広告)が含まれます。」、`.app-header + .pr-note` で中央寄せ)
+  - 手書き: トップ(index.html。広告は診断結果の `buildOfferHtml` だが、結果画面でもヘッダーは残るのでヘッダー直下に置いた)・compatibility/・oiwai/
+  - 生成: inunohi/(`build_inunohi.py` のテンプレートに1行)
+- 同じ日に別の作業で先に入っていた形(最初のカードの1行目に `<p class="muted">この記事には広告(PR)が含まれます。「PR」の印があるリンクが広告です。</p>`)はそのまま: build_monthly.py(kaiunbi-2026-11〜2027-03)・build_ranking.py・build_rare.py・build_saifu.py と、手書きの guide/tenshanichi-2026-2027/
+- calendar/ と calendar/glossary/ には A8 の広告が無いので表記なし(フッターの注記だけ)
+- 再生成の前に、手を入れない状態で6本のビルドを流して `git diff` が空(生成元と公開中のHTMLが一致)なのを確かめてから足した
+- **新しく広告を入れるページを作るときは、記事なら `pr_note=True`、手書きなら見出しの直下に同じ1行を入れる**。確認は `grep -l px.a8.net -r --include=index.html .` で出たページに `pr-note` か「広告(PR)が含まれます」があるか
