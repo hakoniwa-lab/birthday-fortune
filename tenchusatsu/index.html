@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>天中殺 計算｜生年月日で種類と年・月・日の天中殺がわかる(2026〜2035年・日付つき)</title>
+<meta name="description" content="生年月日を入れると、天中殺の種類(子丑・寅卯・辰巳・午未・申酉・戌亥)と、年の天中殺、2026〜2035年の月の天中殺、これから30日の日の天中殺を、立春と節入りの日付まで計算して出します。2026・2027年は午未天中殺の人の年の天中殺(2026年2月4日(水)〜2028年2月3日(木))。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/tenchusatsu/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="天中殺の計算(種類と年・月・日の天中殺) | HAKONIWA LAB">
+<meta property="og:description" content="生年月日から、天中殺の種類と、年・月・日の天中殺の時期を立春・節入りの日付つきで。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/tenchusatsu/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した生年月日はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべてお使いの端末の中で行い、入力内容は端末(ブラウザ)の中にだけ保存します。生まれ日診断で生年月日を入れたことがあれば、その日付を最初から入れておきます。"}},{"@type":"Question","name":"生まれた時刻は必要ですか？","acceptedAnswer":{"@type":"Answer","text":"必要ありません。天中殺の種類は生まれた日の干支で決まり、年・月・日の天中殺は暦で決まるからです。ただし23時で日付を変える流派では、23時台に生まれた人の日柱が翌日になります。それで種類が変わる人(旬の変わり目の日に生まれた人)には、結果に注記を出します。"}},{"@type":"Question","name":"ほかのサイトと日付が1日違うのはなぜですか？","acceptedAnswer":{"@type":"Answer","text":"多くは区切り方の違いです。年を元日で数える、月をカレンダーの1日で数える、節入りの日を毎年同じ日付にしている、節入りの時刻で切る、のどれかで日付がずれます。この計算機は、節入りの日を太陽の位置から毎年計算し、その日を丸一日新しい年・月として数えています。公開されている計算サイト3か所の表と突き合わせたところ、天中殺の種類と年の天中殺はすべて一致し、節入りの日付が違ったのは0時前後の数分に節入りがある日などだけでした(詳しくは早見表の記事に書いています)。"}},{"@type":"Question","name":"大運天中殺も出せますか？","acceptedAnswer":{"@type":"Answer","text":"出していません。大運天中殺は、大運(10年ごとの運の区切り)のうち天中殺にあたる2つの区切りを指しますが、大運を順に進めるか逆に進めるか、何歳から数え始めるかの決め方が流派によって違い、ひとつに決められないためです。"}},{"@type":"Question","name":"天中殺に科学的な根拠はありますか？","acceptedAnswer":{"@type":"Answer","text":"ありません。天中殺は干支の組み合わせから決まる暦の考え方で、時期と出来事の関係が確かめられたことはありません。この計算機は、どの資料で調べても同じ答えになる「日付」だけを正確に出すためのものです。"}}]}</script>
+<style>
+.tc-type { font-size: 1.3rem; font-weight: 800; margin: 0 0 6px; color: var(--color-primary); }
+.tc-type small { margin-left: 8px; font-size: 0.75rem; color: var(--color-text-muted); font-weight: 700; }
+.tc-lead { font-size: 0.88rem; margin: 0 0 8px; }
+.tc-now-text { font-size: 0.9rem; margin: 0 0 4px; padding: 8px 10px; border-radius: var(--radius-md); background: var(--color-bg); }
+.tc-h { font-size: 1rem; margin: 20px 0 4px; }
+.tc-note { font-size: 0.78rem; color: var(--color-text-muted); margin: 0 0 8px; }
+.tc-item { border-top: 1px solid var(--color-border); padding: 10px 0; text-align: left; }
+.tc-item.is-past { opacity: 0.55; }
+.tc-item.is-now .tc-item__name { color: var(--color-primary); }
+.tc-item__name { font-weight: 800; color: var(--color-text-muted); margin: 0 0 2px; font-size: 0.85rem; }
+.tc-item__name small { margin-left: 8px; font-size: 0.72rem; color: var(--color-text-muted); font-weight: 700; }
+.tc-item__date { font-size: 1.02rem; font-weight: 700; margin: 0; }
+.tc-item__sub { font-size: 0.75rem; color: var(--color-text-muted); margin: 2px 0 0; }
+.tc-months tr.is-past { opacity: 0.55; }
+.tc-months small, .tc-days small { display: inline-block; white-space: nowrap; margin-left: 4px; font-size: 0.68rem; padding: 0 6px; border-radius: 999px; background: var(--color-bg); border: 1px solid var(--color-border); }
+.tc-months small.tc-now { background: color-mix(in srgb, var(--color-primary) 18%, var(--color-bg)); border-color: var(--color-primary); }
+.tc-days { font-size: 0.88rem; line-height: 2; margin: 0; }
+.tc-days .tc-today { font-weight: 800; color: var(--color-primary); }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ 天中殺の計算</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">生年月日を入れるだけ</p>
+    <h1 class="app-header__title">天中殺の計算<br>いつからいつまで？</h1>
+    <p class="app-header__lead">天中殺の種類と、年・月・日の天中殺がいつ来るかを、立春と節入りの日付から計算します。2026〜2035年の月の天中殺も一覧にします。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="tc-form">
+          <p class="form-help" style="margin-top:0">生年月日</p>
+          <div class="date-row">
+            <select id="tc-year" class="quiz-select" aria-label="年"></select>
+            <select id="tc-month" class="quiz-select" aria-label="月"></select>
+            <select id="tc-day" class="quiz-select" aria-label="日"></select>
+          </div>
+          <button type="submit" class="btn btn--primary btn--large">天中殺を計算する</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行い、入力内容は端末(ブラウザ)の中にだけ保存します。外部には送りません。天中殺に科学的な根拠はありません。暦の読み物として使ってください。</p>
+      </div>
+
+      <div class="card" id="tc-result" hidden>
+        <div id="tc-result-body"></div>
+        <p class="item__note">年の天中殺を2040年まで並べた早見表と、何年ごとに来るか・いつ終わるかの1問1答は<a href="../guide/tenchusatsu-hayami/">天中殺はいつからいつまで？(早見表)</a>にまとめています。</p>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>種類は「生まれた日の干支」で決まる</h2>
+      <p>暦の日には、甲子(きのえね)から癸亥(みずのとい)まで60通りの干支が順番に割り当てられています。十干は10、十二支は12なので、甲から癸までの10日をひと組(旬)にすると、毎回2つの十二支が余ります。生まれた日がどの組に入るかで、余る2つの十二支、つまり天中殺の種類が決まります。</p>
+      <p>生まれた年や月では決まらないので、同じ年に生まれた人どうしでも6種類に分かれます。生まれた日の干支(日柱)が分かれば、下の表で調べられます。</p>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>種類</th><th>生まれた日の干支(日柱)</th></tr></thead>
+          <tbody>
+            <tr><th>戌亥天中殺</th><td>甲子・乙丑・丙寅・丁卯・戊辰・己巳・庚午・辛未・壬申・癸酉</td></tr>
+            <tr><th>申酉天中殺</th><td>甲戌・乙亥・丙子・丁丑・戊寅・己卯・庚辰・辛巳・壬午・癸未</td></tr>
+            <tr><th>午未天中殺</th><td>甲申・乙酉・丙戌・丁亥・戊子・己丑・庚寅・辛卯・壬辰・癸巳</td></tr>
+            <tr><th>辰巳天中殺</th><td>甲午・乙未・丙申・丁酉・戊戌・己亥・庚子・辛丑・壬寅・癸卯</td></tr>
+            <tr><th>寅卯天中殺</th><td>甲辰・乙巳・丙午・丁未・戊申・己酉・庚戌・辛亥・壬子・癸丑</td></tr>
+            <tr><th>子丑天中殺</th><td>甲寅・乙卯・丙辰・丁巳・戊午・己未・庚申・辛酉・壬戌・癸亥</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>生まれた日の干支は、2000年1月1日＝戊午(つちのえうま)を起点に日数を数えて出しています。<a href="../">生まれ日診断</a>の命式(四柱推命)の日柱・空亡と同じ計算です。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>区切りの日は、立春と節入り</h2>
+      <p>天中殺の「年」はカレンダーの1月1日ではなく<strong>立春</strong>(2月3日〜5日ごろ)で切り替わり、「月」は<strong>節入り</strong>(毎月3日〜9日ごろ)で切り替わります。どちらも太陽の位置で決まる日なので、年によって1日前後します。この計算機は、節入りの日付と時刻を太陽の位置から計算し(国立天文台の暦要項と照合済み)、次のように数えています。</p>
+      <ul>
+        <li>節入りの日は、丸一日新しい年・月として数えます(日切り)。終わりの日は次の節入りの前日です。<a href="../calendar/">吉日カレンダー</a>と同じ扱いです</li>
+        <li>節入りの時刻で切る流派のために、時刻も添えています(例: 2026年の立春は2月4日 5:01ごろ。計算の誤差は数分です)</li>
+        <li>日付の変わり目は0時です。23時で日付を変える流派では、23時台に生まれた人の日柱が翌日になります。種類が変わるのは旬の変わり目(癸の日)の23時台に生まれた人だけで、その場合は結果に注記を出します</li>
+        <li>大運天中殺(大運の区切りで来る20年)は出していません。大運の数え方が流派で違うためです</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>2026〜2035年の年の天中殺</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>種類</th><th>年の天中殺</th></tr></thead>
+          <tbody>
+            <tr><th>子丑天中殺</th><td><span class="nw">2032年2月4日(水)</span>〜<span class="nw">2034年2月3日(金)</span></td></tr>
+            <tr><th>寅卯天中殺</th><td><span class="nw">2034年2月4日(土)</span>〜<span class="nw">2036年2月3日(日)</span></td></tr>
+            <tr><th>辰巳天中殺</th><td>この10年は来ません(前回 <span class="nw">2024年2月4日(日)</span>〜<span class="nw">2026年2月3日(火)</span>、次回 <span class="nw">2036年2月4日(月)</span>〜<span class="nw">2038年2月3日(水)</span>)</td></tr>
+            <tr><th>午未天中殺</th><td><span class="nw">2026年2月4日(水)</span>〜<span class="nw">2028年2月3日(木)</span></td></tr>
+            <tr><th>申酉天中殺</th><td><span class="nw">2028年2月4日(金)</span>〜<span class="nw">2030年2月3日(日)</span></td></tr>
+            <tr><th>戌亥天中殺</th><td><span class="nw">2030年2月4日(月)</span>〜<span class="nw">2032年2月3日(火)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>2040年までの早見表、月の天中殺の一覧、何年ごとに来るか・何年続くか・いつ終わるかは、<a href="../guide/tenchusatsu-hayami/">天中殺はいつからいつまで？6種類の早見表</a>にまとめています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>入力した生年月日はどこかに送られますか？</summary><p>送られません。計算はすべてお使いの端末の中で行い、入力内容は端末(ブラウザ)の中にだけ保存します。生まれ日診断で生年月日を入れたことがあれば、その日付を最初から入れておきます。</p></details>
+      <details class="faq-item"><summary>生まれた時刻は必要ですか？</summary><p>必要ありません。天中殺の種類は生まれた日の干支で決まり、年・月・日の天中殺は暦で決まるからです。ただし23時で日付を変える流派では、23時台に生まれた人の日柱が翌日になります。それで種類が変わる人(旬の変わり目の日に生まれた人)には、結果に注記を出します。</p></details>
+      <details class="faq-item"><summary>ほかのサイトと日付が1日違うのはなぜですか？</summary><p>多くは区切り方の違いです。年を元日で数える、月をカレンダーの1日で数える、節入りの日を毎年同じ日付にしている、節入りの時刻で切る、のどれかで日付がずれます。この計算機は、節入りの日を太陽の位置から毎年計算し、その日を丸一日新しい年・月として数えています。公開されている計算サイト3か所の表と突き合わせたところ、天中殺の種類と年の天中殺はすべて一致し、節入りの日付が違ったのは0時前後の数分に節入りがある日などだけでした(詳しくは早見表の記事に書いています)。</p></details>
+      <details class="faq-item"><summary>大運天中殺も出せますか？</summary><p>出していません。大運天中殺は、大運(10年ごとの運の区切り)のうち天中殺にあたる2つの区切りを指しますが、大運を順に進めるか逆に進めるか、何歳から数え始めるかの決め方が流派によって違い、ひとつに決められないためです。</p></details>
+      <details class="faq-item"><summary>天中殺に科学的な根拠はありますか？</summary><p>ありません。天中殺は干支の組み合わせから決まる暦の考え方で、時期と出来事の関係が確かめられたことはありません。この計算機は、どの資料で調べても同じ答えになる「日付」だけを正確に出すためのものです。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../guide/tenchusatsu-hayami/">天中殺はいつからいつまで？6種類の早見表(2026〜2040年)</a> — 何年ごと・何年続く・算命学と四柱推命の違い</li>
+        <li><a href="../">生まれ日診断</a> — 四柱推命の命式(空亡)・九星・数秘・西洋占星術をまとめて出します</li>
+        <li><a href="../guide/yakudoshi-happoufusagari/">厄年と八方塞がりの早見表</a> — 「気をつける年」をもう一つの暦で見るなら</li>
+        <li><a href="../calendar/">吉日カレンダー</a> — 節入りの日、六曜、一粒万倍日などを月ごとに表示します</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://ja.wikipedia.org/wiki/%E5%A4%A9%E4%B8%AD%E6%AE%BA" target="_blank" rel="noopener">Wikipedia「天中殺」</a>(旬と天中殺の決まり方、空亡という呼び名)</li>
+        <li><a href="https://sup.andyou.jp/shicyusuimei/tencyusatsu/tencyusatsu/" target="_blank" rel="noopener">優しい四柱推命「天中殺とは？」</a>(6種類それぞれの日柱の干支、立春を年の境目とすること)</li>
+        <li><a href="https://eco.mtk.nao.ac.jp/koyomi/yoko/" target="_blank" rel="noopener">国立天文台「暦要項」</a>(二十四節気の日時。計算結果との照合に使用)</li>
+      </ul>
+      <p>日の干支はユリウス日から、立春と節入りは太陽の視黄経から計算しています(ライブラリは使っていません)。生まれ日診断・吉日カレンダーと同じ計算部品です。</p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。天中殺の扱いは流派によって違います。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../js/astro.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/tenchusatsu.js"></script>
+<script src="../js/tenchusatsu-app.js"></script>
+</body>
+</html>

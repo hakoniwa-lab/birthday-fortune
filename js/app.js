@@ -676,6 +676,25 @@ function pillarCell(p, label, god) {
     </td>`;
 }
 
+/*
+ * 空亡(天中殺)の年がいつ来るか。計算は tenchusatsu.js(天中殺の計算機と同じ関数)。
+ * 読み込まれていなければ、計算機へのリンクだけ出す。
+ */
+function buildKuboTimingHtml(branches) {
+  const link = '<a href="tenchusatsu/">天中殺の計算(年・月・日の時期)</a>';
+  if (typeof tcsYearPeriods !== "function") return `<p class="item__note">→ ${link}</p>`;
+  const now = new Date();
+  const today = jdn(now.getFullYear(), now.getMonth() + 1, now.getDate());
+  const list = tcsYearPeriods(branches, now.getFullYear() - 1, now.getFullYear() + 13);
+  const cur = list.find((p) => tcsIn(p, today));
+  const next = list.find((p) => p.start.idx > today);
+  const name = SHI[branches[0]] + SHI[branches[1]];
+  const when = cur
+    ? `いまは年の天中殺の中です(${tcsFmt(cur.start)}〜${tcsFmt(cur.end)})。`
+    : `次の年の天中殺は${tcsFmt(next.start)}〜${tcsFmt(next.end)}です。`;
+  return `<p class="item__note">算命学では${escapeHtml(name)}天中殺と呼びます。${escapeHtml(when)}月の天中殺・日の天中殺は${link}で出せます。</p>`;
+}
+
 function buildSanmeiHtml(fp, hasTime, prefName) {
   const dm = KAN_INFO[fp.dayMaster];
   const total = fp.elements.reduce((a, b) => a + b, 0);
@@ -729,6 +748,7 @@ function buildSanmeiHtml(fp, hasTime, prefName) {
       <div class="item">
         <p class="item__head"><span class="badge">空亡</span>${escapeHtml(SHI[fp.kubo[0]] + SHI[fp.kubo[1]])}</p>
         <p class="item__text">${escapeHtml(KUBO_TEXT)}</p>
+        ${buildKuboTimingHtml(fp.kubo)}
       </div>
       <div class="item">
         <p class="item__head"><span class="badge">生まれた節</span>${escapeHtml(fp.sekki.name)}</p>
