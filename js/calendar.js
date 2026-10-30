@@ -301,6 +301,7 @@ function select(d) {
   }
   if (k.flags.tsuchinotoMi) notes.push("<strong>己巳の日。</strong>60日に一度の、巳の日の中でも特別な金運の日とされます。" + moreLink("己巳の日"));
   else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。" + moreLink("寅の日"));
+  else if (k.flags.mi) notes.push("<strong>巳の日。</strong>弁財天の縁日で、金運・芸事に良いとされます。60日に一度の己巳の日は特に縁起が良いとされます。" + moreLink("巳の日"));
   if (k.flags.tatsu) notes.push("<strong>辰の日。</strong>龍神に縁のある日として、金運・開運の日に挙げられることが多い日です。天赦日などと違い、昔の暦注にある日ではありません。");
   if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。" + moreLink("甲子の日"));
   if (k.flags.kirin) notes.push(`<strong>麒麟日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、麒麟が白虎(凶神)を制するとされます。日本では金運の日としても知られます。` + moreLink("麒麟日"));
@@ -402,6 +403,8 @@ const GUIDE_OF = {
   十死日: ["jushibi-jisshibi", "避けるとされること"],
   流財日: ["ryuzaibi", "本当の意味"],
   月破大耗: ["geppa-taimou", "避けるとされること"],
+  己巳の日: ["tsuchinotomi", "己巳の日にやること・避けること"],
+  巳の日: ["tsuchinotomi", "巳の日と己巳の日の違い"],
 };
 function moreLink(name) {
   const g = GUIDE_OF[name];
