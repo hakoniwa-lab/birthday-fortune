@@ -1245,3 +1245,6 @@ html, body {
 .books__title { display: block; font-weight: 600; font-size: 0.95rem; line-height: 1.5; }
 .books__note { display: block; font-size: 0.8rem; color: var(--color-text-muted); margin-top: 4px; }
 .books__ku { font-size: 0.8rem; color: var(--color-text-muted); margin: 10px 0 0; }
+
+/* 日の詳細のメモから記事・用語一覧へのリンク(2026-10-30) */
+.detail__more { white-space: nowrap; font-size: 0.9em; }

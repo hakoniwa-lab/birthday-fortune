@@ -292,19 +292,19 @@ function select(d) {
   const notes = [];
   if (k.holiday) notes.push(`<strong>${escapeHtml(k.holiday)}。</strong>${escapeHtml(HOLIDAY_TEXT[k.holiday] || "")}`);
   if (k.flags.tensha && k.flags.ichiryu) {
-    notes.push("<strong>天赦日と一粒万倍日が重なる日です。</strong>暦の上でもっとも良いとされ、年に1〜2回しかありません。");
+    notes.push("<strong>天赦日と一粒万倍日が重なる日です。</strong>暦の上でもっとも良いとされ、年に1〜2回しかありません。" + moreLink("天赦日") + moreLink("一粒万倍日"));
   } else if (k.flags.tensha) {
-    notes.push("<strong>天赦日。</strong>年に5〜6回しかない、暦の上でいちばん良いとされる日です。");
+    notes.push("<strong>天赦日。</strong>年に5〜6回しかない、暦の上でいちばん良いとされる日です。" + moreLink("天赦日"));
   }
   if (k.flags.ichiryu && !k.flags.tensha) {
-    notes.push("<strong>一粒万倍日。</strong>始めたことが大きく育つとされます。ただし借金だけは避けるとされる日です。");
+    notes.push("<strong>一粒万倍日。</strong>始めたことが大きく育つとされます。ただし借金だけは避けるとされる日です。" + moreLink("一粒万倍日"));
   }
-  if (k.flags.tsuchinotoMi) notes.push("<strong>己巳の日。</strong>60日に一度の、巳の日の中でも特別な金運の日とされます。");
-  else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。");
+  if (k.flags.tsuchinotoMi) notes.push("<strong>己巳の日。</strong>60日に一度の、巳の日の中でも特別な金運の日とされます。" + moreLink("己巳の日"));
+  else if (k.flags.tora) notes.push("<strong>寅の日。</strong>出ていったお金が戻るとされ、財布の新調や旅行に良いとされます。" + moreLink("寅の日"));
   if (k.flags.tatsu) notes.push("<strong>辰の日。</strong>龍神に縁のある日として、金運・開運の日に挙げられることが多い日です。天赦日などと違い、昔の暦注にある日ではありません。");
-  if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。");
-  if (k.flags.kirin) notes.push(`<strong>麒麟日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、麒麟が白虎(凶神)を制するとされます。日本では金運の日としても知られます。`);
-  if (k.flags.houou) notes.push(`<strong>鳳凰日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、鳳凰が朱雀(凶神)を制するとされます。日本では金運の日としても知られます。`);
+  if (k.flags.kinoeNe) notes.push("<strong>甲子の日。</strong>大黒天に縁のある60日に一度の日。干支の最初の組み合わせで、始まりに良いとされます。" + moreLink("甲子の日"));
+  if (k.flags.kirin) notes.push(`<strong>麒麟日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、麒麟が白虎(凶神)を制するとされます。日本では金運の日としても知られます。` + moreLink("麒麟日"));
+  if (k.flags.houou) notes.push(`<strong>鳳凰日。</strong>季節ごとに決まった二十八宿の日で、この季節は${escapeHtml(k.shuku)}宿。もとは中国の婚礼の日取りで、鳳凰が朱雀(凶神)を制するとされます。日本では金運の日としても知られます。` + moreLink("鳳凰日"));
   if (setShuku.checked && k.shuku === "鬼") notes.push("<strong>鬼宿日。</strong>二十八宿でもっとも良いとされる日です(婚礼だけは避けるとされます)。");
   if (k.sekki24) {
     notes.push(`<strong>${escapeHtml(k.sekki24.name)}(${k.sekki24.hh}時${String(k.sekki24.mi).padStart(2, "0")}分)。</strong>${escapeHtml(SEKKI24_TEXT[k.sekki24.name] || "")}`);
@@ -315,8 +315,8 @@ function select(d) {
   for (const e of k.events) notes.push(`<strong>${escapeHtml(e.name)}。</strong>${escapeHtml(e.text)}`);
   if (k.moonPhaseName) notes.push(`<strong>${escapeHtml(k.moonPhaseName)}。</strong>${escapeHtml(MOON_PHASE_TEXT[k.moonPhaseName] || "")}`);
   for (const n of k.senjitsu) notes.push(`<strong>${escapeHtml(n)}。</strong>${escapeHtml(SENJITSU_TEXT[n] || "")}`);
-  if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。");
-  if (k.flags.boso) notes.push("<strong>母倉日。</strong>天が人を慈しむ日。結婚・建築に良いとされます。");
+  if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。" + moreLink("天恩日"));
+  if (k.flags.boso) notes.push("<strong>母倉日。</strong>天が人を慈しむ日。結婚・建築に良いとされます。" + moreLink("母倉日"));
   for (const g of k.gedan) notes.push(`<strong>${escapeHtml(g)}。</strong>${escapeHtml(GEDAN_TEXT[g] || "")}。`);
   for (const g of k.gedanBad) {
     // 天火日と狼藉日は必ず同じ日なので、説明は1行にまとめる
@@ -325,7 +325,7 @@ function select(d) {
     const text = g === "天火日" && k.gedanBad.includes("狼藉日")
       ? `${GEDAN_BAD_TEXT.天火日}。狼藉日(三箇の悪日)とも重なり、何事も失敗するとされます`
       : GEDAN_BAD_TEXT[g];
-    notes.push(`<strong>${escapeHtml(name)}。</strong>${escapeHtml(text || "")}。`);
+    notes.push(`<strong>${escapeHtml(name)}。</strong>${escapeHtml(text || "")}。` + (GUIDE_OF[g] ? moreLink(g) : ""));
   }
   for (const g of k.juFuku) notes.push(`<strong>${escapeHtml(g)}。</strong>${escapeHtml(JUFUKU_TEXT[g] || "")}。`);
   notes.push(`<strong>十二天神は${escapeHtml(k.tenshin)}。</strong>${escapeHtml(TENSHIN_TEXT[k.tenshin] || "")}。中国の択日(通書)で使う十二神です。`);
@@ -336,8 +336,8 @@ function select(d) {
     const span = z.span ? `(${(() => { const a = jdToJstParts(z.start - 0.375), b = jdToJstParts(z.end - 0.375); return `${a.m}/${a.d}〜${b.m}/${b.d}`; })()})` : "";
     notes.push(`<strong>${escapeHtml(z.name)}${span}。</strong>${escapeHtml(z.text)}`);
   }
-  if (k.flags.fujoju) notes.push("<strong>不成就日。</strong>何を始めても成就しないとされる日です。");
-  if (k.flags.sanrinbo) notes.push("<strong>三隣亡。</strong>建築・棟上げで避けられる日です。");
+  if (k.flags.fujoju) notes.push("<strong>不成就日。</strong>何を始めても成就しないとされる日です。" + moreLink("不成就日"));
+  if (k.flags.sanrinbo) notes.push("<strong>三隣亡。</strong>建築・棟上げで避けられる日です。" + (k.flags.ichiryu && k.flags.tora ? "一粒万倍日×寅の日は必ず三隣亡と重なります。" : "") + moreLink("三隣亡"));
 
   /* あなたにとってのこの日 */
   let meHtml = "";
@@ -381,13 +381,32 @@ function select(d) {
       <p class="detail__row"><span>マヤ暦</span><b>KIN${k.maya.kin} ${escapeHtml(k.maya.signature)}</b></p>
     </div>
     <p class="detail__memo">${escapeHtml(ROKUYO_TEXT[k.rokuyo] || "")}</p>
-    <p class="detail__memo">${escapeHtml(k.junichoku)}${k.flags.geppa ? "(月破大耗)" : ""}: ${escapeHtml(JUNICHOKU_TEXT[k.junichoku] || "")}</p>
+    <p class="detail__memo">${escapeHtml(k.junichoku)}${k.flags.geppa ? "(月破大耗)" : ""}: ${escapeHtml(JUNICHOKU_TEXT[k.junichoku] || "")}${k.flags.geppa ? moreLink("月破大耗") : ""}</p>
     ${setShuku.checked ? `<p class="detail__memo">${escapeHtml(k.shuku)}宿: ${escapeHtml(SHUKU_TEXT[k.shuku] || "")}</p>` : ""}
     ${ko ? `<p class="detail__memo">${escapeHtml(ko.name)}: ${escapeHtml(ko.sekki)}の${escapeHtml(ko.part)}。${escapeHtml(ko.meaning)}ころ(${ko.m}月${ko.d}日から)</p>` : ""}
     <p class="detail__memo">KIN${k.maya.kin}: ${escapeHtml(MAYA_GLYPH_DAY[k.maya.glyph] || "")}</p>
     ${notes.length ? `<ul class="detail__notes">${notes.map((n) => `<li>${n}</li>`).join("")}</ul>` : ""}
   `;
   detail.hidden = false;
+}
+
+/* 日の詳細のメモから、くわしい記事(なければ用語一覧)へのリンク。記事のある吉日・凶日は「やること・避けること」へ */
+const GUIDE_OF = {
+  天赦日: ["tenshanichi-2026-2027", "天赦日にやること"],
+  一粒万倍日: ["ichiryu-manbaibi", "一粒万倍日にやること・避けること"],
+  麒麟日: ["kirinbi-hououbi", "麒麟日・鳳凰日にやること"],
+  鳳凰日: ["kirinbi-hououbi", "麒麟日・鳳凰日にやること"],
+  不成就日: ["fujojubi", "避けるとされること"],
+  三隣亡: ["sanrinbo", "避けるとされること"],
+  受死日: ["jushibi-jisshibi", "避けるとされること"],
+  十死日: ["jushibi-jisshibi", "避けるとされること"],
+  流財日: ["ryuzaibi", "本当の意味"],
+  月破大耗: ["geppa-taimou", "避けるとされること"],
+};
+function moreLink(name) {
+  const g = GUIDE_OF[name];
+  if (g) return ` <a class="detail__more" href="../guide/${g[0]}/">${g[1]} →</a>`;
+  return ` <a class="detail__more" href="glossary/#t-${encodeURIComponent(name)}">意味と決まり方 →</a>`;
 }
 
 /* ---------- 月内の吉日まとめ ---------- */

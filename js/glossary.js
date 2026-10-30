@@ -8,8 +8,21 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+/*
+ * 用語ごとのアンカー。「一粒万倍日(いちりゅうまんばいび)」→ t-一粒万倍日。同じ名前が2回目に出たら -2 を付ける。
+ * 並びは毎回同じなので、tools/koyomi-articles/build_glossary.js で書き出した静的HTMLと同じ id になる
+ */
+const usedIds = new Set();
+function termId(name) {
+  const base = "t-" + String(name).split(/[(（・]/)[0].trim();
+  let id = base, n = 2;
+  while (usedIds.has(id)) id = `${base}-${n++}`;
+  usedIds.add(id);
+  return id;
+}
+
 function row(name, text, sub) {
-  return `<div class="gl">
+  return `<div class="gl" id="${escapeHtml(termId(name))}">
     <p class="gl__name">${escapeHtml(name)}${sub ? `<small>${escapeHtml(sub)}</small>` : ""}</p>
     <p class="gl__text">${escapeHtml(text)}</p>
   </div>`;
