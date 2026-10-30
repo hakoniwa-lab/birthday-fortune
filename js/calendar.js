@@ -313,7 +313,7 @@ function select(d) {
   if (k.ko72Start) {
     notes.push(`<strong>今日から七十二候の「${escapeHtml(k.ko72Start.name)}」。</strong>${escapeHtml(k.ko72Start.meaning)}ころ。`);
   }
-  for (const e of k.events) notes.push(`<strong>${escapeHtml(e.name)}。</strong>${escapeHtml(e.text)}`);
+  for (const e of k.events) notes.push(`<strong>${escapeHtml(e.name)}。</strong>${escapeHtml(e.text)}` + (GUIDE_OF[e.name] ? moreLink(e.name) : ""));
   if (k.moonPhaseName) notes.push(`<strong>${escapeHtml(k.moonPhaseName)}。</strong>${escapeHtml(MOON_PHASE_TEXT[k.moonPhaseName] || "")}`);
   for (const n of k.senjitsu) notes.push(`<strong>${escapeHtml(n)}。</strong>${escapeHtml(SENJITSU_TEXT[n] || "")}`);
   if (k.flags.tenOn) notes.push("<strong>天恩日。</strong>天の恩恵をすべての人が受ける日。祝い事に良く、凶事には向かないとされます。" + moreLink("天恩日"));
@@ -405,6 +405,9 @@ const GUIDE_OF = {
   月破大耗: ["geppa-taimou", "避けるとされること"],
   己巳の日: ["tsuchinotomi", "己巳の日にやること・避けること"],
   巳の日: ["tsuchinotomi", "巳の日と己巳の日の違い"],
+  一の酉: ["torinoichi", "三の酉がある年の早見表"],
+  二の酉: ["torinoichi", "三の酉がある年の早見表"],
+  三の酉: ["torinoichi", "三の酉の年は火事が多い？"],
 };
 function moreLink(name) {
   const g = GUIDE_OF[name];
