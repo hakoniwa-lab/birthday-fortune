@@ -406,6 +406,7 @@ const GUIDE_OF = {
   己巳の日: ["tsuchinotomi", "己巳の日にやること・避けること"],
   巳の日: ["tsuchinotomi", "巳の日と己巳の日の違い"],
   寅の日: ["toranohi", "寅の日にやること・避けること"],
+  甲子の日: ["kinoenenohi", "甲子の日にやること・避けること"],
   一の酉: ["torinoichi", "三の酉がある年の早見表"],
   二の酉: ["torinoichi", "三の酉がある年の早見表"],
   三の酉: ["torinoichi", "三の酉の年は火事が多い？"],
