@@ -290,7 +290,7 @@ function select(d) {
     : "";
 
   const notes = [];
-  if (k.holiday) notes.push(`<strong>${escapeHtml(k.holiday)}。</strong>${escapeHtml(HOLIDAY_TEXT[k.holiday] || "")}`);
+  if (k.holiday) notes.push(`<strong>${escapeHtml(k.holiday)}。</strong>${escapeHtml(HOLIDAY_TEXT[k.holiday] || "")}` + (GUIDE_OF[k.holiday] ? moreLink(k.holiday) : ""));
   if (k.flags.tensha && k.flags.ichiryu) {
     notes.push("<strong>天赦日と一粒万倍日が重なる日です。</strong>暦の上でもっとも良いとされ、年に1〜2回しかありません。" + moreLink("天赦日") + moreLink("一粒万倍日"));
   } else if (k.flags.tensha) {
@@ -410,6 +410,7 @@ const GUIDE_OF = {
   一の酉: ["torinoichi", "三の酉がある年の早見表"],
   二の酉: ["torinoichi", "三の酉がある年の早見表"],
   三の酉: ["torinoichi", "三の酉の年は火事が多い？"],
+  成人の日: ["seijinshiki-hayami", "成人式は何年生まれ？早見表"],
 };
 function moreLink(name) {
   const g = GUIDE_OF[name];
