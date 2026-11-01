@@ -101,10 +101,21 @@ function sukuyoOf(y, m, d, hour, minute) {
  * それぞれの組の中で 栄・衰・安・危・成・壊・友・親 が順に並ぶ。
  * 逆から見ると必ず対になる(栄↔親、友↔衰、安↔壊、危↔成、業↔胎)ので、
  * 表を持たずにこの規則だけで両方向とも出せる。
+ *
+ * 近距離・中距離・遠距離は「何番目の組か」ではなく、二十七宿を円に並べたときに
+ * 二人の宿が何宿離れているか(近いほうの回り方で数える)で決まる。1〜4宿=近、5〜8宿=中、
+ * 10〜13宿=遠。9宿ちょうどは業胎で、命と業胎には距離をつけない。どちらから見ても同じ距離になる。
+ * (2026-11-01 まで組の番号で付けていて、栄衰安危の中・遠が逆、成壊友親は全部ずれていた。
+ *  八雲院・光晴堂の27宿ごとの相性表と照合して直した)
  */
 const SANKU_IN_GROUP = ["栄", "衰", "安", "危", "成", "壊", "友", "親"];
 const SANKU_HEAD = ["命", "業", "胎"];
-const SANKU_DISTANCE = ["近距離", "中距離", "遠距離"];
+
+function sankuDistance(steps) {
+  const sep = Math.min(steps, 27 - steps);
+  if (sep === 0 || sep === 9) return null;
+  return sep <= 4 ? "近距離" : sep <= 8 ? "中距離" : "遠距離";
+}
 
 const SANKU_DISTANCE_TEXT = {
   近距離: "日々の暮らしの中で関わる縁。会う回数が多く、影響がそのまま生活に出ます。",
@@ -159,7 +170,7 @@ function sankuRelation(a, b) {
   return {
     name,
     pair: SANKU_PAIR[name],
-    distance: SANKU_DISTANCE[group],
+    distance: sankuDistance(dist),
     steps: dist,
     text: SANKU_TEXT[name],
   };

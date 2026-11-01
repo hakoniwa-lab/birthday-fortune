@@ -152,11 +152,10 @@ function render(a, b) {
     el("sec-sukuyo").innerHTML = `
       <p class="chart__lead">${escapeHtml(skA.main.name)}宿 × ${escapeHtml(skB.main.name)}宿 — あなたから数えて${pr.aToB.steps + 1}番目、相手から数えて${pr.bToA.steps + 1}番目の宿です</p>
       <div class="rel2">
-        ${relBox(`あなたから見た相手(${pr.aToB.distance})`, `${pr.aToB.name}・${pr.aToB.pair}`,
-          `${pr.aToB.text} ${SANKU_DISTANCE_TEXT[pr.aToB.distance]}`)}
-        ${relBox(`相手から見たあなた(${pr.bToA.distance})`, `${pr.bToA.name}・${pr.bToA.pair}`,
-          `${pr.bToA.text} ${SANKU_DISTANCE_TEXT[pr.bToA.distance]}`)}
+        ${relBox("あなたから見た相手", `${pr.aToB.name}・${pr.aToB.pair}`, pr.aToB.text)}
+        ${relBox("相手から見たあなた", `${pr.bToA.name}・${pr.bToA.pair}`, pr.bToA.text)}
       </div>
+      ${pr.aToB.distance ? `<p class="item__text"><b>${pr.aToB.distance}</b>: ${SANKU_DISTANCE_TEXT[pr.aToB.distance]}(距離は二人の宿が二十七宿の並びで何宿離れているかで決まり、どちらから見ても同じです)</p>` : ""}
       <p class="item__note">宿曜の相性は<b>向きによって名前が変わります</b>。片方が与え、片方が受け取る形になっていることが多いためで、二人の関係を一つの言葉で決めつけないのがこの占いの特徴です。良い悪いではなく、役割が違うと読んでください。</p>
     `;
   } else {
