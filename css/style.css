@@ -36,6 +36,9 @@
     --color-warn-text: #e0a876;
     --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.5);
   }
+  /* 文中のリンクは既定の青(#0000ee)だと暗い背景で読めないので、明るい色にする(ボタン類は class を持つので対象外) */
+  a:not([class]) { color: #9cc3ff; }
+  a:not([class]):visited { color: #c6a8ff; }
 }
 
 * { box-sizing: border-box; }

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>生まれた日の月の形を調べる｜月齢・満ち欠けと、二人の月を重ねる(無料・登録不要)</title>
+<meta name="description" content="生年月日を入れると、生まれた日の月の形を絵で出し、月齢・光って見える割合・旧暦の日付と「十三夜」「立待月」などの呼び名を計算します。二人の生まれた日の月を重ねると満月になるかも分かります(満月になるのは4組に1組)。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/tsuki/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="生まれた日の月の形 | HAKONIWA LAB">
+<meta property="og:description" content="生年月日から、生まれた日の月の形・月齢・昔の呼び名。二人の月を重ねると満月になるかも。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/tsuki/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"生まれた時刻が分からなくても大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"大丈夫です。時刻が分からないときは正午で計算し、その日のうちに光って見える割合がどこからどこまで変わるかも出します。月は1日に約12度進むので、1日で光る割合は最大11.6ポイント動きます(2000〜2030年の毎日で計算)。"}},{"@type":"Question","name":"月齢と旧暦の日付はどう違いますか？","acceptedAnswer":{"@type":"Answer","text":"月齢は新月の瞬間からの経過日数で、小数まで出ます。旧暦の日付は新月の瞬間を含む日を1日として数えるので、月齢よりおおむね1大きくなります。国立天文台は「陰暦15日とは月齢14.0を含む日」と説明しています。"}},{"@type":"Question","name":"二人の月を重ねるとはどういうことですか？","acceptedAnswer":{"@type":"Answer","text":"二人の生まれた日の月の絵を重ねて、光っている部分を合わせることです。満ちていく月と欠けていく月なら、光る割合は二人の割合を足したものになり、100%に届けば満月です。2人の誕生日がばらばらだとすると、満月になる組み合わせは25%、4組に1組でした。"}},{"@type":"Question","name":"入力した生年月日はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべて端末の中で行います。あなたの生年月日は端末(ブラウザ)の中にだけ保存し、相手の生年月日は保存しません。"}},{"@type":"Question","name":"南半球で生まれた場合は？","acceptedAnswer":{"@type":"Answer","text":"南半球では月の左右が逆に見えます。このページの絵は日本(北半球)から見た形です。"}}]}</script>
+<style>
+:root { --tk-lit: #f1d27a; --tk-dark: #34313d; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --tk-lit: #f3dc96; --tk-dark: #15141a; } }
+.tk-moon { display: flex; gap: 16px; align-items: center; text-align: left; margin: 0 0 12px; }
+.tk-moon__art { flex: 0 0 auto; }
+.tk-moon__art svg { display: block; width: 132px; height: 132px; }
+.tk-moon__who { font-size: 0.8rem; color: var(--color-text-muted); margin: 0; }
+.tk-moon__name { font-size: 1.3rem; font-weight: 800; color: var(--color-primary); margin: 0 0 4px; }
+.tk-facts { margin: 0 0 4px; padding-left: 1.1em; font-size: 0.88rem; }
+.tk-small { font-size: 0.76rem; color: var(--color-text-muted); margin: 4px 0 0; }
+.tk-text { font-size: 0.9rem; margin: 0 0 10px; text-align: left; }
+.tk-h { font-size: 1rem; margin: 18px 0 8px; text-align: left; }
+.tk-moon--union { padding-top: 10px; border-top: 1px solid var(--color-border); }
+.tk-partner { margin-top: 12px; text-align: left; }
+.tk-check { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; margin: 14px 0 4px; text-align: left; }
+.tk-hour { margin-top: 8px; }
+@media (max-width: 420px) { .tk-moon { flex-direction: column; align-items: center; text-align: center; } .tk-moon__text { width: 100%; text-align: left; } }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ 生まれた日の月の形</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">生年月日を入れるだけ</p>
+    <h1 class="app-header__title">生まれた日の<br>月の形</h1>
+    <p class="app-header__lead">あなたが生まれた日、空にはどんな形の月が出ていたか。月齢と光って見える割合を天文計算で出し、絵にします。二人の月を重ねることもできます。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="tk-form">
+          <p class="form-help" style="margin-top:0">あなたの生年月日</p>
+          <div class="date-row">
+            <select id="tk-year" class="quiz-select" aria-label="年"></select>
+            <select id="tk-month" class="quiz-select" aria-label="月"></select>
+            <select id="tk-day" class="quiz-select" aria-label="日"></select>
+          </div>
+          <div class="tk-hour"><select id="tk-hour" class="quiz-select" aria-label="生まれた時刻"></select></div>
+          <label class="tk-check"><input type="checkbox" id="tk-partner-on"> 相手の月と重ねる</label>
+          <div id="tk-partner" class="tk-partner" hidden>
+          <p class="form-help" style="margin-top:0">相手の生年月日</p>
+          <div class="date-row">
+            <select id="tp-year" class="quiz-select" aria-label="年"></select>
+            <select id="tp-month" class="quiz-select" aria-label="月"></select>
+            <select id="tp-day" class="quiz-select" aria-label="日"></select>
+          </div>
+          <div class="tk-hour"><select id="tp-hour" class="quiz-select" aria-label="生まれた時刻"></select></div>
+          </div>
+          <button type="submit" class="btn btn--primary btn--large">月の形を見る</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行います。あなたの生年月日は端末(ブラウザ)の中にだけ保存し、相手の生年月日は保存しません。外部には送りません。絵は日本(北半球)から見た形です。</p>
+      </div>
+
+      <div class="card" id="tk-result" hidden>
+        <div id="tk-result-body"></div>
+        <p class="item__note">月齢と旧暦の日付の違い、十五夜が満月とは限らない理由、二人の月で満月になる組み合わせは<a href="../guide/umareta-hi-no-tsuki/">生まれた日の月の形の調べ方</a>にまとめています。</p>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>月の形はどう決まる？</h2>
+      <p>月の形は、地球から見て太陽と月がどれだけ離れているか(離角)で決まります。新月から満月までは右側が光る「満ちていく月」、満月から次の新月までは左側が光る「欠けていく月」です。このページは、太陽と月の位置を天文計算で出し、光って見える割合を (1 − cos 離角) ÷ 2 で計算しています。</p>
+      <p>NASA ジェット推進研究所(JPL)の天体暦 Horizons と、2000〜2030年の307日で突き合わせたところ、光って見える割合の差は最大0.21ポイントでした。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>旧暦の日の呼び名</h2>
+      <p>昔の日本では、旧暦の日付ごとに月に名前をつけていました。生まれた日が当たる日なら、結果に呼び名も出します。</p>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>旧暦の日</th><th>呼び名</th></tr></thead>
+          <tbody>
+            <tr><th>1日</th><td>朔(さく)・新月</td></tr>
+            <tr><th>2日</th><td>既朔(きさく)</td></tr>
+            <tr><th>3日</th><td>三日月</td></tr>
+            <tr><th>7・8日</th><td>上弦</td></tr>
+            <tr><th>13日</th><td>十三夜</td></tr>
+            <tr><th>14日</th><td>小望月(こもちづき)・幾望(きぼう)</td></tr>
+            <tr><th>15日</th><td>望(ぼう)・満月・望月(もちづき)</td></tr>
+            <tr><th>16日</th><td>十六夜(いざよい)・既望(きぼう)</td></tr>
+            <tr><th>17日</th><td>立待月(たちまちづき)</td></tr>
+            <tr><th>18日</th><td>居待月(いまちづき)</td></tr>
+            <tr><th>19日</th><td>寝待月(ねまちづき)・臥待月(ふしまちづき)</td></tr>
+            <tr><th>20日</th><td>更待月(ふけまちづき)</td></tr>
+            <tr><th>22・23日</th><td>下弦</td></tr>
+            <tr><th>29・30日</th><td>晦(つごもり)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>呼び名は旧暦の日付で決まるので、実際の月の形とは少しずれることがあります。たとえば「十五夜(旧暦15日)」の夜に満月の瞬間があるとは限りません(<a href="../guide/umareta-hi-no-tsuki/#jugoya">詳しく</a>)。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>生まれた時刻が分からなくても大丈夫ですか？</summary><p>大丈夫です。時刻が分からないときは正午で計算し、その日のうちに光って見える割合がどこからどこまで変わるかも出します。月は1日に約12度進むので、1日で光る割合は最大11.6ポイント動きます(2000〜2030年の毎日で計算)。</p></details>
+      <details class="faq-item"><summary>月齢と旧暦の日付はどう違いますか？</summary><p>月齢は新月の瞬間からの経過日数で、小数まで出ます。旧暦の日付は新月の瞬間を含む日を1日として数えるので、月齢よりおおむね1大きくなります。国立天文台は「陰暦15日とは月齢14.0を含む日」と説明しています。</p></details>
+      <details class="faq-item"><summary>二人の月を重ねるとはどういうことですか？</summary><p>二人の生まれた日の月の絵を重ねて、光っている部分を合わせることです。満ちていく月と欠けていく月なら、光る割合は二人の割合を足したものになり、100%に届けば満月です。2人の誕生日がばらばらだとすると、満月になる組み合わせは25%、4組に1組でした。</p></details>
+      <details class="faq-item"><summary>入力した生年月日はどこかに送られますか？</summary><p>送られません。計算はすべて端末の中で行います。あなたの生年月日は端末(ブラウザ)の中にだけ保存し、相手の生年月日は保存しません。</p></details>
+      <details class="faq-item"><summary>南半球で生まれた場合は？</summary><p>南半球では月の左右が逆に見えます。このページの絵は日本(北半球)から見た形です。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../guide/umareta-hi-no-tsuki/">生まれた日の月の形の調べ方</a> — 月齢と旧暦の違い、二人の月で満月になる組み合わせ</li>
+        <li><a href="../">生まれ日診断</a> — 生まれた日の月のほか、九星・四柱推命・数秘・西洋占星術</li>
+        <li><a href="../compatibility/">相性診断</a> — 二人の生年月日から6つの占術で相性を見ます</li>
+        <li><a href="../guide/shingetsu-mangetsu-2026-2027/">新月・満月の日時(2026・2027年)</a> — これからの新月と満月</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://eco.mtk.nao.ac.jp/koyomi/wiki/B7EEA4CECBFEA4C1B7E7A4B12FB7EECEF0A4C8CBFEA4C1B7E7A4B1.html" target="_blank" rel="noopener">国立天文台 暦Wiki「月齢と満ち欠け」</a>(月齢と満ち欠けの関係、陰暦15日と月齢)</li>
+        <li><a href="https://ja.wikipedia.org/wiki/%E6%9C%88%E7%9B%B8" target="_blank" rel="noopener">Wikipedia「月相」</a>(旧暦の日の呼び名)</li>
+        <li><a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank" rel="noopener">NASA JPL「Horizons System」</a>(光って見える割合の照合)</li>
+      </ul>
+      <p>月と太陽の位置はライブラリを使わず計算しています(月は Meeus『天文アルゴリズム』の周期項)。新月の瞬間は吉日カレンダーと同じ計算で、国立天文台の朔望の時刻と2分以内で一致します。</p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../js/astro.js"></script>
+<script src="../js/fortune.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/tsuki.js"></script>
+<script src="../js/tsuki-app.js"></script>
+</body>
+</html>

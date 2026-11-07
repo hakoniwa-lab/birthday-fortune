@@ -127,10 +127,17 @@ function weekdayIndex(y, m, d) {
 /* ---------- 月齢 ---------- */
 
 /*
- * 2000年1月6日18:14(UTC)の新月を基準に、朔望月29.530589日で割った余り。
- * 生まれた日の正午(日本時間)で評価する。平均値なので実際とは最大で半日ほどずれる。
+ * 生まれた日の正午(日本時間)の月齢。
+ * koyomi.js が読み込まれていれば、直前の朔(新月の瞬間)からの日数で正確に出す(生まれた日の月の形 tsuki/ と同じ値)。
+ * 読み込まれていないページでは、2000年1月6日18:14(UTC)の新月を基準に朔望月29.530589日で割った余り(最大で半日ほどずれる)。
  */
 function moonAge(y, m, d) {
+  if (typeof newMoonNear === "function") {
+    const jd = jdFromJst(y, m, d, 12, 0);
+    let nm = newMoonNear(jd);
+    if (nm > jd) nm = newMoonNear(jd - 29.53);
+    return jd - nm;
+  }
   const ref = Date.UTC(2000, 0, 6, 18, 14);
   const t = Date.UTC(y, m - 1, d, 3, 0); // 12:00 JST
   const synodic = 29.530589;

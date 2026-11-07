@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>ボイドタイム カレンダー｜今日・今月の時刻(2026〜2030年・日本時間)</title>
+<meta name="description" content="月のボイドタイム(ボイド・オブ・コース)の始まりと終わりを、2026〜2030年の月ごとに日本時間で一覧にします。いまボイド中か、次はいつかも表示。天王星・海王星・冥王星まで数えるか、土星までにするかを切り替えられます。NASA JPL の天体暦から計算。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/void/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ボイドタイム カレンダー | HAKONIWA LAB">
+<meta property="og:description" content="月のボイドタイムの始まりと終わりを日本時間で。いまボイド中か、次はいつか。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/void/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"ボイドタイムとは何ですか？","acceptedAnswer":{"@type":"Answer","text":"占星術で、月が今いる星座のうちに、ほかの天体と最後の主な角度(0°・60°・90°・120°・180°)を作ってから、次の星座に入るまでの時間です。英語の void of course moon の訳です。"}},{"@type":"Question","name":"なぜサイトによって時刻が違うのですか？","acceptedAnswer":{"@type":"Answer","text":"角度を数える天体が違うからです。天王星・海王星・冥王星まで数えるか、土星までにするかで、2026〜2030年の802回のうち78回は始まりの時刻が変わり、変わる回は平均11.4時間ずれます。このページは両方を切り替えて見られます。"}},{"@type":"Question","name":"時刻はどれくらい正確ですか？","acceptedAnswer":{"@type":"Answer","text":"NASA ジェット推進研究所(JPL)の天体暦 Horizons の月と惑星の位置から計算しています。同じ数え方(太陽〜冥王星・5つの角度)のベストカレンダーの一覧と、2026〜2027年の321回すべてで始まりと終わりが30秒以内で一致しました。"}},{"@type":"Question","name":"ボイドタイムには何をしてはいけないのですか？","acceptedAnswer":{"@type":"Answer","text":"占星術では「新しいことを始めても実を結びにくい」とされ、契約や買い物を避ける人がいます。ただし、天文学的な根拠はありません。月の位置で決まる暦の読み物として使ってください。"}},{"@type":"Question","name":"入力した情報は送られますか？","acceptedAnswer":{"@type":"Answer","text":"このページは何も入力しません。選んだ月と数える天体の設定だけを端末(ブラウザ)に保存します。"}}]}</script>
+<style>
+.vd-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; text-align: left; }
+.vd-controls label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 4px; }
+.vd-now { font-size: 0.92rem; margin: 0 0 8px; padding: 8px 10px; border-radius: var(--radius-md); background: var(--color-bg); text-align: left; }
+.vd-now--on { border-left: 4px solid var(--color-primary); }
+.vd-now--retro { font-size: 0.82rem; }
+.vd-table th, .vd-table td { font-size: 0.85rem; }
+.vd-table small { display: block; font-size: 0.72rem; color: var(--color-text-muted); font-weight: 400; }
+.vd-table tr.is-now th, .vd-table tr.is-now td { color: var(--color-primary); font-weight: 700; }
+.vd-small { font-size: 0.76rem; color: var(--color-text-muted); margin: 6px 0 0; text-align: left; }
+@media (max-width: 420px) { .vd-controls { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ ボイドタイム</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">2026〜2030年・日本時間</p>
+    <h1 class="app-header__title">ボイドタイム<br>カレンダー</h1>
+    <p class="app-header__lead">月が次の星座に入る前の「空白の時間」を、月ごとに一覧にします。いまボイド中か、次はいつかも出します。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <div id="vd-status"></div>
+        <div class="vd-controls">
+          <div><label for="vd-month">月</label><select id="vd-month" class="quiz-select"></select></div>
+          <div><label for="vd-bodies">数える天体</label><select id="vd-bodies" class="quiz-select"><option value="all">太陽〜冥王星(10天体)</option><option value="seven">太陽〜土星(7天体)</option></select></div>
+        </div>
+        <div id="vd-list"></div>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>ボイドタイムの数え方</h2>
+      <p>月はおよそ2日半ごとに星座を移ります。今いる星座のうちに、月が太陽や惑星と最後の主な角度(0°・60°・90°・120°・180°)を作った瞬間から、次の星座に入る瞬間までがボイドタイムです。</p>
+      <p>数える天体は流派で分かれます。天王星・海王星・冥王星まで入れる数え方(10天体)が多く使われ、古い占星術にならって土星までにする数え方(7天体)もあります。2026〜2030年では、802回のうち78回で始まりが変わり、変わる回は平均11.4時間、最大で48時間ずれます。</p>
+      <p>1回の長さは平均10.8時間で、年に約160回、時間にして約20%がボイドタイムです(10天体)。2026〜2030年でいちばん長いのは2027年2月8日 12:53からの47時間でした。</p>
+      <p>2027年の1年分は<a href="../guide/void-time-2027/">ボイドタイム2027年の一覧</a>にまとめています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>ボイドタイムとは何ですか？</summary><p>占星術で、月が今いる星座のうちに、ほかの天体と最後の主な角度(0°・60°・90°・120°・180°)を作ってから、次の星座に入るまでの時間です。英語の void of course moon の訳です。</p></details>
+      <details class="faq-item"><summary>なぜサイトによって時刻が違うのですか？</summary><p>角度を数える天体が違うからです。天王星・海王星・冥王星まで数えるか、土星までにするかで、2026〜2030年の802回のうち78回は始まりの時刻が変わり、変わる回は平均11.4時間ずれます。このページは両方を切り替えて見られます。</p></details>
+      <details class="faq-item"><summary>時刻はどれくらい正確ですか？</summary><p>NASA ジェット推進研究所(JPL)の天体暦 Horizons の月と惑星の位置から計算しています。同じ数え方(太陽〜冥王星・5つの角度)のベストカレンダーの一覧と、2026〜2027年の321回すべてで始まりと終わりが30秒以内で一致しました。</p></details>
+      <details class="faq-item"><summary>ボイドタイムには何をしてはいけないのですか？</summary><p>占星術では「新しいことを始めても実を結びにくい」とされ、契約や買い物を避ける人がいます。ただし、天文学的な根拠はありません。月の位置で決まる暦の読み物として使ってください。</p></details>
+      <details class="faq-item"><summary>入力した情報は送られますか？</summary><p>このページは何も入力しません。選んだ月と数える天体の設定だけを端末(ブラウザ)に保存します。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../guide/void-time-2027/">ボイドタイム2027年の一覧</a> — 1年分の時刻と、数える天体で変わる理由</li>
+        <li><a href="../guide/suisei-gyakko/">水星逆行はいつ？(2026〜2030年)</a> — 期間・時刻・シャドー期間と、ほかの惑星の逆行</li>
+        <li><a href="../tsuki/">生まれた日の月の形</a> — 生年月日から月の形を絵で出します</li>
+        <li><a href="../calendar/">吉日カレンダー</a> — 六曜・一粒万倍日・新月満月を月ごとに</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank" rel="noopener">NASA JPL「Horizons System」</a>(月・太陽・惑星の位置。地心の黄道座標)</li>
+        <li><a href="https://bestcalendar.jp/horoscope/void" target="_blank" rel="noopener">ベストカレンダー「ボイドタイム」</a>(同じ数え方の一覧。照合に使用)</li>
+      </ul>
+      <p>天体暦の位置を補間して、月の星座の変わり目と、月とほかの天体の角度がぴったりになる時刻を求めています。ベストカレンダーの2026〜2027年の321回と、始まり・終わりとも30秒以内で一致しました。</p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。ボイドタイムの数え方は流派によって違います。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../js/sky-data.js"></script>
+<script src="../js/sky-app.js"></script>
+</body>
+</html>

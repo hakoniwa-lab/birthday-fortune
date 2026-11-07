@@ -189,7 +189,7 @@ function buildProfileHtml(p) {
       </div>
       <div class="item">
         <p class="item__head"><span class="badge">生まれた日の月</span>${escapeHtml(mn.name)}<small>(月齢 ${p.moonAge.toFixed(1)})</small></p>
-        <p class="item__text">${escapeHtml(mn.text)}</p>
+        <p class="item__text">${escapeHtml(mn.text)} <a href="tsuki/">月の形を絵で見る・二人の月を重ねる</a></p>
       </div>
       <div class="item">
         <p class="item__head"><span class="badge">誕生石</span>${escapeHtml(bs.name)}</p>
