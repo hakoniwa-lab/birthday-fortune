@@ -762,3 +762,16 @@ A8 の案件ページに「広告とわかる表示をファーストビュー�
 - タイトル「2027年の最強開運日ランキング｜凶日を除いた12日と、サイトで1位が違う理由」。他の5ページ(カレンダー・何年ぶり・入籍・財布・天赦日)からのリンク文言も合わせた
 - 3サイトのランキングを11/1に開き直して確認: RiCherie・ZEROICHIは同じ、みんなのウェディングに3位の11月28日(大安・大明日・天恩日)が加わっていた
 - 表は全部 spec--wrap
+
+## 2026-11-06 姓名判断の計算機 `seimei/` と記事 `guide/seimei-handan-chigai/`
+
+- サジェストの「サイトによって結果が違う」「霊数 あり なし」「新字体 旧字体 どっち」が狙い。流派の説明は姓名判断大全・福カレンダーが先行しているので、**多数の名前で数えた割合**で差をつける
+- 計算は `js/seimei.js`(五格・霊数・吉凶)、画面は `js/seimei-app.js`、漢字表は `js/seimei-data.js`(3,200字余り、`tools/seimei-count/build_table.py` が作る。手で直さない)
+- 記事は `tools/koyomi-articles/gen_seimei.js`→`build_seimei.py`。数字は全部 seimei.json から。gen は公開例と、Python で別に書いた `tools/seimei-count/count.py` の結果(count_out.txt)と突き合わせて、違えば build が止まる
+- **作り直す順**: stroke_fix.json などを直す → `python build_table.py <tools/seimei-count>` → `python count.py <同じ> > count_out.txt` → `node gen_seimei.js` → `python build_seimei.py`
+- **名前は保存しない・URLに入れない**(localStorage も使わない)。フォームは送信を止めて端末の中で計算するだけ
+- 画数の出どころの優先順: 漢字辞典オンライン(常用・人名用の一覧ページ)＞Wikipedia常用漢字一覧＞Wiktionary＞Unihan。**Unihan の kTotalStrokes は中国・台湾基準**(部10・花8・海10)で日本の画数には使えない。**Wikipedia の表にも誤り**(離19・璃15・衷10)、**Wiktionary にも誤り**(湊13)
+- 部首を元の字で数えるのは仙人の姓名判断の12部首だけ(氵扌忄犭王礻艹衤月阝辶阝)。辶は点2つの形がある(辻6＝辵7+十2で9)ので `7+min(今の画数-3, 残りの画数)`。Unihan の部首が康熙字典と違う字(萬＝禸)は stroke_fix.json で直す
+- 吉凶は7サイトの表の多数決で、流派の公式の表ではない。1〜25画は全部一致。81を超えたら80を引く(81を引く資料もある。集計の範囲では81超は0件)
+- 画数ごとの運勢の説明は載せていない。占いの読みを増やすより数え方の比較に絞った
+- 広告は入れていない
