@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>方位盤｜今日の大将軍・金神・天一神・太白神と恵方を色で見る(日付を選ぶだけ)</title>
+<meta name="description" content="日付を選ぶと、その日の方位神のいる方角を方位盤に色で出します。年で決まる大将軍・金神・恵方・八将神と、日ごとに動く天一神・太白神、金神の遊行日・間日も。1950〜2099年に対応。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/hoi/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="方位盤 | HAKONIWA LAB">
+<meta property="og:description" content="日付を選ぶと、大将軍・金神・恵方と、日ごとに動く天一神・太白神のいる方角を色で表示。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/hoi/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"方位盤の外側の輪は何ですか？","acceptedAnswer":{"@type":"Answer","text":"日ごとに動く方位神です。内側の輪が天一神(日の干支で5〜6日ごとに移る)、外側の輪が太白神(旧暦の日付で毎日移る)で、色の付いた方角にいます。点線の輪になっている日は、その神が天に上っていて、どの方角も塞がりません。"}},{"@type":"Question","name":"天一神の「天一天上」とは何ですか？","acceptedAnswer":{"@type":"Answer","text":"天一神が天に帰っている16日間(癸巳の日から戊申の日まで)です。この間は天一神のいる方角がなくなり、どこへ出かけてもよいとされました。吉日カレンダーの選日の「天一天上」と同じ日です。"}},{"@type":"Question","name":"太白神の9の付く日はどこにいますか？","acceptedAnswer":{"@type":"Answer","text":"資料によって言い方が違います。西野神社の表では中央、日本国語大辞典では10の付く日と合わせて天上です。どちらの説でも、方角を塞ぐことはありません。"}},{"@type":"Question","name":"大将軍の遊行日は出ないのですか？","acceptedAnswer":{"@type":"Answer","text":"出していません。大将軍が別の方位に出かける日は、Wikipedia では各季節の土用の中、西野神社では季節全体で数えていて、2027年に当てはめると遊行の回数が1回と7回で大きく違います。どちらも元の資料が分からないので、三年塞がりのまま表示しています。"}},{"@type":"Question","name":"選んだ日付はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべて端末の中で行い、日付はどこにも保存しません。ページのアドレスの最後に日付が付くので、その日の方位盤を保存したり人に送ったりできます。"}}]}</script>
+<style>
+:root { --hoi-dai: #eba68b; --hoi-kon: #f3cf8f; --hoi-kon-strong: #e6a23c; --hoi-kon-line: #a86b1c; --hoi-ten: #aaa3e8; --hoi-tai: #84ccb0; --hoi-eho: #4c7a18; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --hoi-dai: #8f3b24; --hoi-kon: #6f5222; --hoi-kon-strong: #a8741f; --hoi-kon-line: #e0a650; --hoi-ten: #5f58b8; --hoi-tai: #2c7f61; --hoi-eho: #a5d266; } }
+.hoi-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 6px; }
+.hoi-date { font-size: 1rem; padding: 9px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); color: var(--color-text); min-width: 0; }
+.hoi-controls .btn { padding: 9px 14px; font-size: 0.9rem; }
+.hoi-err { color: #b3261e; font-size: 0.85rem; margin: 0; min-height: 1.2em; }
+.hoi-dial { max-width: 440px; margin: 0 auto; }
+.hoi-dial svg { display: block; width: 100%; height: auto; }
+.hoi-ring, .hoi-center { fill: var(--color-surface); stroke: var(--color-border); stroke-width: 1; }
+.hoi-dai, .hoi-dai-fill { fill: var(--hoi-dai); }
+.hoi-kon, .hoi-kon-fill { fill: var(--hoi-kon); }
+.hoi-kon--yu { fill: var(--hoi-kon-strong); }
+.hoi-both { fill: url(#hoi-hatch); }
+.hoi-both--yu { fill: url(#hoi-hatch-yu); }
+.hoi-away { fill: none; stroke: var(--hoi-kon-line); stroke-width: 2; stroke-dasharray: 5 4; }
+.hoi-ten { fill: var(--hoi-ten); }
+.hoi-tai { fill: var(--hoi-tai); }
+.hoi-up { fill: none; stroke-width: 2.5; stroke-dasharray: 3 6; }
+.hoi-up--ten { stroke: var(--hoi-ten); }
+.hoi-up--tai { stroke: var(--hoi-tai); }
+.hoi-eho { stroke: var(--hoi-eho); stroke-width: 3.5; stroke-linecap: round; }
+.hoi-eho-head { fill: var(--hoi-eho); }
+.hoi-t { fill: var(--color-text); font-size: 13px; }
+.hoi-t--b { font-weight: 700; }
+.hoi-t--s { font-size: 12px; fill: var(--color-text-muted); }
+.hoi-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; justify-content: center; list-style: none; padding: 0; margin: 8px 0 12px; font-size: 0.8rem; }
+.hoi-legend li { display: flex; align-items: center; }
+.hoi-sw { display: inline-block; flex: 0 0 auto; width: 13px; height: 13px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.hoi-sw--dai { background: var(--hoi-dai); }
+.hoi-sw--kon { background: var(--hoi-kon); }
+.hoi-sw--both { background: repeating-linear-gradient(45deg, var(--hoi-kon) 0 3px, var(--hoi-dai) 3px 6px); }
+.hoi-sw--away { border: 2px dashed var(--hoi-kon-line); }
+.hoi-sw--eho { background: var(--hoi-eho); }
+.hoi-sw--ten { background: var(--hoi-ten); }
+.hoi-sw--tai { background: var(--hoi-tai); }
+.hoi-list { margin: 0; text-align: left; }
+.hoi-row { display: grid; grid-template-columns: 11em 1fr; gap: 2px 12px; padding: 9px 0; border-top: 1px solid var(--color-border); }
+.hoi-row dt { font-size: 0.85rem; color: var(--color-text-muted); }
+.hoi-row dd { margin: 0; }
+.hoi-row dd strong { display: block; font-size: 1rem; }
+.hoi-row dd span { display: block; font-size: 0.82rem; color: var(--color-text-muted); }
+@media (max-width: 480px) { .hoi-row { grid-template-columns: 1fr; } .hoi-date { flex: 1 1 100%; } }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ <a href="../calendar/">吉日カレンダー</a> ／ 方位盤</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">日付を選ぶだけ</p>
+    <h1 class="app-header__title">方位盤<br>その日の方位神はどこ？</h1>
+    <p class="app-header__lead">昔の暦で、引っ越しや旅行のときに避けるとされた方位神。年で決まる大将軍・金神と、日ごとに動く天一神・太白神のいる方角を、1枚の盤に色で出します。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <div class="hoi-controls">
+          <input type="date" id="hoi-date" class="hoi-date" aria-label="日付">
+          <button type="button" id="hoi-prev" class="btn btn--ghost">前の日</button>
+          <button type="button" id="hoi-next" class="btn btn--ghost">次の日</button>
+          <button type="button" id="hoi-today" class="btn btn--ghost">今日</button>
+        </div>
+        <p id="hoi-err" class="hoi-err" role="alert"></p>
+        <div id="hoi-dial" class="hoi-dial"></div>
+        <ul class="hoi-legend">
+          <li><span class="hoi-sw hoi-sw--ten"></span>天一神(外の輪の内側)</li>
+          <li><span class="hoi-sw hoi-sw--tai"></span>太白神(外の輪の外側)</li>
+          <li><span class="hoi-sw hoi-sw--dai"></span>大将軍</li>
+          <li><span class="hoi-sw hoi-sw--kon"></span>金神</li>
+          <li><span class="hoi-sw hoi-sw--both"></span>大将軍と金神</li>
+          <li><span class="hoi-sw hoi-sw--away"></span>金神が留守(遊行・間日)</li>
+          <li><span class="hoi-sw hoi-sw--eho"></span>恵方(矢印)</li>
+        </ul>
+        <dl id="hoi-list" class="hoi-list"></dl>
+        <p class="intro-disclaimer">※ 方位神は昔の暦の言い伝えで、吉凶に根拠はありません。計算はすべて端末の中で行い、日付はどこにも保存しません。</p>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>盤の見方</h2>
+      <p>真北を上にした方位盤です。<strong>内側の12区切り</strong>は十二支の方位(子＝北、卯＝東、午＝南、酉＝西)で、年で決まる大将軍・金神と恵方を出しています。年は1月1日ではなく<strong>立春で切り替わります</strong>。</p>
+      <p><strong>外側の2つの輪</strong>は、北・北東・東…の8方位です。内側の輪が天一神、外側の輪が太白神で、どちらも日ごとに移ります。点線の輪になっている日は、その神が天に上っていて方角を塞ぎません。</p>
+      <p>金神は年の方位にいますが、遊行日(5日ずつ別の方位に出かける日)と間日(差し支えないとされる日)には、年の方位が点線になります。遊行先は濃い色で出します。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>天一神(なかがみ)の巡り方</h2>
+      <p>天一神は日の干支で居場所が決まり、北東から時計回りに、斜めの方角には6日、東西南北には5日ずつとどまります。44日で1周すると、残りの16日は天に帰ります(天一天上)。60日で同じことをくり返します。</p>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>始まりの日</th><th>日数</th><th>方角</th></tr></thead>
+          <tbody>
+            <tr><th>己酉の日から</th><td>6日</td><td>北東</td></tr>
+            <tr><th>乙卯の日から</th><td>5日</td><td>東</td></tr>
+            <tr><th>庚申の日から</th><td>6日</td><td>南東</td></tr>
+            <tr><th>丙寅の日から</th><td>5日</td><td>南</td></tr>
+            <tr><th>辛未の日から</th><td>6日</td><td>南西</td></tr>
+            <tr><th>丁丑の日から</th><td>5日</td><td>西</td></tr>
+            <tr><th>壬午の日から</th><td>6日</td><td>北西</td></tr>
+            <tr><th>戊子の日から</th><td>5日</td><td>北</td></tr>
+            <tr><th>癸巳の日から</th><td>16日</td><td>天上(天一天上)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>平安時代の方違え(悪い方角を避けて、いったん別の方角に泊まってから向かう習わし)は、ほとんどがこの神を避けるためのものでした。Wikipedia「天一神」・デジタル大辞泉・日本国語大辞典・ブリタニカ国際大百科事典・日刊「こよみのページ」で、この表は一致しています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>太白神(ひとひめぐり)の巡り方</h2>
+      <p>太白神は金星の神で、旧暦の日付で居場所が決まります。1日に東にいて、毎日1つずつ時計回りに進み、8日で8方位を回ります。そのため「一日巡り(ひとひめぐり)」とも呼ばれました。</p>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>旧暦の日</th><th>方角</th></tr></thead>
+          <tbody>
+            <tr><th>1・11・21日</th><td>東</td></tr>
+            <tr><th>2・12・22日</th><td>南東</td></tr>
+            <tr><th>3・13・23日</th><td>南</td></tr>
+            <tr><th>4・14・24日</th><td>南西</td></tr>
+            <tr><th>5・15・25日</th><td>西</td></tr>
+            <tr><th>6・16・26日</th><td>北西</td></tr>
+            <tr><th>7・17・27日</th><td>北</td></tr>
+            <tr><th>8・18・28日</th><td>北東</td></tr>
+            <tr><th>9・19・29日</th><td>中央(西野神社)・天上(日本国語大辞典)</td></tr>
+            <tr><th>10・20・30日</th><td>天上</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>表は西野神社の「方違え」のページによります。日本国語大辞典も、1・11・21日は東、8の日は北東、9・10の日は天上としていて、違うのは9の付く日の呼び方だけです。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>年で決まる方位神</h2>
+      <p>大将軍は年の十二支で決まり、3年同じ方位にいます(三年塞がり)。金神は年の十干で決まり、2〜6方位にいます。恵方は歳徳神のいる吉の方角です。2026〜2035年の早見表と、金神の表が資料によって2通りある話は<a href="../guide/daishogun-konjin/">大将軍と金神の方位</a>にまとめています。</p>
+      <p>大将軍にも遊行日がありますが、資料によって日の数え方が違うため、この盤には出していません(<a href="../guide/daishogun-konjin/#daishogun-yugyo">2つの説</a>)。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>方位盤の外側の輪は何ですか？</summary><p>日ごとに動く方位神です。内側の輪が天一神(日の干支で5〜6日ごとに移る)、外側の輪が太白神(旧暦の日付で毎日移る)で、色の付いた方角にいます。点線の輪になっている日は、その神が天に上っていて、どの方角も塞がりません。</p></details>
+      <details class="faq-item"><summary>天一神の「天一天上」とは何ですか？</summary><p>天一神が天に帰っている16日間(癸巳の日から戊申の日まで)です。この間は天一神のいる方角がなくなり、どこへ出かけてもよいとされました。吉日カレンダーの選日の「天一天上」と同じ日です。</p></details>
+      <details class="faq-item"><summary>太白神の9の付く日はどこにいますか？</summary><p>資料によって言い方が違います。西野神社の表では中央、日本国語大辞典では10の付く日と合わせて天上です。どちらの説でも、方角を塞ぐことはありません。</p></details>
+      <details class="faq-item"><summary>大将軍の遊行日は出ないのですか？</summary><p>出していません。大将軍が別の方位に出かける日は、Wikipedia では各季節の土用の中、西野神社では季節全体で数えていて、2027年に当てはめると遊行の回数が1回と7回で大きく違います。どちらも元の資料が分からないので、三年塞がりのまま表示しています。</p></details>
+      <details class="faq-item"><summary>選んだ日付はどこかに送られますか？</summary><p>送られません。計算はすべて端末の中で行い、日付はどこにも保存しません。ページのアドレスの最後に日付が付くので、その日の方位盤を保存したり人に送ったりできます。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../guide/daishogun-konjin/">大将軍と金神の方位 2027年はどっち？</a> — 2026〜2035年の早見表と、金神の遊行日・間日</li>
+        <li><a href="../guide/setsubun-ehou/">節分と恵方の早見表</a> — 恵方と、立春で年が切り替わる話</li>
+        <li><a href="../calendar/">吉日カレンダー</a> — 日の干支・天一天上などの選日・吉日と凶日</li>
+        <li><a href="../guide/yakudoshi-happoufusagari/">厄年と八方塞がり</a> — 九星気学の方位(方位神とは別の決まり)</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://ja.wikipedia.org/wiki/%E5%A4%A9%E4%B8%80%E7%A5%9E" target="_blank" rel="noopener">Wikipedia「天一神」</a>(天一神の遊行の表、天一天上)</li>
+        <li><a href="https://kotobank.jp/word/%E5%A4%A9%E4%B8%80%E7%A5%9E-107600" target="_blank" rel="noopener">コトバンク「天一神」</a>(デジタル大辞泉・日本国語大辞典・ブリタニカ国際大百科事典)</li>
+        <li><a href="https://koyomi8.com/doc/mlwa/201112190.html" target="_blank" rel="noopener">日刊☆こよみのページ「天一天上と塞がり」</a>(天一神遊行の日程)</li>
+        <li><a href="https://kotobank.jp/word/%E5%A4%AA%E7%99%BD%E7%A5%9E-558129" target="_blank" rel="noopener">コトバンク「太白神」</a>(日本国語大辞典: 1・11・21日は東、8の日は北東、9・10の日は天上)</li>
+        <li><a href="https://nishinojinja.or.jp/%E3%81%93%E3%82%88%E3%81%BF%E3%81%A8%E5%90%89%E5%87%B6/%E5%90%89%E5%87%B6%E7%A5%9E/%E6%96%B9%E9%81%95%E3%81%88/" target="_blank" rel="noopener">西野神社「方違え」</a>(太白神の旧暦の日ごとの方角、大将軍の遊行日)</li>
+        <li><a href="https://ja.wikipedia.org/wiki/%E6%96%B9%E9%81%95%E3%81%88" target="_blank" rel="noopener">Wikipedia「方違え」</a>(方違えの対象になった方位神)</li>
+        <li><a href="https://ja.wikipedia.org/wiki/%E9%87%91%E7%A5%9E" target="_blank" rel="noopener">Wikipedia「金神」</a>・<a href="https://ja.wikipedia.org/wiki/%E5%85%AB%E5%B0%86%E7%A5%9E" target="_blank" rel="noopener">「八将神」</a>(年で決まる方位神。照合の結果は<a href="../guide/daishogun-konjin/">大将軍と金神の方位</a>に)</li>
+      </ul>
+      <p>日の干支・旧暦の日付・立春などの節入りは、吉日カレンダーと同じ計算部品で出しています(新月と節入りは天文計算)。天一神が天に帰っている日は、2000〜2050年の毎日で吉日カレンダーの「天一天上」と一致することを確かめています。</p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../js/astro.js"></script>
+<script src="../js/fortune.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/houijin.js"></script>
+<script src="../js/hoi-app.js"></script>
+</body>
+</html>

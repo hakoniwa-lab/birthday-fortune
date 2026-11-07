@@ -1,5 +1,6 @@
 /*
  * 方位神(八将神・金神・大金神・姫金神)の方位と、金神の遊行・間日。表を持たず、十干・十二支の決まりだけで出す。
+ * 日で動く天一神・太白神はファイルの最後(方位盤 hoi/ で使う)。
  *
  * 方位は十二支で表す(子=北から時計回りに30度ずつ)。年は立春で切り替わる(恵方と同じ扱い)。
  *
@@ -56,6 +57,13 @@ function konjinDirs(year, hoki) {
   return (hoki ? HJ_KONJIN_HOKI : HJ_KONJIN)[hjYearStem(year) % 5].slice();
 }
 
+/* 恵方(歳徳神のいる方角)。年の十干で決まり、甲・己=甲(東北東やや東 75度)、乙・庚=庚(西南西やや西 255度)、
+   丙・辛・戊・癸=丙(南南東やや南 165度)、丁・壬=壬(北北西やや北 345度)。gen_setsubun.js(節分の記事)と同じ決まり */
+function ehoHoi(year) {
+  const k = "甲庚丙壬丙甲庚丙壬丙"[hjYearStem(year)];
+  return { stem: k, deg: { 甲: 75, 庚: 255, 丙: 165, 壬: 345 }[k], name: { 甲: "東北東", 庚: "西南西", 丙: "南南東", 壬: "北北西" }[k] };
+}
+
 /* 大金神・姫金神 */
 function daikonjin(year) {
   const b = hjYearBranch(year);
@@ -82,3 +90,33 @@ function konjinYugyoSeason(kanshi, season) {
 /* 金神の間日(春=丑・夏=申・秋=未・冬=酉の日) */
 const HJ_MABI = [1, 8, 7, 9];
 function isKonjinMabi(branch, season) { return HJ_MABI[season] === branch; }
+
+/*
+ * ここから下は日で動く方位神。方位は8方位(北から時計回りに45度ずつ)で表す。
+ *
+ * 天一神(なかがみ) … 日の干支で決まる。己酉から北東に6日→東5日→南東6日→南5日→南西6日→西5日→北西6日→北5日の44日、
+ *   癸巳から16日は天に帰っている(天一天上)。Wikipedia「天一神」・デジタル大辞泉・日本国語大辞典・ブリタニカ・
+ *   こよみのページ(2011-12-19)で一致。天一天上は koyomi.js の選日と同じ(癸巳〜戊申)。
+ * 太白神(ひとひめぐり) … 旧暦の日で決まる。1・11・21日が東で、毎日時計回りに1つずつ進み、8の付く日が北東。
+ *   10の付く日は天上。9の付く日は西野神社の表では「中央入地」、日本国語大辞典では「天上」で、どちらも塞がる方角はない。
+ */
+const HJ_DIR8 = ["北", "北東", "東", "南東", "南", "南西", "西", "北西"];
+// [始まりの日の干支の番号, 日数, 方位(HJ_DIR8 の番号)]
+const HJ_TENICHI = [[45, 6, 1], [51, 5, 2], [56, 6, 3], [2, 5, 4], [7, 6, 5], [13, 5, 6], [18, 6, 7], [24, 5, 0]];
+
+/* 天一神。地上にいれば { dir, n(何日目), len(その方位にいる日数), start }、天上なら dir は null */
+function tenichiJin(kanshi) {
+  for (const [s, len, dir] of HJ_TENICHI) {
+    const o = ((kanshi - s) % 60 + 60) % 60;
+    if (o < len) return { dir, n: o + 1, len, start: s };
+  }
+  return { dir: null, n: ((kanshi - 29) % 60 + 60) % 60 + 1, len: 16, start: 29 };
+}
+
+/* 太白神。lunarDay は旧暦の日(1〜30)。{ dir(HJ_DIR8 の番号 / null), place: "dir" | "center" | "up" } */
+function taihakuJin(lunarDay) {
+  const r = lunarDay % 10;
+  if (r === 0) return { dir: null, place: "up" };
+  if (r === 9) return { dir: null, place: "center" };
+  return { dir: (r + 1) % 8, place: "dir" }; // 1→東(2) … 7→北(0)、8→北東(1)
+}
