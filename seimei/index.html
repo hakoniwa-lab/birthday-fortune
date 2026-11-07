@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>姓名判断 数え方くらべ｜新字体・旧字体・部首・霊数で五格を一度に計算(無料・登録不要)</title>
+<meta name="description" content="姓と名を入れると、天格・人格・地格・外格・総格を4通りの数え方(今の字/部首を元の字に/旧字体/旧字体＋部首)で並べて計算します。1文字の姓・名は霊数の3通りも。サイトによって結果が違う理由が、自分の名前で分かります。名前は保存しません。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/seimei/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="姓名判断 数え方くらべ | HAKONIWA LAB">
+<meta property="og:description" content="同じ名前を4通りの数え方で並べて計算。サイトによって結果が違う理由が分かります。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/seimei/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した名前はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべてお使いの端末の中で行い、名前は保存もしません。ページを閉じたり再読み込みしたりすると消えます。URLにも入りません。"}},{"@type":"Question","name":"なぜ結果が4通りも出るのですか？","acceptedAnswer":{"@type":"Answer","text":"姓名判断には、画数の数え方が1つに決まっていないからです。今の字のまま数える流派、旧字体に直す流派、部首を元の字で数える流派があり、同じ名前でも画数が変わります。どれが正しいかは決められないので、並べて出しています。"}},{"@type":"Question","name":"どの列を信じればいいですか？","acceptedAnswer":{"@type":"Answer","text":"正解はありません。占いに科学的な根拠はないので、この計算機は「数え方でどれだけ変わるか」を見るためのものです。気に入った本やサイトがあるなら、その流派の数え方に近い列を見てください。"}},{"@type":"Question","name":"出てこない字があります","acceptedAnswer":{"@type":"Answer","text":"表に入っているのは常用漢字・人名用漢字・主な旧字体の3,211字です。無い字は、結果の欄で画数を入れると計算できます。"}},{"@type":"Question","name":"ひらがな・カタカナの名前も計算できますか？","acceptedAnswer":{"@type":"Answer","text":"できます。ただし、かなの数え方は流派で違います。ここでは手で書くときの画数(濁点は2画、半濁点は1画)を入れてあり、結果の欄で直せます。"}},{"@type":"Question","name":"画数ごとの運勢の説明はありますか？","acceptedAnswer":{"@type":"Answer","text":"載せていません。このページは数え方の違いを見るためのもので、吉凶は7つの公開表の多数決で「吉・半吉・凶」だけを出しています。"}}]}</script>
+<style>
+.sm-names { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; text-align: left; }
+.sm-names label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+.sm-lead { font-size: 0.98rem; margin: 0 0 12px; text-align: left; }
+.sm-small { font-size: 0.78rem; color: var(--color-text-muted); margin: 8px 0; text-align: left; }
+.sm-h { font-size: 1rem; margin: 20px 0 6px; text-align: left; }
+.sm-table { width: 100%; table-layout: fixed; }
+.sm-table th:first-child { width: 2.9em; }
+.sm-table th, .sm-table td { text-align: center; padding: 6px 3px; white-space: normal; font-size: 0.82rem; line-height: 1.3; }
+.sm-table thead th { font-size: 0.72rem; }
+.sm-num { display: block; font-size: 1.02rem; font-weight: 800; color: var(--color-text); }
+.sm-mark { display: block; font-size: 0.7rem; font-weight: 700; }
+.sm-mark--kichi { color: var(--color-primary); }
+.sm-mark--han { color: var(--color-text-muted); }
+.sm-mark--kyo { color: color-mix(in srgb, #c0392b 75%, var(--color-text)); }
+.is-changed { background: color-mix(in srgb, var(--color-primary) 16%, transparent); }
+.sm-table--chars th:first-child { font-size: 1rem; }
+.sm-table--chars tbody td { font-size: 0.95rem; font-weight: 700; color: var(--color-text); }
+.sm-table--chars tr.sm-note-row td { font-size: 0.72rem; font-weight: 400; color: var(--color-text-muted); text-align: left; padding-top: 0; }
+.sm-reisu { border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 8px 12px; margin: 0 0 12px; text-align: left; }
+.sm-reisu legend { font-size: 0.82rem; font-weight: 700; padding: 0 4px; }
+.sm-reisu label { display: inline-block; font-size: 0.85rem; margin: 2px 12px 2px 0; }
+.sm-ask { text-align: left; font-size: 0.88rem; }
+.sm-ask__row { display: inline-flex; align-items: center; gap: 6px; margin: 4px 14px 4px 0; font-size: 0.9rem; }
+.sm-ask__ch { font-size: 1.1rem; font-weight: 800; }
+.sm-ask__input { width: 4.2em; padding: 6px 8px; border: 1.5px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); font-size: 0.95rem; }
+.sm-kana { margin-top: 12px; text-align: left; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../">生まれ日診断</a> ／ 姓名判断 数え方くらべ</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">姓と名を入れるだけ</p>
+    <h1 class="app-header__title">姓名判断<br>数え方くらべ</h1>
+    <p class="app-header__lead">サイトによって姓名判断の結果が違うのは、画数の数え方が違うからです。同じ名前を4通りの数え方で並べて計算します。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="sm-form" autocomplete="off">
+          <div class="sm-names">
+            <div><label for="sm-sei">姓</label><input id="sm-sei" class="quiz-select" type="text" maxlength="8" placeholder="例: 山田" autocomplete="off"></div>
+            <div><label for="sm-mei">名</label><input id="sm-mei" class="quiz-select" type="text" maxlength="8" placeholder="例: 花子" autocomplete="off"></div>
+          </div>
+          <p id="sm-error" class="form-error" hidden></p>
+          <button type="submit" class="btn btn--primary btn--large">4通りで計算する</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行います。入力した名前は保存せず、外部にも送りません。姓名判断に科学的な根拠はありません。読み物として使ってください。</p>
+      </div>
+
+      <div class="card" id="sm-result" hidden>
+        <div id="sm-result-body"></div>
+        <p class="item__note">どの数え方でどれくらい結果が変わるかを、名字1,200個と名前で数えた結果は<a href="../guide/seimei-handan-chigai/">姓名判断の結果がサイトで違うのはなぜ？</a>にまとめています。</p>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>4通りの数え方</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>数え方</th><th>どう数えるか</th><th>例</th></tr></thead>
+          <tbody>
+            <tr><th>今の字</th><td>入力した字をそのまま数えます</td><td>花 7画 / 沢 7画</td></tr>
+            <tr><th>今の字＋部首</th><td>今の字のまま、略した部首だけ元の字で数えます</td><td>花 10画(艹を艸の6画で) / 沢 8画(氵を水の4画で)</td></tr>
+            <tr><th>旧字体</th><td>旧字体に直して、見たままの形で数えます</td><td>花 7画(旧字体なし) / 沢→澤 16画</td></tr>
+            <tr><th>旧字体＋部首</th><td>旧字体に直して、部首も元の字で数えます</td><td>花 10画 / 沢→澤 17画</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>部首を元の字で数えるのは、氵(水4画)・扌(手4画)・忄(心4画)・犭(犬4画)・王(玉5画)・礻(示5画)・艹(艸6画)・衤(衣6画)・月(肉6画)・阝(邑7画、阜8画)・辶(辵7画)です。「々」は今の字では3画、ほかは前の字と同じ画数で数えます。漢数字の一〜十は、部首を元の字で数える2列では数の値で数えます(九は2画でなく9)。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>五格の出し方</h2>
+      <div class="table-scroll">
+        <table class="spec">
+          <thead><tr><th>名前</th><th>出し方</th></tr></thead>
+          <tbody>
+            <tr><th>天格</th><td>姓の画数の合計</td></tr>
+            <tr><th>人格</th><td>姓の最後の字＋名の最初の字</td></tr>
+            <tr><th>地格</th><td>名の画数の合計</td></tr>
+            <tr><th>外格</th><td>総格−人格</td></tr>
+            <tr><th>総格</th><td>姓名すべての合計</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>姓か名が1文字のときは、仮の1(霊数)を足す流派があります。足さない、外格だけに足す、天格・地格・外格に足す、の3通りを切り替えられます。総格には足しません。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>吉凶の決め方</h2>
+      <p>吉凶は7つの公開サイトの表(1〜81画)を「吉・半吉・凶」にまとめ、多数決で決めています。流派の公式の表ではありません。吉・半吉・凶の3つに分けると、7つの表は1〜25画ですべて同じで、割れるのは26画以上です。割れている数字が出たときは、結果の欄に票数を出します。81を超えたときは80を引いて読みます。</p>
+      <p>名字と名前のランキングで数えると、今の字で五格に凶が1つもない人は<strong>16.7%</strong>でした。凶が出るのは珍しいことではありません。詳しくは<a href="../guide/seimei-handan-chigai/">解説記事</a>に書いています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>入力した名前はどこかに送られますか？</summary><p>送られません。計算はすべてお使いの端末の中で行い、名前は保存もしません。ページを閉じたり再読み込みしたりすると消えます。URLにも入りません。</p></details>
+      <details class="faq-item"><summary>なぜ結果が4通りも出るのですか？</summary><p>姓名判断には、画数の数え方が1つに決まっていないからです。今の字のまま数える流派、旧字体に直す流派、部首を元の字で数える流派があり、同じ名前でも画数が変わります。どれが正しいかは決められないので、並べて出しています。</p></details>
+      <details class="faq-item"><summary>どの列を信じればいいですか？</summary><p>正解はありません。占いに科学的な根拠はないので、この計算機は「数え方でどれだけ変わるか」を見るためのものです。気に入った本やサイトがあるなら、その流派の数え方に近い列を見てください。</p></details>
+      <details class="faq-item"><summary>出てこない字があります</summary><p>表に入っているのは常用漢字・人名用漢字・主な旧字体の3,211字です。無い字は、結果の欄で画数を入れると計算できます。</p></details>
+      <details class="faq-item"><summary>ひらがな・カタカナの名前も計算できますか？</summary><p>できます。ただし、かなの数え方は流派で違います。ここでは手で書くときの画数(濁点は2画、半濁点は1画)を入れてあり、結果の欄で直せます。</p></details>
+      <details class="faq-item"><summary>画数ごとの運勢の説明はありますか？</summary><p>載せていません。このページは数え方の違いを見るためのもので、吉凶は7つの公開表の多数決で「吉・半吉・凶」だけを出しています。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../guide/seimei-handan-chigai/">姓名判断の結果がサイトで違うのはなぜ？名字1,200個と名前で数えました</a> — 数え方を変えると約半数で吉凶が変わります</li>
+        <li><a href="../">生まれ日診断</a> — 生年月日から九星・四柱推命・数秘・西洋占星術をまとめて出します</li>
+        <li><a href="../compatibility/">相性診断</a> — 二人の生年月日から6つの占術で相性を見ます</li>
+        <li><a href="../guide/murphy-no-hosoku/">マーフィーの法則は本当か</a> — ジンクスを計算で確かめた記事です</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://kanji.jitenon.jp/cat/jimmei" target="_blank" rel="noopener">漢字辞典オンライン</a>(常用漢字・人名用漢字の総画)</li>
+        <li><a href="https://ja.wikipedia.org/wiki/%E5%B8%B8%E7%94%A8%E6%BC%A2%E5%AD%97%E4%B8%80%E8%A6%A7" target="_blank" rel="noopener">Wikipedia「常用漢字一覧」</a>(旧字体の対応)</li>
+        <li><a href="https://www.unicode.org/charts/unihan.html" target="_blank" rel="noopener">Unicode「Unihan Database」</a>(部首と部首内の画数、旧字体の対応)</li>
+        <li><a href="https://mojisennin.com/seimeihandan/kakusu.html" target="_blank" rel="noopener">仙人の姓名判断「伝統的な画数の数え方」</a>(部首を元の字で数える一覧、漢数字、「々」)</li>
+        <li><a href="https://ja.wikipedia.org/wiki/%E5%A7%93%E5%90%8D%E5%88%A4%E6%96%AD" target="_blank" rel="noopener">Wikipedia「姓名判断」</a>(五格の出し方、霊数)</li>
+      </ul>
+      <p>公開されている計算例と照合しています。漢字表は3,211字です。字ごとの数え方は流派や資料で違うことがあります。</p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。姓名判断の方法は流派によって違います。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../js/seimei-data.js"></script>
+<script src="../js/seimei.js"></script>
+<script src="../js/seimei-app.js"></script>
+</body>
+</html>
