@@ -47,6 +47,7 @@
         if (c.old) parts.push(`旧字体は「${c.old}」`);
         if (c.rad === -1) parts.push("漢数字は数の値で");
         else if (c.rad > 0 && SEIMEI_RAD[c.rad]) parts.push(SEIMEI_RAD[c.rad]);
+        if (c.rad !== -1 && c.s[3] !== c.s[1] && c.s[3] !== c.s[2]) parts.push("旧字体＋部首は康熙字典の画数");
         note = parts.join("、");
       }
       const s = c.s;
