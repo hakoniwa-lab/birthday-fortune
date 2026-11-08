@@ -4,6 +4,7 @@
  *   外側の輪(8方位)… 日で動く天一神(内側の輪)と太白神(外側の輪)
  * 決まりは js/houijin.js、日の干支・旧暦・節入りは koyomi.js / astro.js。
  * 選んだ日付はどこにも保存しない(URL の ?d=2027-02-04 で開ける)。
+ * 地図で測った行き先の方角(hoi-map.js が window.HOI.setBearing で渡す)を、盤に針で出す。
  * 依存: astro.js / fortune.js / chart.js / data.js / koyomi.js / houijin.js
  */
 (function () {
@@ -15,6 +16,7 @@
   const iso = (y, m, d) => `${y}-${z(m)}-${z(d)}`;
   const dirName = (b) => `${HJ_DIR[b]}(${HJ_BRANCH[b]})`;
   const off = (k, s) => ((k - s) % 60 + 60) % 60;
+  let bearing = null, lastX = null; // 行き先の方角(真北から時計回りの度)と、いま出している日
   const GOD_NAMES = [["taisai", "太歳神"], ["daishogun", "大将軍"], ["daion", "大陰神"], ["saikyo", "歳刑神"], ["saiha", "歳破神"], ["saisetsu", "歳殺神"], ["ohban", "黄幡神"], ["hyobi", "豹尾神"]];
 
   /* その日の方位神をまとめて出す */
@@ -86,8 +88,14 @@
     const [l1x, l1y] = pt(x.eho.deg - 7, 60), [l2x, l2y] = pt(x.eho.deg + 7, 60);
     o.push(`<line x1="${f(sx)}" y1="${f(sy)}" x2="${f(ex)}" y2="${f(ey)}" class="hoi-eho"/>`);
     o.push(`<polygon points="${f(ex)},${f(ey)} ${f(l1x)},${f(l1y)} ${f(l2x)},${f(l2y)}" class="hoi-eho-head"/>`);
+    // 行き先の方角の針(地図で測ったとき)
+    if (bearing !== null) {
+      const [nx0, ny0] = pt(bearing, R0), [nx1, ny1] = pt(bearing, H1 + 5);
+      o.push(`<line x1="${f(nx0)}" y1="${f(ny0)}" x2="${f(nx1)}" y2="${f(ny1)}" class="hoi-needle"/>`, `<circle cx="${f(nx1)}" cy="${f(ny1)}" r="4.5" class="hoi-needle-dot"/>`);
+    }
     const label = `方位盤。大将軍は${HJ_DIR[x.h.daishogun]}、金神は${x.kon.map((i) => HJ_DIR[i]).join("・")}、恵方は${x.eho.name}、` +
-      `天一神は${x.ten.dir === null ? "天上" : HJ_DIR8[x.ten.dir]}、太白神は${x.tai && x.tai.dir !== null ? HJ_DIR8[x.tai.dir] : "方位にいない日"}`;
+      `天一神は${x.ten.dir === null ? "天上" : HJ_DIR8[x.ten.dir]}、太白神は${x.tai && x.tai.dir !== null ? HJ_DIR8[x.tai.dir] : "方位にいない日"}` +
+      (bearing !== null ? `、行き先の方角は${bearing.toFixed(1)}度` : "");
     return `<svg viewBox="0 0 360 360" role="img" aria-label="${label}">
       <defs><pattern id="hoi-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" class="hoi-dai-fill"/><rect width="4" height="8" class="hoi-kon-fill"/></pattern><pattern id="hoi-hatch-yu" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" class="hoi-dai-fill"/><rect width="4" height="8" class="hoi-kon--yu"/></pattern></defs>
       ${o.join("")}
@@ -140,7 +148,16 @@
     $("hoi-list").innerHTML = rows(x).map(([sw, name, val, note]) =>
       `<div class="hoi-row"><dt>${sw ? `<span class="hoi-sw ${sw}" aria-hidden="true"></span>` : ""}${name}</dt><dd>${val ? `<strong>${val}</strong>` : ""}<span>${note}</span></dd></div>`).join("");
     try { history.replaceState(null, "", `?d=${v}`); } catch (e) { /* 書き換えられなくても表示はできる */ }
+    lastX = x;
+    document.dispatchEvent(new CustomEvent("hoi:render", { detail: x }));
   }
+
+  // 地図(hoi-map.js)とのやりとり。位置は渡さず、方角の度だけを受け取る
+  window.HOI = {
+    get x() { return lastX; },
+    // 同じ値なら何もしない(render が hoi:render を出し、地図がまた setBearing を呼ぶので、変わったときだけ描き直す)
+    setBearing(deg) { const nb = deg === null || deg === undefined ? null : deg; if (nb === bearing) return; bearing = nb; if (lastX) render(); },
+  };
 
   function setDate(dt) { $("hoi-date").value = iso(dt.getFullYear(), dt.getMonth() + 1, dt.getDate()); render(); }
   function shift(n) {

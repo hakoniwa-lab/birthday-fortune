@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>紫微斗数 命盤を無料で作る｜数え方で変わる所も一緒に表示(登録不要)</title>
+<meta name="description" content="生年月日と生まれた時刻から、紫微斗数の命盤(十二宮・十四主星・四化・五行局・大限)を作ります。旧暦の作り方・夜23時台・閏月・立春などの数え方を変えると命盤のどこが変わるかも、その場で表示。時刻が分からない人は12通りを並べます。入力は保存しません。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/shibi/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="紫微斗数 命盤 | HAKONIWA LAB">
+<meta property="og:description" content="紫微斗数の命盤を作り、数え方を変えると命盤のどこが変わるかも並べて見せます。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/shibi/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した生年月日はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべてお使いの端末の中で行い、生年月日や時刻は保存もしません。ページを閉じると消えます。URLにも入りません。"}},{"@type":"Question","name":"ほかのサイトと命盤が違います","acceptedAnswer":{"@type":"Answer","text":"数え方が違うのかもしれません。旧暦を日本と中国のどちらの暦で作るか、夜23時台を翌日にするか、閏月をどう数えるかなどで命盤は変わります。結果の下の「数え方を変えると」に、あなたの生まれ日時で変わる所を出しています。1950〜2009年の生まれで数えると、日付と時刻の数え方を1つ変えるだけで約9人に1人は命宮の主星が入れ替わりました。"}},{"@type":"Question","name":"生まれた時刻が分かりません","acceptedAnswer":{"@type":"Answer","text":"「時刻が分からない」にチェックを入れると、12の時辰ごとに命宮と主星を並べます。命宮は時刻で決まるので、時刻なしでは1つに絞れません。母子手帳に時刻が書いてあることが多いです。"}},{"@type":"Question","name":"性別は何に使いますか？","acceptedAnswer":{"@type":"Answer","text":"大限(10年ごとの運)を回す向きだけに使います。生まれ年の十干が陽(甲・丙・戊・庚・壬)の男性と陰の女性は順回り、それ以外は逆回りです。選ばなければ大限を出しません。"}},{"@type":"Question","name":"星の意味や運勢の文章はありますか？","acceptedAnswer":{"@type":"Answer","text":"命宮の主星だけ、短い説明を付けています。このページは命盤を正しく作ることと、数え方による違いを見ることが目的です。紫微斗数に科学的な根拠はありません。"}},{"@type":"Question","name":"1901年より前や2100年以降は出せますか？","acceptedAnswer":{"@type":"Answer","text":"出せません。旧暦は新月と中気(太陽の位置)の天文計算で組み立てていて、確かめた範囲の1901〜2099年に限っています。"}}]}</script>
+<style>
+:root { --sb-lu: #2f7d4a; --sb-quan: #6a4bb0; --sb-ke: #2a68a8; --sb-ji: #b3261e; --sb-bad: #a24a3a; --sb-good: #4c6f8f; --sb-mei: #a8631f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sb-lu: #74c98f; --sb-quan: #b19be8; --sb-ke: #7fb4e8; --sb-ji: #f08a80; --sb-bad: #e09a8a; --sb-good: #9cc0e0; --sb-mei: #e3a23b; } }
+.sb-fields { display: grid; gap: 12px; text-align: left; margin: 0 0 12px; }
+.sb-fields label, .sb-fields legend { display: block; font-size: 0.85rem; font-weight: 700; margin: 0 0 4px; }
+.sb-fields fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.sb-fields input[type="date"], .sb-fields input[type="time"], .sb-fields select { width: 100%; box-sizing: border-box; font-size: 1rem; }
+.sb-row { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 0.9rem; }
+.sb-row label { font-weight: 400; display: inline-flex; gap: 4px; align-items: center; margin: 0; }
+.sb-help { font-size: 0.78rem; color: var(--color-text-muted); margin: 4px 0 0; font-weight: 400; }
+.sb-opts { text-align: left; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 8px 12px; margin: 0 0 12px; }
+.sb-opts summary { cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+.sb-opts fieldset { border: 0; border-top: 1px solid var(--color-border); padding: 8px 0 4px; margin: 8px 0 0; min-width: 0; }
+.sb-opts legend { font-size: 0.85rem; font-weight: 700; padding: 0; float: left; width: 100%; margin-bottom: 4px; }
+.sb-opts label { display: block; font-size: 0.85rem; margin: 2px 0; clear: left; }
+.sb-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; margin: 4px 0 8px; font-size: 0.78rem; }
+.sb-cell { border: 1px solid var(--color-border); border-radius: 4px; padding: 4px; min-height: 108px; display: flex; flex-direction: column; background: var(--color-surface); min-width: 0; }
+.sb-cell--mei { border: 2px solid var(--sb-mei); padding: 3px; }
+.sb-head { display: flex; justify-content: space-between; align-items: center; gap: 2px; }
+.sb-pname { font-weight: 700; font-size: 0.78rem; }
+.sb-body { display: inline-block; font-size: 0.68rem; padding: 0 3px; border-radius: 3px; background: var(--color-badge-bg); color: var(--color-badge-text); }
+.sb-stars { margin: 3px 0 2px; display: flex; flex-direction: column; }
+.sb-major { font-weight: 700; font-size: 0.9rem; color: var(--color-text); white-space: nowrap; }
+.sb-empty { color: var(--color-text-muted); font-size: 0.7rem; }
+.sb-minors { display: flex; flex-wrap: wrap; gap: 0 4px; flex: 1; align-content: flex-start; }
+.sb-minor { font-size: 0.7rem; color: var(--sb-good); white-space: nowrap; }
+.sb-minor--bad { color: var(--sb-bad); }
+.sb-k { display: inline-block; font-size: 0.62rem; line-height: 1.3; padding: 0 2px; margin-left: 1px; border-radius: 2px; color: #fff; vertical-align: 1px; font-weight: 700; }
+.sb-k--禄 { background: var(--sb-lu); } .sb-k--権 { background: var(--sb-quan); } .sb-k--科 { background: var(--sb-ke); } .sb-k--忌 { background: var(--sb-ji); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sb-k { color: #1b1914; } }
+.sb-foot { display: flex; justify-content: space-between; gap: 2px; font-size: 0.66rem; color: var(--color-text-muted); margin-top: 2px; flex-wrap: wrap; }
+.sb-center { border: 1px dashed var(--color-border); border-radius: 4px; padding: 8px; display: flex; flex-direction: column; justify-content: center; gap: 2px; text-align: left; }
+.sb-center p { margin: 0; font-size: 0.82rem; }
+.sb-center span { color: var(--color-text-muted); font-size: 0.72rem; margin-right: 4px; }
+.sb-legend { font-size: 0.75rem; color: var(--color-text-muted); margin: 0 0 8px; text-align: left; }
+.sb-legend .sb-major { font-size: 0.8rem; }
+.sb-h { font-size: 1.05rem; margin: 18px 0 8px; text-align: left; }
+.sb-small { font-size: 0.8rem; color: var(--color-text-muted); text-align: left; }
+.sb-notes { text-align: left; font-size: 0.9rem; padding-left: 1.2em; }
+#sb-result-body > p { text-align: left; }
+.sb-var th { white-space: normal !important; width: 42%; }
+.sb-apply, .sb-pick { margin-top: 4px; font-size: 0.78rem; padding: 3px 8px; border: 1px solid var(--color-border); border-radius: 4px; background: var(--color-surface); color: var(--color-primary); cursor: pointer; }
+@media (max-width: 480px) { .sb-cell { min-height: 96px; padding: 3px 2px; } .sb-cell--mei { padding: 2px 1px; } .sb-major { font-size: 0.8rem; } .sb-board { gap: 2px; } .sb-center { padding: 4px; } .sb-center p { font-size: 0.72rem; } .sb-center span { display: block; margin: 0; } }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../../">HAKONIWA LAB</a> ／ <a href="../">生まれ日診断</a> ／ 紫微斗数の命盤</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">生年月日と時刻だけ</p>
+    <h1 class="app-header__title">紫微斗数の命盤<br>数え方の違いも一緒に</h1>
+    <p class="app-header__lead">十二宮と十四主星・四化・五行局・大限を出します。旧暦の作り方や夜23時台の扱いなど、本やサイトで分かれる数え方を切り替えると、あなたの命盤のどこが変わるかも並べます。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="sb-form" autocomplete="off">
+          <div class="sb-fields">
+            <div><label for="sb-date">生年月日</label><input type="date" id="sb-date" class="quiz-select" min="1901-01-01" max="2099-12-31"></div>
+            <div><label for="sb-time">生まれた時刻</label><input type="time" id="sb-time" class="quiz-select">
+              <div class="sb-row"><label><input type="checkbox" id="sb-notime"> 時刻が分からない(12通りを並べます)</label></div></div>
+            <fieldset><legend>性別(大限の向きだけに使います)</legend>
+              <div class="sb-row">
+                <label><input type="radio" name="sb-sex" value="f"> 女性</label>
+                <label><input type="radio" name="sb-sex" value="m"> 男性</label>
+                <label><input type="radio" name="sb-sex" value="" checked> 選ばない</label>
+              </div></fieldset>
+            <div><label for="sb-pref">生まれた都道府県(経度で時刻を直すときだけ使います)</label><select id="sb-pref" class="quiz-select"></select></div>
+          </div>
+          <details id="sb-opts" class="sb-opts"><summary>数え方を選ぶ</summary>
+        <fieldset>
+          <legend>旧暦の作り方</legend>
+          <label><input type="radio" name="sb-cal" value="jp" checked> 日本の旧暦(東経135度の時刻で新月の日を決める)</label>
+          <label><input type="radio" name="sb-cal" value="cn"> 中国の農暦(東経120度)</label>
+        </fieldset>
+        <fieldset>
+          <legend>夜23時台の生まれ</legend>
+          <label><input type="radio" name="sb-lateZi" value="next" checked> 翌日として数える</label>
+          <label><input type="radio" name="sb-lateZi" value="same"> その日のまま数える</label>
+        </fieldset>
+        <fieldset>
+          <legend>生まれ年の区切り</legend>
+          <label><input type="radio" name="sb-yearDiv" value="lunar" checked> 旧正月で切り替える</label>
+          <label><input type="radio" name="sb-yearDiv" value="risshun"> 立春で切り替える</label>
+        </fieldset>
+        <fieldset>
+          <legend>閏月の生まれ</legend>
+          <label><input type="radio" name="sb-leap" value="split" checked> 15日までは前の月、16日からは次の月</label>
+          <label><input type="radio" name="sb-leap" value="next"> 丸ごと次の月(紫微斗数全書)</label>
+          <label><input type="radio" name="sb-leap" value="same"> 丸ごと前の月</label>
+        </fieldset>
+        <fieldset>
+          <legend>時刻の直し</legend>
+          <label><input type="radio" name="sb-lonFix" value="false" checked> 直さない(明石の時刻のまま)</label>
+          <label><input type="radio" name="sb-lonFix" value="true"> 生まれた場所の経度で直す(都道府県を選んだときだけ)</label>
+        </fieldset>
+        <fieldset>
+          <legend>庚年の四化(禄・権・科・忌)</legend>
+          <label><input type="radio" name="sb-geng" value="yin" checked> 太陽・武曲・太陰・天同</label>
+          <label><input type="radio" name="sb-geng" value="tong"> 太陽・武曲・天同・太陰</label>
+        </fieldset>
+        <fieldset>
+          <legend>壬年の四化(禄・権・科・忌)</legend>
+          <label><input type="radio" name="sb-ren" value="zuo" checked> 天梁・紫微・左輔・武曲</label>
+          <label><input type="radio" name="sb-ren" value="fu"> 天梁・紫微・天府・武曲</label>
+        </fieldset>
+          </details>
+          <p id="sb-error" class="form-error" hidden></p>
+          <button type="submit" class="btn btn--primary btn--large">命盤を作る</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行います。生年月日・時刻は保存せず、外部にも送りません。紫微斗数に科学的な根拠はありません。読み物として使ってください。</p>
+      </div>
+
+      <div class="card" id="sb-result" hidden>
+        <div id="sb-result-body"></div>
+        <p class="item__note">どの数え方でどれくらいの人の命盤が変わるかを、1950〜2009年の毎日×24時間で数えた結果は<a href="../guide/shibi-kazoekata/">紫微斗数の命盤がサイトごとに違うのはなぜ？</a>にまとめています。</p>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>命盤の作り方</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>手順</th><th>やること</th></tr></thead>
+          <tbody>
+            <tr><th>1. 旧暦に直す</th><td>生年月日を旧暦の年・月・日に、時刻を十二支の時辰(2時間ずつ)にします</td></tr>
+            <tr><th>2. 命宮・身宮</th><td>寅を1月として生まれ月まで進み、そこから子の刻として時辰まで逆に戻った宮が命宮、順に進んだ宮が身宮です</td></tr>
+            <tr><th>3. 十二宮</th><td>命宮から逆回りに 兄弟・夫妻・子女・財帛・疾厄・遷移・交友・官禄・田宅・福徳・父母</td></tr>
+            <tr><th>4. 五行局</th><td>生まれ年の十干で各宮の十干が決まり、命宮の干支の納音で 水二局・木三局・金四局・土五局・火六局 のどれかになります</td></tr>
+            <tr><th>5. 紫微星と天府星</th><td>局の数と旧暦の日から紫微星の宮が決まり、天府星は寅と申を結ぶ線で紫微星と向かい合う位置に入ります</td></tr>
+            <tr><th>6. 残りの主星</th><td>紫微星から天機・太陽・武曲・天同・廉貞、天府星から太陰・貪狼・巨門・天相・天梁・七殺・破軍を決まった間隔で置きます</td></tr>
+            <tr><th>7. 補佐の星と四化</th><td>生まれ年・月・時辰で 文昌・文曲・左輔・右弼・天魁・天鉞・禄存・天馬・擎羊・陀羅・火星・鈴星・地空・地劫 を置き、生まれ年の十干で4つの星に禄・権・科・忌が付きます</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>決まりは明の時代の『紫微斗数全書』巻二の安星訣によります。どの星をどの宮に置くかは、公開されている計算ライブラリ iztro の解説ページに載っている命盤の例(2000年8月16日 寅の刻 女性)と、12宮の星・宮の干支・命主・身主まで一致することを確かめています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>このページの数え方と、選べるもう1つの数え方</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap">
+          <thead><tr><th>項目</th><th>初めの設定</th><th>選べるもの</th><th>メモ</th></tr></thead>
+          <tbody>
+            <tr><th>旧暦</th><td>日本の旧暦</td><td>中国の農暦</td><td>朔(新月)が日本時間の0時台に来る月は、中国では前の日が1日になります。1950〜2009年で24か月</td></tr>
+            <tr><th>夜23時台</th><td>翌日</td><td>その日のまま</td><td>中国語版Wikipedia は翌日とする数え方が主流としています</td></tr>
+            <tr><th>生まれ年</th><td>旧正月で切り替え</td><td>立春で切り替え</td><td>四柱推命や九星気学は立春で切り替えます</td></tr>
+            <tr><th>閏月</th><td>15日で分ける</td><td>次の月 / 前の月</td><td>紫微斗数全書は「閏月は次の月として数える」としています</td></tr>
+            <tr><th>時刻</th><td>直さない</td><td>経度で直す</td><td>東京は＋19分、那覇は−29分</td></tr>
+            <tr><th>庚年・壬年の四化</th><td>陽武陰同・梁紫左武</td><td>陽武同陰・梁紫府武</td><td>資料によって星が違います</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>どれが正しいかは決められないので、「数え方を選ぶ」で切り替えられるようにしています。本や占い師に見てもらった命盤と比べるときは、その数え方に合わせてください。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>入力した生年月日はどこかに送られますか？</summary><p>送られません。計算はすべてお使いの端末の中で行い、生年月日や時刻は保存もしません。ページを閉じると消えます。URLにも入りません。</p></details>
+      <details class="faq-item"><summary>ほかのサイトと命盤が違います</summary><p>数え方が違うのかもしれません。旧暦を日本と中国のどちらの暦で作るか、夜23時台を翌日にするか、閏月をどう数えるかなどで命盤は変わります。結果の下の「数え方を変えると」に、あなたの生まれ日時で変わる所を出しています。1950〜2009年の生まれで数えると、日付と時刻の数え方を1つ変えるだけで約9人に1人は命宮の主星が入れ替わりました。</p></details>
+      <details class="faq-item"><summary>生まれた時刻が分かりません</summary><p>「時刻が分からない」にチェックを入れると、12の時辰ごとに命宮と主星を並べます。命宮は時刻で決まるので、時刻なしでは1つに絞れません。母子手帳に時刻が書いてあることが多いです。</p></details>
+      <details class="faq-item"><summary>性別は何に使いますか？</summary><p>大限(10年ごとの運)を回す向きだけに使います。生まれ年の十干が陽(甲・丙・戊・庚・壬)の男性と陰の女性は順回り、それ以外は逆回りです。選ばなければ大限を出しません。</p></details>
+      <details class="faq-item"><summary>星の意味や運勢の文章はありますか？</summary><p>命宮の主星だけ、短い説明を付けています。このページは命盤を正しく作ることと、数え方による違いを見ることが目的です。紫微斗数に科学的な根拠はありません。</p></details>
+      <details class="faq-item"><summary>1901年より前や2100年以降は出せますか？</summary><p>出せません。旧暦は新月と中気(太陽の位置)の天文計算で組み立てていて、確かめた範囲の1901〜2099年に限っています。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../guide/shibi-kazoekata/">紫微斗数の命盤がサイトごとに違うのはなぜ？</a> — 約53万通りで数えた、数え方ごとの違い</li>
+        <li><a href="../">生まれ日診断</a> — 四柱推命・九星・宿曜などを生年月日から</li>
+        <li><a href="../calendar/">吉日カレンダー</a> — 旧暦の日付と干支を毎日</li>
+        <li><a href="../seimei/">姓名判断 数え方くらべ</a> — 画数の数え方4通りを並べて計算</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://zh.wikisource.org/wiki/%E7%B4%AB%E5%BE%AE%E6%96%97%E6%95%B8%E5%85%A8%E6%9B%B8/%E5%85%A8%E8%A6%BD" target="_blank" rel="noopener">維基文庫『紫微斗數全書』</a>(巻二の安星訣: 命宮・十二宮・五行局・主星・補佐の星・四化・大限、閏月の扱い)</li>
+        <li><a href="https://iztro.com/learn/setup" target="_blank" rel="noopener">iztro「紫微斗数安星诀」</a>・<a href="https://iztro.com/quick-start" target="_blank" rel="noopener">「快速开始」</a>(安星訣と火星・鈴星の置き方の例、命盤の例)</li>
+        <li><a href="https://iztro.com/posts/config-n-plugin" target="_blank" rel="noopener">iztro「配置和插件」</a>・<a href="https://iztro.com/posts/astrolabe" target="_blank" rel="noopener">「星盘」</a>(年の区切り・夜23時台・閏月の選べる数え方)</li>
+        <li><a href="https://zh.wikipedia.org/wiki/%E7%B4%AB%E5%BE%AE%E6%96%97%E6%95%B8" target="_blank" rel="noopener">中国語版Wikipedia「紫微斗數」</a>(四化の表、晩子時)</li>
+        <li><a href="https://www.hko.gov.hk/en/gts/time/conversion1_text.htm" target="_blank" rel="noopener">香港天文台「Gregorian-Lunar Calendar Conversion Table」</a>(中国の農暦の照合)</li>
+      </ul>
+      <p>旧暦は新月と中気(太陽の位置)の天文計算で組み立てています。日本の旧暦は吉日カレンダーと1901〜2099年の毎日で一致し、中国の農暦は香港天文台の新旧暦対照表と25年分8,740日(閏月13回を含む)で一致することを確かめています。</p>
+    </div>
+  </main>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../js/astro.js"></script>
+<script src="../js/fortune.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/shibi.js"></script>
+<script src="../js/shibi-app.js"></script>
+</body>
+</html>
