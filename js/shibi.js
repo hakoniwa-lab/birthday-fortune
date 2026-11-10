@@ -26,6 +26,17 @@ const SB_HOUR = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", 
 const SB_KYOKU_NAME = { 2: "水二局", 3: "木三局", 4: "金四局", 5: "土五局", 6: "火六局" };
 
 const SB_DEFAULT_OPT = { cal: "jp", yearDiv: "lunar", leap: "split", lateZi: "next", lonFix: false, geng: "yin", ren: "zuo" };
+const SB_OPT_LABEL = {
+  cal: { jp: "日本の旧暦(東経135度)", cn: "中国の農暦(東経120度)" },
+  yearDiv: { lunar: "旧正月で切り替え", risshun: "立春で切り替え" },
+  leap: { split: "15日までは前の月・16日からは次の月", next: "丸ごと次の月(紫微斗数全書)", same: "丸ごと前の月" },
+  lateZi: { next: "翌日として数える", same: "その日のまま数える" },
+  lonFix: { false: "明石の時刻のまま", true: "生まれた場所の経度で直す" },
+  geng: { yin: "太陽・武曲・太陰・天同", tong: "太陽・武曲・天同・太陰" },
+  ren: { zuo: "天梁・紫微・左輔・武曲", fu: "天梁・紫微・天府・武曲" },
+};
+const SB_OPT_NAME = { cal: "旧暦", yearDiv: "生まれ年の区切り", leap: "閏月の数え方", lateZi: "夜23時台", lonFix: "時刻の直し", geng: "庚年の四化", ren: "壬年の四化" };
+const SB_HOUR_RANGE = ["23:00〜0:59", "1:00〜2:59", "3:00〜4:59", "5:00〜6:59", "7:00〜8:59", "9:00〜10:59", "11:00〜12:59", "13:00〜14:59", "15:00〜16:59", "17:00〜18:59", "19:00〜20:59", "21:00〜22:59"];
 
 const sbMod = (a, n) => ((a % n) + n) % n;
 

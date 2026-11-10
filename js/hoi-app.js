@@ -152,11 +152,28 @@
     document.dispatchEvent(new CustomEvent("hoi:render", { detail: x }));
   }
 
-  // 地図(hoi-map.js)とのやりとり。位置は渡さず、方角の度だけを受け取る
+  /* その日の方位神が、十二支 s12・8方位 s8・方角 deg の方位にいるか(地図と「方角から日を探す」で同じ判定を使う) */
+  function gods(x, m) {
+    const konAway = !!(x.yu || x.yus || x.mabi);
+    const yuDirs = [x.yu, x.yus].filter(Boolean).map((v) => v.dir);
+    const ehoDiff = Math.abs(((m.deg - x.eho.deg + 540) % 360) - 180);
+    return {
+      大将軍: x.h.daishogun === m.s12 ? "いる" : "",
+      金神: yuDirs.includes(m.s12) ? "遊行で来ている" : (x.kon.includes(m.s12) ? (konAway ? "留守(遊行・間日)" : "いる") : ""),
+      天一神: x.ten.dir !== null && x.ten.dir === m.s8 ? "いる" : "",
+      太白神: x.tai && x.tai.dir !== null && x.tai.dir === m.s8 ? "いる" : "",
+      恵方: ehoDiff <= 7.5 ? "恵方" : "",
+    };
+  }
+
+  // 地図(hoi-map.js)・方角から日を探す(hoi-find.js)とのやりとり。位置は渡さず、方角の度だけを受け取る
   window.HOI = {
     get x() { return lastX; },
+    get bearing() { return bearing; },
+    info, gods,
+    go(v) { $("hoi-date").value = v; render(); },
     // 同じ値なら何もしない(render が hoi:render を出し、地図がまた setBearing を呼ぶので、変わったときだけ描き直す)
-    setBearing(deg) { const nb = deg === null || deg === undefined ? null : deg; if (nb === bearing) return; bearing = nb; if (lastX) render(); },
+    setBearing(deg) { const nb = deg === null || deg === undefined ? null : deg; if (nb === bearing) return; bearing = nb; if (lastX) render(); document.dispatchEvent(new CustomEvent("hoi:bearing", { detail: nb })); },
   };
 
   function setDate(dt) { $("hoi-date").value = iso(dt.getFullYear(), dt.getMonth() + 1, dt.getDate()); render(); }

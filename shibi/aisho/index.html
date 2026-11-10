@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>紫微斗数の相性を無料で見る｜二人の命盤を重ねて命宮・四化・夫妻宮を比べる(登録不要)</title>
+<meta name="description" content="二人の生年月日と時刻から紫微斗数の命盤を作り、命宮の主星の系統、相手の命宮が自分のどの宮にあたるか、生年の四化が相手のどの宮に入るか、夫妻宮を両方の向きで並べます。点数は付けません。数え方を変えると結果のどこが変わるかも表示。入力は保存しません。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/shibi/aisho/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="紫微斗数の相性 | HAKONIWA LAB">
+<meta property="og:description" content="二人の命盤を重ねて、命宮・四化・夫妻宮を両方の向きで比べます。点数は付けません。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/shibi/aisho/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した生年月日はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべてお使いの端末の中で行い、二人の生年月日や時刻は保存もしません。ページを閉じると消えます。URLにも入りません。"}},{"@type":"Question","name":"相性の点数は出ますか？","acceptedAnswer":{"@type":"Answer","text":"出しません。紫微斗数には二人の命盤の比べ方に決まった手順がなく、点数の付け方を決める根拠がないためです。代わりに、よく使われる見方ごとの結果を、両方の向きで並べています。"}},{"@type":"Question","name":"相手の生まれた時刻が分かりません","acceptedAnswer":{"@type":"Answer","text":"どちらか一人の時刻が分かれば、分からない人の時辰を12通りに振って一覧にします。二人とも時刻が分からないときは、命宮の位置が決まらないので出せません。"}},{"@type":"Question","name":"性別は使わないのですか？","acceptedAnswer":{"@type":"Answer","text":"使いません。ここで見ている命宮の位置・主星・四化は性別で変わらないためです(性別で変わるのは大限の回る向きです)。男女の組み合わせでなくても同じように見られます。"}},{"@type":"Question","name":"「相手の四化があなたの夫妻宮に入る」とはどういう意味ですか？","acceptedAnswer":{"@type":"Answer","text":"相手の生まれ年で決まる星が、あなたの命盤の夫妻宮(恋愛・結婚を表す宮)にある、ということです。その人があなたの暮らしのどの面に影響するかを見る見方で、良い悪いが決まるものではありません。"}},{"@type":"Question","name":"ほかのサイトや本と結果が違います","acceptedAnswer":{"@type":"Answer","text":"命盤の数え方が違うのかもしれません。60,000組の生まれで数えると、数え方を1つ変えるだけで21.4%の組で結果のどこかが変わりました。結果の下の「数え方を変えると」に、その二人で変わる所を出しています。"}}]}</script>
+<style>
+:root { --sb-lu: #2f7d4a; --sb-quan: #6a4bb0; --sb-ke: #2a68a8; --sb-ji: #b3261e; --sb-bad: #a24a3a; --sb-good: #4c6f8f; --sb-mei: #a8631f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sb-lu: #74c98f; --sb-quan: #b19be8; --sb-ke: #7fb4e8; --sb-ji: #f08a80; --sb-bad: #e09a8a; --sb-good: #9cc0e0; --sb-mei: #e3a23b; } }
+.sb-fields { display: grid; gap: 12px; text-align: left; margin: 0 0 12px; }
+.sb-fields label, .sb-fields legend { display: block; font-size: 0.85rem; font-weight: 700; margin: 0 0 4px; }
+.sb-fields fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.sb-fields input[type="date"], .sb-fields input[type="time"], .sb-fields select { width: 100%; box-sizing: border-box; font-size: 1rem; }
+.sb-row { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 0.9rem; }
+.sb-row label { font-weight: 400; display: inline-flex; gap: 4px; align-items: center; margin: 0; }
+.sb-help { font-size: 0.78rem; color: var(--color-text-muted); margin: 4px 0 0; font-weight: 400; }
+.sb-opts { text-align: left; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 8px 12px; margin: 0 0 12px; }
+.sb-opts summary { cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+.sb-opts fieldset { border: 0; border-top: 1px solid var(--color-border); padding: 8px 0 4px; margin: 8px 0 0; min-width: 0; }
+.sb-opts legend { font-size: 0.85rem; font-weight: 700; padding: 0; float: left; width: 100%; margin-bottom: 4px; }
+.sb-opts label { display: block; font-size: 0.85rem; margin: 2px 0; clear: left; }
+.sb-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; margin: 4px 0 8px; font-size: 0.78rem; }
+.sb-cell { border: 1px solid var(--color-border); border-radius: 4px; padding: 4px; min-height: 108px; display: flex; flex-direction: column; background: var(--color-surface); min-width: 0; }
+.sb-cell--mei { border: 2px solid var(--sb-mei); padding: 3px; }
+.sb-head { display: flex; justify-content: space-between; align-items: center; gap: 2px; }
+.sb-pname { font-weight: 700; font-size: 0.78rem; }
+.sb-body { display: inline-block; font-size: 0.68rem; padding: 0 3px; border-radius: 3px; background: var(--color-badge-bg); color: var(--color-badge-text); }
+.sb-stars { margin: 3px 0 2px; display: flex; flex-direction: column; }
+.sb-major { font-weight: 700; font-size: 0.9rem; color: var(--color-text); white-space: nowrap; }
+.sb-empty { color: var(--color-text-muted); font-size: 0.7rem; }
+.sb-minors { display: flex; flex-wrap: wrap; gap: 0 4px; flex: 1; align-content: flex-start; }
+.sb-minor { font-size: 0.7rem; color: var(--sb-good); white-space: nowrap; }
+.sb-minor--bad { color: var(--sb-bad); }
+.sb-k { display: inline-block; font-size: 0.62rem; line-height: 1.3; padding: 0 2px; margin-left: 1px; border-radius: 2px; color: #fff; vertical-align: 1px; font-weight: 700; }
+.sb-k--禄 { background: var(--sb-lu); } .sb-k--権 { background: var(--sb-quan); } .sb-k--科 { background: var(--sb-ke); } .sb-k--忌 { background: var(--sb-ji); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sb-k { color: #1b1914; } }
+.sb-foot { display: flex; justify-content: space-between; gap: 2px; font-size: 0.66rem; color: var(--color-text-muted); margin-top: 2px; flex-wrap: wrap; }
+.sb-center { border: 1px dashed var(--color-border); border-radius: 4px; padding: 8px; display: flex; flex-direction: column; justify-content: center; gap: 2px; text-align: left; }
+.sb-center p { margin: 0; font-size: 0.82rem; }
+.sb-center span { color: var(--color-text-muted); font-size: 0.72rem; margin-right: 4px; }
+.sb-legend { font-size: 0.75rem; color: var(--color-text-muted); margin: 0 0 8px; text-align: left; }
+.sb-legend .sb-major { font-size: 0.8rem; }
+.sb-h { font-size: 1.05rem; margin: 18px 0 8px; text-align: left; }
+.sb-small { font-size: 0.8rem; color: var(--color-text-muted); text-align: left; }
+.sb-notes { text-align: left; font-size: 0.9rem; padding-left: 1.2em; }
+#sb-result-body > p { text-align: left; }
+.sb-var th { white-space: normal !important; width: 42%; }
+.sb-apply, .sb-pick { margin-top: 4px; font-size: 0.78rem; padding: 3px 8px; border: 1px solid var(--color-border); border-radius: 4px; background: var(--color-surface); color: var(--color-primary); cursor: pointer; }
+@media (max-width: 480px) { .sb-cell { min-height: 96px; padding: 3px 2px; } .sb-cell--mei { padding: 2px 1px; } .sb-major { font-size: 0.8rem; } .sb-board { gap: 2px; } .sb-center { padding: 4px; } .sb-center p { font-size: 0.72rem; } .sb-center span { display: block; margin: 0; } }
+.sa-person { border: 1px solid var(--color-border) !important; border-radius: var(--radius-sm); padding: 8px 12px !important; display: grid; gap: 8px; }
+.sb-hit strong { color: var(--sb-mei); }
+.sb-small { font-weight: 400; }
+td .sb-small, th .sb-small { display: block; }
+.sb-wrap tbody th { white-space: normal; }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../../../">HAKONIWA LAB</a> ／ <a href="../../">生まれ日診断</a> ／ <a href="../">紫微斗数の命盤</a> ／ 相性</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">二人の生年月日と時刻だけ</p>
+    <h1 class="app-header__title">紫微斗数の相性<br>二人の命盤を重ねて見る</h1>
+    <p class="app-header__lead">命宮の主星の系統、相手の命宮が自分のどの宮にあたるか、生年の四化が相手のどの宮に入るか、夫妻宮を、両方の向きで並べます。点数は付けません。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="sa-form" autocomplete="off">
+          <div class="sb-fields">
+            <fieldset class="sa-person"><legend>あなた</legend>
+              <div><label for="sa-a-date">生年月日</label><input type="date" id="sa-a-date" class="quiz-select" min="1901-01-01" max="2099-12-31"></div>
+              <div><label for="sa-a-time">生まれた時刻</label><input type="time" id="sa-a-time" class="quiz-select">
+                <div class="sb-row"><label><input type="checkbox" id="sa-a-notime"> 時刻が分からない</label></div></div>
+            </fieldset>
+            <fieldset class="sa-person"><legend>相手</legend>
+              <div><label for="sa-b-date">生年月日</label><input type="date" id="sa-b-date" class="quiz-select" min="1901-01-01" max="2099-12-31"></div>
+              <div><label for="sa-b-time">生まれた時刻</label><input type="time" id="sa-b-time" class="quiz-select">
+                <div class="sb-row"><label><input type="checkbox" id="sa-b-notime"> 時刻が分からない</label></div></div>
+            </fieldset>
+          </div>
+          <details id="sb-opts" class="sb-opts"><summary>数え方を選ぶ</summary>
+        <fieldset>
+          <legend>旧暦の作り方</legend>
+          <label><input type="radio" name="sb-cal" value="jp" checked> 日本の旧暦(東経135度の時刻で新月の日を決める)</label>
+          <label><input type="radio" name="sb-cal" value="cn"> 中国の農暦(東経120度)</label>
+        </fieldset>
+        <fieldset>
+          <legend>夜23時台の生まれ</legend>
+          <label><input type="radio" name="sb-lateZi" value="next" checked> 翌日として数える</label>
+          <label><input type="radio" name="sb-lateZi" value="same"> その日のまま数える</label>
+        </fieldset>
+        <fieldset>
+          <legend>生まれ年の区切り</legend>
+          <label><input type="radio" name="sb-yearDiv" value="lunar" checked> 旧正月で切り替える</label>
+          <label><input type="radio" name="sb-yearDiv" value="risshun"> 立春で切り替える</label>
+        </fieldset>
+        <fieldset>
+          <legend>閏月の生まれ</legend>
+          <label><input type="radio" name="sb-leap" value="split" checked> 15日までは前の月、16日からは次の月</label>
+          <label><input type="radio" name="sb-leap" value="next"> 丸ごと次の月(紫微斗数全書)</label>
+          <label><input type="radio" name="sb-leap" value="same"> 丸ごと前の月</label>
+        </fieldset>
+        <fieldset>
+          <legend>庚年の四化(禄・権・科・忌)</legend>
+          <label><input type="radio" name="sb-geng" value="yin" checked> 太陽・武曲・太陰・天同</label>
+          <label><input type="radio" name="sb-geng" value="tong"> 太陽・武曲・天同・太陰</label>
+        </fieldset>
+        <fieldset>
+          <legend>壬年の四化(禄・権・科・忌)</legend>
+          <label><input type="radio" name="sb-ren" value="zuo" checked> 天梁・紫微・左輔・武曲</label>
+          <label><input type="radio" name="sb-ren" value="fu"> 天梁・紫微・天府・武曲</label>
+        </fieldset>
+          </details>
+          <p id="sa-error" class="form-error" hidden></p>
+          <button type="submit" class="btn btn--primary btn--large">二人の命盤を比べる</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行います。生年月日・時刻は保存せず、外部にも送りません。紫微斗数に科学的な根拠はありません。読み物として使ってください。</p>
+      </div>
+
+      <div class="card" id="sa-result" hidden>
+        <div id="sa-result-body"></div>
+        <p class="item__note">一人ずつの命盤は<a href="../">紫微斗数の命盤</a>で作れます。</p>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>このページで見る4つのこと</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap sb-wrap">
+          <thead><tr><th>見方</th><th>何を比べるか</th></tr></thead>
+          <tbody>
+            <tr><th>命宮の主星の系統</th><td>主星を紫府廉系(紫微・天府・廉貞・武曲・天相・七殺・破軍・貪狼)と機月系(天機・太陰・天同・天梁・巨門・太陽)に分けて、二人が同じかを見ます</td></tr>
+            <tr><th>命宮の位置</th><td>相手の命宮が、自分の命盤のどの宮にあたるかを見ます。二人の命宮が三合(4つ離れた宮)かどうかも出します</td></tr>
+            <tr><th>生年の四化</th><td>生まれ年の十干で決まる4つの星(化禄・化権・化科・化忌)が、相手の命盤のどの宮にあるかを見ます。両方の向きで出します</td></tr>
+            <tr><th>夫妻宮</th><td>二人の夫妻宮の主星を並べ、それが相手の命宮の星と重なるかを見ます</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>どれにも向きがあります。あなたから見た相手と、相手から見たあなたは別のものなので、両方を出しています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>紫微斗数の相性に決まった手順はありません</h2>
+      <p>紫微斗数の古典『紫微斗数全書』は、維基文庫の本文を調べた限り「合婚」「合盤」という語がなく、二人の命盤を比べる章もありません。書かれているのは、それぞれの星が夫妻宮に入ったときの吉凶で、一人の命盤の読み方です。いま「相性」として紹介されている見方は、現代の占い師や解説者がそれぞれ組み立てたものです。</p>
+      <p>そのため、このページでは点数や「良い・悪い」の判定を出さず、解説によく出てくる見方の結果を並べています。文中の「説明されることがあります」は、そうした解説に書かれている読み方です。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>数え方で、二人の結果も変わります</h2>
+      <p>命盤は旧暦の作り方などの数え方で変わるので、相性の結果も変わります。1950〜2009年の生まれからランダムに60,000組を作って数え方を1つずつ変えると、<strong>21.4%の組で結果のどこかが変わり</strong>、6.2%の組では命宮の位置の関係が変わりました。</p>
+      <div class="table-scroll">
+        <table class="spec spec--wrap sb-wrap">
+          <thead><tr><th>変える数え方</th><th>結果のどこかが変わる組</th></tr></thead>
+          <tbody>
+            <tr><th>夜23時台の扱い</th><td>7.5%</td></tr>
+            <tr><th>日本の旧暦か中国の農暦か</th><td>5.9%</td></tr>
+            <tr><th>生まれ年を旧正月と立春のどちらで切り替えるか</th><td>4.0%</td></tr>
+            <tr><th>閏月を丸ごと次の月として数える</th><td>3.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>数え方の違いは<a href="../../guide/shibi-kazoekata/">紫微斗数の命盤がサイトごとに違うのはなぜ？</a>にまとめています。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>入力した生年月日はどこかに送られますか？</summary><p>送られません。計算はすべてお使いの端末の中で行い、二人の生年月日や時刻は保存もしません。ページを閉じると消えます。URLにも入りません。</p></details>
+      <details class="faq-item"><summary>相性の点数は出ますか？</summary><p>出しません。紫微斗数には二人の命盤の比べ方に決まった手順がなく、点数の付け方を決める根拠がないためです。代わりに、よく使われる見方ごとの結果を、両方の向きで並べています。</p></details>
+      <details class="faq-item"><summary>相手の生まれた時刻が分かりません</summary><p>どちらか一人の時刻が分かれば、分からない人の時辰を12通りに振って一覧にします。二人とも時刻が分からないときは、命宮の位置が決まらないので出せません。</p></details>
+      <details class="faq-item"><summary>性別は使わないのですか？</summary><p>使いません。ここで見ている命宮の位置・主星・四化は性別で変わらないためです(性別で変わるのは大限の回る向きです)。男女の組み合わせでなくても同じように見られます。</p></details>
+      <details class="faq-item"><summary>「相手の四化があなたの夫妻宮に入る」とはどういう意味ですか？</summary><p>相手の生まれ年で決まる星が、あなたの命盤の夫妻宮(恋愛・結婚を表す宮)にある、ということです。その人があなたの暮らしのどの面に影響するかを見る見方で、良い悪いが決まるものではありません。</p></details>
+      <details class="faq-item"><summary>ほかのサイトや本と結果が違います</summary><p>命盤の数え方が違うのかもしれません。60,000組の生まれで数えると、数え方を1つ変えるだけで21.4%の組で結果のどこかが変わりました。結果の下の「数え方を変えると」に、その二人で変わる所を出しています。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../">紫微斗数の命盤</a> — 一人ずつの命盤と、数え方で変わる所</li>
+        <li><a href="../../compatibility/">相性診断</a> — 数秘術・星座・九星・四柱推命・宿曜・マヤ暦の6つを生年月日で</li>
+        <li><a href="../../guide/sukuyo-aisho/">宿曜の相性一覧</a> — 同じように向きで名前が変わる相性</li>
+        <li><a href="../../guide/kyusei-aisho/">九星気学の相性早見表</a> — 9×9の相性表</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://zh.wikisource.org/wiki/%E7%B4%AB%E5%BE%AE%E6%96%97%E6%95%B8%E5%85%A8%E6%9B%B8/%E5%85%A8%E8%A6%BD" target="_blank" rel="noopener">維基文庫『紫微斗數全書』</a>(本文に「合婚」「合盤」の語がないこと。2026-11-10確認)</li>
+        <li><a href="https://ogushinoriko.net/free_category_6.html" target="_blank" rel="noopener">「相性占い｜２人の「恋愛・結婚」相性はいい？紫微斗数で無料鑑定」</a>(主星の系統の分け方と読み方、三合、相手の命宮の位置、四化の意味。2026-11-10確認)</li>
+        <li><a href="https://vocus.cc/article/6607ac05fd897800011b6bfd" target="_blank" rel="noopener">府辛聊瘉室「【紫微斗數】四化、飛化技巧」</a>(相手の生年の四化が自分の命盤のどの宮に入るかを見る見方。2026-11-10確認)</li>
+      </ul>
+      <p>命盤は<a href="../">紫微斗数の命盤</a>と同じ計算部品で作っています。60,000組の命盤で、命宮の位置が向きを変えると必ず対になること、同じ宮に入る主星がいつも同じ系統になることを確かめています。</p>
+    </div>
+  </main>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。</p>
+    <p><a href="../../../about.html">運営者情報</a>・<a href="../../../contact.html">お問い合わせ</a>・<a href="../../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../../js/astro.js"></script>
+<script src="../../js/fortune.js"></script>
+<script src="../../js/chart.js"></script>
+<script src="../../js/data.js"></script>
+<script src="../../js/koyomi.js"></script>
+<script src="../../js/shibi.js"></script>
+<script src="../../js/shibi-aisho.js"></script>
+<script src="../../js/shibi-aisho-app.js"></script>
+</body>
+</html>

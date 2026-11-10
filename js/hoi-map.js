@@ -50,19 +50,7 @@
     draw();
   }
 
-  /* その日の方位神が、十二支 s12・8方位 s8・方角 deg の方位にいるか */
-  function gods(x, m) {
-    const konAway = !!(x.yu || x.yus || x.mabi);
-    const yuDirs = [x.yu, x.yus].filter(Boolean).map((v) => v.dir);
-    const ehoDiff = Math.abs(((m.deg - x.eho.deg + 540) % 360) - 180);
-    return {
-      大将軍: x.h.daishogun === m.s12 ? "いる" : "",
-      金神: yuDirs.includes(m.s12) ? "遊行で来ている" : (x.kon.includes(m.s12) ? (konAway ? "留守(遊行・間日)" : "いる") : ""),
-      天一神: x.ten.dir !== null && x.ten.dir === m.s8 ? "いる" : "",
-      太白神: x.tai && x.tai.dir !== null && x.tai.dir === m.s8 ? "いる" : "",
-      恵方: ehoDiff <= 7.5 ? "恵方" : "",
-    };
-  }
+  const gods = (x, m) => window.HOI.gods(x, m);
 
   const dirText = (m) => `${m.deg.toFixed(1)}度・${HJ_DIR[m.s12]}(${HJ_BRANCH[m.s12]})・${HJ_DIR8[m.s8]}`;
 

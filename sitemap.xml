@@ -322,12 +322,17 @@
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/hoi/</loc>
-    <lastmod>2026-11-08</lastmod>
+    <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/shibi/</loc>
     <lastmod>2026-11-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/shibi/aisho/</loc>
+    <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
