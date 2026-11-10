@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>推しとの相性診断｜誕生日を入れるだけ(無料・登録不要)数秘・星座・九星・宿曜・マヤ暦で5人まで比べる</title>
+<meta name="description" content="あなたと推しの誕生日を入れるだけで、数秘術・星座・九星・四柱推命・宿曜・マヤ暦の6つで相性を見ます。5人まで並べて比較でき、次の誕生日の六曜や吉日も表示。生まれ年が分からない推しやキャラクターは月日だけで見られます。入力は保存しません。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/oshi/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="推しとの相性診断 | HAKONIWA LAB">
+<meta property="og:description" content="あなたと推しの誕生日で、6つの占術の相性と共通点を見ます。5人まで並べられます。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/oshi/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した誕生日や呼び名はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべてお使いの端末の中で行い、保存もしません。ページを閉じると消えます。URLにも入りません。"}},{"@type":"Question","name":"推しの生まれ年が分かりません","acceptedAnswer":{"@type":"Answer","text":"「生まれ年は分からない」を選ぶと、月日だけで分かる星座の関係と次の誕生日を出します。数秘術・九星・四柱推命・宿曜・マヤ暦は生まれ年が要るので、そのときは出しません。"}},{"@type":"Question","name":"アニメやゲームのキャラクターでも使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。設定の誕生日を月日だけで入れてください。生まれ年の設定があるキャラクターは、年まで入れると6つの占術で見られます。"}},{"@type":"Question","name":"何人まで比べられますか？","acceptedAnswer":{"@type":"Answer","text":"5人までです。2人以上入れると、共通点の数と関係の名前を1つの表に並べます。グループのメンバーを並べて見るときに使ってください。"}},{"@type":"Question","name":"相性が悪いと出ることはありますか？","acceptedAnswer":{"@type":"Answer","text":"このページはどの組み合わせにも「合わない」とは書きません。占いに科学的な根拠はなく、好きな気持ちに水を差すのは占いの一番良くない使い方だからです。"}},{"@type":"Question","name":"共通点の数は相性の点数ですか？","acceptedAnswer":{"@type":"Answer","text":"違います。星座や本命星など、同じものがいくつあるかを数えただけです。共通点が少なくても、相性が悪いという意味ではありません。"}},{"@type":"Question","name":"推しの誕生日を調べて入れてもいいですか？","acceptedAnswer":{"@type":"Answer","text":"公式のプロフィールなどで公表されている誕生日だけを使ってください。公表されていない個人の情報を調べて入れるのはやめましょう。"}}]}</script>
+<style>
+.oshi-person { display: grid; gap: 8px; }
+.oshi-add { margin: 10px 0 0; }
+.oshi-name { font-size: 1.08rem; margin: 0 0 2px; color: var(--color-primary); }
+.oshi-sub { font-size: 0.8rem; color: var(--color-text-muted); margin: 0 0 8px; }
+.oshi-same { font-size: 0.9rem; margin: 0 0 10px; display: flex; flex-wrap: wrap; gap: 4px 6px; align-items: center; }
+.oshi-same small { flex-basis: 100%; color: var(--color-text-muted); }
+.oshi-chip { font-size: 0.76rem; padding: 1px 8px; border-radius: 999px; background: var(--color-badge-bg); color: var(--color-badge-text); }
+.oshi-rows { display: grid; gap: 6px; text-align: left; }
+.oshi-row { border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 6px 10px; }
+.oshi-row summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: 0 8px; align-items: baseline; }
+.oshi-row summary small { color: var(--color-text-muted); font-size: 0.75rem; flex-basis: 100%; }
+.oshi-kind { font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted); }
+.oshi-key { font-weight: 800; color: var(--color-primary); }
+.oshi-row p { font-size: 0.88rem; margin: 6px 0 2px; }
+.oshi-next { font-size: 0.9rem; text-align: left; margin: 10px 0 0; }
+.oshi-next span { font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted); margin-right: 6px; }
+.oshi-next small { color: var(--color-text-muted); }
+.oshi-table th, .oshi-table td { white-space: normal; font-size: 0.8rem; padding: 6px 4px; text-align: center; }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../../">HAKONIWA LAB</a> ／ <a href="../">生まれ日診断</a> ／ <a href="../compatibility/">相性診断</a> ／ 推しとの相性</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">誕生日を入れるだけ</p>
+    <h1 class="app-header__title">推しとの相性診断</h1>
+    <p class="app-header__lead">あなたと推しの誕生日で、数秘術・星座・九星・四柱推命・宿曜・マヤ暦の相性と、二人の共通点を見ます。5人まで並べられます。「合わない」とは書きません。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="oshi-form" autocomplete="off">
+          <div class="pair">
+            <fieldset class="person">
+              <legend>あなた</legend>
+              <div class="date-row">
+                <select id="me-year" class="quiz-select" aria-label="年"></select>
+                <select id="me-month" class="quiz-select" aria-label="月"></select>
+                <select id="me-day" class="quiz-select" aria-label="日"></select>
+              </div>
+            </fieldset>
+            <div id="oshi-list" class="pair"></div>
+          </div>
+          <button type="button" id="oshi-add" class="btn btn--ghost oshi-add">推しを追加する(5人まで)</button>
+          <p id="oshi-error" class="form-error" hidden></p>
+          <button type="submit" class="btn btn--primary btn--large">相性を見る</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行います。誕生日や呼び名は保存せず、外部にも送りません。占いに科学的な根拠はありません。ファンの楽しみとして使ってください。推しの誕生日は、公表されているものだけを入れてください。</p>
+      </div>
+
+      <div id="oshi-result" hidden>
+        <div class="card" id="oshi-summary" hidden></div>
+        <div id="oshi-cards"></div>
+        <button type="button" class="btn btn--primary btn--large" id="oshi-share">結果をシェア・コピー</button>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>6つの占術で見るもの</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap oshi-wrap">
+          <thead><tr><th>占術</th><th>使うもの</th><th>推しとの相性で見ること</th></tr></thead>
+          <tbody>
+            <tr><th>数秘術</th><td>生年月日の数字を足した ライフパスナンバー</td><td>推しとあなたの役割の組み合わせ</td></tr>
+            <tr><th>星座</th><td>太陽の位置の角度</td><td>表に出る性格の噛み合い方</td></tr>
+            <tr><th>九星気学</th><td>生まれ年の本命星の五行</td><td>応援する側・される側の形</td></tr>
+            <tr><th>四柱推命</th><td>生まれた日の干支</td><td>おたがいから見た相手の役割</td></tr>
+            <tr><th>宿曜</th><td>生まれた日の二十七宿</td><td>向きで名前が変わる関係</td></tr>
+            <tr><th>マヤ暦</th><td>生まれた日の紋章</td><td>同じ・類似・反対・神秘</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>計算は<a href="../compatibility/">相性診断</a>と同じ部品です。推しの生まれた時刻は分からないことが多いので、このページでは時刻を使わず、時刻で大きく変わる月星座は出していません。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>入力した誕生日や呼び名はどこかに送られますか？</summary><p>送られません。計算はすべてお使いの端末の中で行い、保存もしません。ページを閉じると消えます。URLにも入りません。</p></details>
+      <details class="faq-item"><summary>推しの生まれ年が分かりません</summary><p>「生まれ年は分からない」を選ぶと、月日だけで分かる星座の関係と次の誕生日を出します。数秘術・九星・四柱推命・宿曜・マヤ暦は生まれ年が要るので、そのときは出しません。</p></details>
+      <details class="faq-item"><summary>アニメやゲームのキャラクターでも使えますか？</summary><p>使えます。設定の誕生日を月日だけで入れてください。生まれ年の設定があるキャラクターは、年まで入れると6つの占術で見られます。</p></details>
+      <details class="faq-item"><summary>何人まで比べられますか？</summary><p>5人までです。2人以上入れると、共通点の数と関係の名前を1つの表に並べます。グループのメンバーを並べて見るときに使ってください。</p></details>
+      <details class="faq-item"><summary>相性が悪いと出ることはありますか？</summary><p>このページはどの組み合わせにも「合わない」とは書きません。占いに科学的な根拠はなく、好きな気持ちに水を差すのは占いの一番良くない使い方だからです。</p></details>
+      <details class="faq-item"><summary>共通点の数は相性の点数ですか？</summary><p>違います。星座や本命星など、同じものがいくつあるかを数えただけです。共通点が少なくても、相性が悪いという意味ではありません。</p></details>
+      <details class="faq-item"><summary>推しの誕生日を調べて入れてもいいですか？</summary><p>公式のプロフィールなどで公表されている誕生日だけを使ってください。公表されていない個人の情報を調べて入れるのはやめましょう。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../compatibility/">相性診断</a> — 生まれた時刻まで入れて、二人の相性をくわしく</li>
+        <li><a href="../guide/suhi-aisho/">数秘術の相性一覧</a> — ライフパスナンバーの組み合わせ</li>
+        <li><a href="../guide/sukuyo-aisho/">宿曜の相性一覧</a> — 向きで名前が変わる相性</li>
+        <li><a href="../calendar/">吉日カレンダー</a> — 推しの誕生日やライブの日の暦を見る</li>
+        <li><a href="../">生まれ日診断</a> — 一人分の診断</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。実在の人物や作品の公式とは関係ありません。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../js/astro.js"></script>
+<script src="../js/fortune.js"></script>
+<script src="../js/chart.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/koyomi.js"></script>
+<script src="../js/holiday.js"></script>
+<script src="../js/sukuyo.js"></script>
+<script src="../js/maya.js"></script>
+<script src="../js/aisho.js"></script>
+<script src="../js/oshi-app.js"></script>
+</body>
+</html>

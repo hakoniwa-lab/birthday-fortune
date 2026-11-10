@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>紫微斗数の流年を無料で見る｜2027年の流年命宮・四化・小限・大限を命盤に重ねる(登録不要)</title>
+<meta name="description" content="生年月日と時刻から紫微斗数の命盤を作り、見たい年の流年命宮、流年四化が入る宮、小限、大限を重ねて出します。2027年(丁未)の四化は太陰化禄・天同化権・天機化科・巨門化忌。良い年・悪い年の判定はしません。入力は保存しません。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/shibi/ryunen/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="紫微斗数の流年 | HAKONIWA LAB">
+<meta property="og:description" content="見たい年の流年命宮・流年四化・小限・大限を、自分の命盤に重ねて出します。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/shibi/ryunen/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../../css/style.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した生年月日はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"送られません。計算はすべてお使いの端末の中で行い、生年月日や時刻は保存もしません。ページを閉じると消えます。URLにも入りません。"}},{"@type":"Question","name":"流年はいつからいつまでですか？","acceptedAnswer":{"@type":"Answer","text":"旧暦の年で数えるので、旧正月から翌年の旧正月の前日までです。2027年は日本の旧暦で2月7日からです。元日や立春で切り替える数え方もあります。"}},{"@type":"Question","name":"数え年で何歳になりますか？","acceptedAnswer":{"@type":"Answer","text":"見る年から生まれた旧暦の年を引いて1を足します。旧暦の正月より前に生まれた人は、新暦の生まれ年より1つ前の年として数えます。"}},{"@type":"Question","name":"流年命宮と小限はどちらを見ればいいですか？","acceptedAnswer":{"@type":"Answer","text":"どちらか一方に決まってはいません。計算ライブラリ iztro の解説は、大限が10年の環境、流年がその年の重点、小限がその年に個人が動かされやすい所を補うと説明しています。このページは3つを並べて出します。"}},{"@type":"Question","name":"性別は何に使いますか？","acceptedAnswer":{"@type":"Answer","text":"小限と大限を回す向きだけに使います。選ばなければ、流年命宮と流年四化だけを出します。"}},{"@type":"Question","name":"「この年は良い年か悪い年か」は出ますか？","acceptedAnswer":{"@type":"Answer","text":"出しません。古典には吉凶の断じ方が多く書かれていますが、確かめる方法がなく、怖がらせる読み方にもなりやすいためです。どの宮に何が入るかだけを出します。"}},{"@type":"Question","name":"月ごとの流月は出ますか？","acceptedAnswer":{"@type":"Answer","text":"今は出しません。流年までです。"}}]}</script>
+<style>
+:root { --sb-lu: #2f7d4a; --sb-quan: #6a4bb0; --sb-ke: #2a68a8; --sb-ji: #b3261e; --sb-bad: #a24a3a; --sb-good: #4c6f8f; --sb-mei: #a8631f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --sb-lu: #74c98f; --sb-quan: #b19be8; --sb-ke: #7fb4e8; --sb-ji: #f08a80; --sb-bad: #e09a8a; --sb-good: #9cc0e0; --sb-mei: #e3a23b; } }
+.sb-fields { display: grid; gap: 12px; text-align: left; margin: 0 0 12px; }
+.sb-fields label, .sb-fields legend { display: block; font-size: 0.85rem; font-weight: 700; margin: 0 0 4px; }
+.sb-fields fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.sb-fields input[type="date"], .sb-fields input[type="time"], .sb-fields select { width: 100%; box-sizing: border-box; font-size: 1rem; }
+.sb-row { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 0.9rem; }
+.sb-row label { font-weight: 400; display: inline-flex; gap: 4px; align-items: center; margin: 0; }
+.sb-help { font-size: 0.78rem; color: var(--color-text-muted); margin: 4px 0 0; font-weight: 400; }
+.sb-opts { text-align: left; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 8px 12px; margin: 0 0 12px; }
+.sb-opts summary { cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+.sb-opts fieldset { border: 0; border-top: 1px solid var(--color-border); padding: 8px 0 4px; margin: 8px 0 0; min-width: 0; }
+.sb-opts legend { font-size: 0.85rem; font-weight: 700; padding: 0; float: left; width: 100%; margin-bottom: 4px; }
+.sb-opts label { display: block; font-size: 0.85rem; margin: 2px 0; clear: left; }
+.sb-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; margin: 4px 0 8px; font-size: 0.78rem; }
+.sb-cell { border: 1px solid var(--color-border); border-radius: 4px; padding: 4px; min-height: 108px; display: flex; flex-direction: column; background: var(--color-surface); min-width: 0; }
+.sb-cell--mei { border: 2px solid var(--sb-mei); padding: 3px; }
+.sb-head { display: flex; justify-content: space-between; align-items: center; gap: 2px; }
+.sb-pname { font-weight: 700; font-size: 0.78rem; }
+.sb-body { display: inline-block; font-size: 0.68rem; padding: 0 3px; border-radius: 3px; background: var(--color-badge-bg); color: var(--color-badge-text); }
+.sb-stars { margin: 3px 0 2px; display: flex; flex-direction: column; }
+.sb-major { font-weight: 700; font-size: 0.9rem; color: var(--color-text); white-space: nowrap; }
+.sb-empty { color: var(--color-text-muted); font-size: 0.7rem; }
+.sb-minors { display: flex; flex-wrap: wrap; gap: 0 4px; flex: 1; align-content: flex-start; }
+.sb-minor { font-size: 0.7rem; color: var(--sb-good); white-space: nowrap; }
+.sb-minor--bad { color: var(--sb-bad); }
+.sb-k { display: inline-block; font-size: 0.62rem; line-height: 1.3; padding: 0 2px; margin-left: 1px; border-radius: 2px; color: #fff; vertical-align: 1px; font-weight: 700; }
+.sb-k--禄 { background: var(--sb-lu); } .sb-k--権 { background: var(--sb-quan); } .sb-k--科 { background: var(--sb-ke); } .sb-k--忌 { background: var(--sb-ji); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sb-k { color: #1b1914; } }
+.sb-foot { display: flex; justify-content: space-between; gap: 2px; font-size: 0.66rem; color: var(--color-text-muted); margin-top: 2px; flex-wrap: wrap; }
+.sb-center { border: 1px dashed var(--color-border); border-radius: 4px; padding: 8px; display: flex; flex-direction: column; justify-content: center; gap: 2px; text-align: left; }
+.sb-center p { margin: 0; font-size: 0.82rem; }
+.sb-center span { color: var(--color-text-muted); font-size: 0.72rem; margin-right: 4px; }
+.sb-legend { font-size: 0.75rem; color: var(--color-text-muted); margin: 0 0 8px; text-align: left; }
+.sb-legend .sb-major { font-size: 0.8rem; }
+.sb-h { font-size: 1.05rem; margin: 18px 0 8px; text-align: left; }
+.sb-small { font-size: 0.8rem; color: var(--color-text-muted); text-align: left; }
+.sb-notes { text-align: left; font-size: 0.9rem; padding-left: 1.2em; }
+#sb-result-body > p { text-align: left; }
+.sb-var th { white-space: normal !important; width: 42%; }
+.sb-apply, .sb-pick { margin-top: 4px; font-size: 0.78rem; padding: 3px 8px; border: 1px solid var(--color-border); border-radius: 4px; background: var(--color-surface); color: var(--color-primary); cursor: pointer; }
+@media (max-width: 480px) { .sb-cell { min-height: 96px; padding: 3px 2px; } .sb-cell--mei { padding: 2px 1px; } .sb-major { font-size: 0.8rem; } .sb-board { gap: 2px; } .sb-center { padding: 4px; } .sb-center p { font-size: 0.72rem; } .sb-center span { display: block; margin: 0; } }
+.sb-small { font-weight: 400; }
+td .sb-small, th .sb-small { display: block; }
+.sb-wrap tbody th { white-space: normal; }
+.sb-wrap .sb-pick { display: block; }
+.sb-cell.sr-cell--flow { outline: 2px solid var(--sb-ke); outline-offset: -2px; }
+.sr-line { display: flex; flex-wrap: wrap; gap: 2px 3px; align-items: center; margin-top: 1px; }
+.sr-flow { font-size: 0.66rem; font-weight: 700; color: var(--sb-ke); white-space: nowrap; }
+.sr-tag { font-size: 0.6rem; line-height: 1.3; padding: 0 3px; border-radius: 3px; background: var(--color-badge-bg); color: var(--color-badge-text); white-space: nowrap; }
+.sr-k { display: inline-block; font-size: 0.62rem; line-height: 1.15; padding: 0 1px; margin-left: 1px; border-radius: 2px; border: 1px solid currentColor; font-weight: 700; vertical-align: 1px; }
+.sr-k--禄 { color: var(--sb-lu); } .sr-k--権 { color: var(--sb-quan); } .sr-k--科 { color: var(--sb-ke); } .sr-k--忌 { color: var(--sb-ji); }
+</style>
+</head>
+<body>
+<div id="app" class="app">
+
+  <nav class="crumb"><a href="../../../">HAKONIWA LAB</a> ／ <a href="../../">生まれ日診断</a> ／ <a href="../">紫微斗数の命盤</a> ／ 流年</nav>
+
+  <header class="app-header">
+    <p class="app-header__eyebrow">生年月日と時刻だけ</p>
+    <h1 class="app-header__title">紫微斗数の流年<br>その年を命盤に重ねて見る</h1>
+    <p class="app-header__lead">見たい年の流年命宮、流年四化が入る宮、小限、大限を出して、自分の命盤に重ねます。良い年・悪い年の判定はしません。</p>
+  </header>
+
+  <main id="main" class="main">
+    <section class="screen">
+      <div class="card card--intro">
+        <form id="sr-form" autocomplete="off">
+          <div class="sb-fields">
+            <div><label for="sr-year">見たい年</label><select id="sr-year" class="quiz-select"></select></div>
+            <div><label for="sr-date">生年月日</label><input type="date" id="sr-date" class="quiz-select" min="1901-01-01" max="2099-12-31"></div>
+            <div><label for="sr-time">生まれた時刻</label><input type="time" id="sr-time" class="quiz-select">
+              <div class="sb-row"><label><input type="checkbox" id="sr-notime"> 時刻が分からない(12通りを並べます)</label></div></div>
+            <fieldset><legend>性別(小限と大限の向きだけに使います)</legend>
+              <div class="sb-row">
+                <label><input type="radio" name="sr-sex" value="f"> 女性</label>
+                <label><input type="radio" name="sr-sex" value="m"> 男性</label>
+                <label><input type="radio" name="sr-sex" value="" checked> 選ばない</label>
+              </div></fieldset>
+          </div>
+          <details id="sb-opts" class="sb-opts"><summary>数え方を選ぶ</summary>
+        <fieldset>
+          <legend>旧暦の作り方</legend>
+          <label><input type="radio" name="sb-cal" value="jp" checked> 日本の旧暦(東経135度の時刻で新月の日を決める)</label>
+          <label><input type="radio" name="sb-cal" value="cn"> 中国の農暦(東経120度)</label>
+        </fieldset>
+        <fieldset>
+          <legend>夜23時台の生まれ</legend>
+          <label><input type="radio" name="sb-lateZi" value="next" checked> 翌日として数える</label>
+          <label><input type="radio" name="sb-lateZi" value="same"> その日のまま数える</label>
+        </fieldset>
+        <fieldset>
+          <legend>生まれ年の区切り</legend>
+          <label><input type="radio" name="sb-yearDiv" value="lunar" checked> 旧正月で切り替える</label>
+          <label><input type="radio" name="sb-yearDiv" value="risshun"> 立春で切り替える</label>
+        </fieldset>
+        <fieldset>
+          <legend>閏月の生まれ</legend>
+          <label><input type="radio" name="sb-leap" value="split" checked> 15日までは前の月、16日からは次の月</label>
+          <label><input type="radio" name="sb-leap" value="next"> 丸ごと次の月(紫微斗数全書)</label>
+          <label><input type="radio" name="sb-leap" value="same"> 丸ごと前の月</label>
+        </fieldset>
+        <fieldset>
+          <legend>庚年の四化(禄・権・科・忌)</legend>
+          <label><input type="radio" name="sb-geng" value="yin" checked> 太陽・武曲・太陰・天同</label>
+          <label><input type="radio" name="sb-geng" value="tong"> 太陽・武曲・天同・太陰</label>
+        </fieldset>
+        <fieldset>
+          <legend>壬年の四化(禄・権・科・忌)</legend>
+          <label><input type="radio" name="sb-ren" value="zuo" checked> 天梁・紫微・左輔・武曲</label>
+          <label><input type="radio" name="sb-ren" value="fu"> 天梁・紫微・天府・武曲</label>
+        </fieldset>
+        <fieldset>
+          <legend>大限の始まり</legend>
+          <label><input type="radio" name="sb-taigen" value="mei" checked> 命宮から始める</label>
+          <label><input type="radio" name="sb-taigen" value="next"> 命宮の隣の宮から始める(全書の安大限訣)</label>
+        </fieldset>
+          </details>
+          <p id="sr-error" class="form-error" hidden></p>
+          <button type="submit" class="btn btn--primary btn--large">流年を見る</button>
+        </form>
+        <p class="intro-disclaimer">※ 計算はすべて端末の中で行います。生年月日・時刻は保存せず、外部にも送りません。紫微斗数に科学的な根拠はありません。読み物として使ってください。</p>
+      </div>
+
+      <div class="card" id="sr-result" hidden>
+        <div id="sr-result-body"></div>
+        <p class="item__note">一人ずつの命盤と数え方の違いは<a href="../">紫微斗数の命盤</a>で見られます。</p>
+      </div>
+    </section>
+
+    <div class="card card--article">
+      <h2>流年で見る4つのこと</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap sb-wrap">
+          <thead><tr><th>見るもの</th><th>何で決まるか</th><th>動き方</th></tr></thead>
+          <tbody>
+            <tr><th>流年命宮</th><td>その年の十二支の宮</td><td>毎年1つずつ順に進みます。2027年(丁未)は未の宮です</td></tr>
+            <tr><th>流年四化</th><td>その年の十干</td><td>生まれ年の四化と同じ表を、その年の十干で引きます</td></tr>
+            <tr><th>小限</th><td>生まれ年の十二支と数え年</td><td>1年に1宮進みます。男性は順回り、女性は逆回りです</td></tr>
+            <tr><th>大限</th><td>命宮・五行局・生まれ年の陰陽と性別</td><td>10年で1宮進みます。始まりの歳は五行局の数です</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>流年命宮は誰でも同じで、その年の十二支の宮です。人によって違うのは、その宮が自分の命盤の何宮にあたるかです。2027年は未の宮が流年命宮なので、命宮が未の人は命宮に、それ以外の人は別の宮に当たります。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>2026〜2037年の流年四化</h2>
+      <div class="table-scroll">
+        <table class="spec spec--wrap sb-wrap">
+          <thead><tr><th>年</th><th>干支</th><th>旧正月</th><th>化禄</th><th>化権</th><th>化科</th><th>化忌</th></tr></thead>
+          <tbody>
+            <tr><th>2026年</th><td>丙午</td><td>2月17日</td><td>天同</td><td>天機</td><td>文昌</td><td>廉貞</td></tr>
+            <tr><th>2027年</th><td>丁未</td><td>2月7日</td><td>太陰</td><td>天同</td><td>天機</td><td>巨門</td></tr>
+            <tr><th>2028年</th><td>戊申</td><td>1月27日</td><td>貪狼</td><td>太陰</td><td>右弼</td><td>天機</td></tr>
+            <tr><th>2029年</th><td>己酉</td><td>2月13日</td><td>武曲</td><td>貪狼</td><td>天梁</td><td>文曲</td></tr>
+            <tr><th>2030年</th><td>庚戌</td><td>2月3日</td><td>太陽</td><td>武曲</td><td>太陰</td><td>天同</td></tr>
+            <tr><th>2031年</th><td>辛亥</td><td>1月23日</td><td>巨門</td><td>太陽</td><td>文曲</td><td>文昌</td></tr>
+            <tr><th>2032年</th><td>壬子</td><td>2月11日</td><td>天梁</td><td>紫微</td><td>左輔</td><td>武曲</td></tr>
+            <tr><th>2033年</th><td>癸丑</td><td>1月31日</td><td>破軍</td><td>巨門</td><td>太陰</td><td>貪狼</td></tr>
+            <tr><th>2034年</th><td>甲寅</td><td>2月19日</td><td>廉貞</td><td>破軍</td><td>武曲</td><td>太陽</td></tr>
+            <tr><th>2035年</th><td>乙卯</td><td>2月8日</td><td>天機</td><td>天梁</td><td>紫微</td><td>太陰</td></tr>
+            <tr><th>2036年</th><td>丙辰</td><td>1月28日</td><td>天同</td><td>天機</td><td>文昌</td><td>廉貞</td></tr>
+            <tr><th>2037年</th><td>丁巳</td><td>2月15日</td><td>太陰</td><td>天同</td><td>天機</td><td>巨門</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>庚と壬の年は資料によって星が違います。表は初めの設定(庚は太陽・武曲・太陰・天同、壬は天梁・紫微・左輔・武曲)で、「数え方を選ぶ」で切り替えられます。旧正月の日付は日本の旧暦です。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>小限の起点と、大限の始まり</h2>
+      <p>小限は数え1歳を、生まれ年の十二支で決まる宮に置きます。そこから1年に1宮、男性は順回り、女性は逆回りに進みます(『紫微斗数全書』の安小限訣)。</p>
+      <div class="table-scroll">
+        <table class="spec spec--wrap sb-wrap">
+          <thead><tr><th>生まれ年の十二支</th><th>数え1歳の宮</th></tr></thead>
+          <tbody>
+            <tr><th>寅・午・戌</th><td>辰</td></tr>
+            <tr><th>申・子・辰</th><td>戌</td></tr>
+            <tr><th>巳・酉・丑</th><td>未</td></tr>
+            <tr><th>亥・卯・未</th><td>丑</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>大限の始まりは、資料によって2通りあります。計算ライブラリ iztro などは命宮から始めます。維基文庫の『紫微斗数全書』の安大限訣は「命の前の宮から順行、命の後の宮から逆行」、つまり命宮の隣の宮から始めるように書いています。「数え方を選ぶ」で切り替えられます。始まりを変えると、大限の宮は全員1つずれます。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>数え方で、その年の結果も変わります</h2>
+      <p>1950〜2009年の生まれからランダムに60,000人を作り、2027年の流年で数え方を1つずつ変えると、<strong>10.0%の人で結果のどこかが変わり</strong>、1.7%の人では流年命宮が命盤のどの宮にあたるかが変わりました。</p>
+      <div class="table-scroll">
+        <table class="spec spec--wrap sb-wrap">
+          <thead><tr><th>変える数え方</th><th>結果のどこかが変わる人</th></tr></thead>
+          <tbody>
+            <tr><th>夜23時台の扱い</th><td>3.8%</td></tr>
+            <tr><th>日本の旧暦か中国の農暦か</th><td>3.0%</td></tr>
+            <tr><th>生まれ年を旧正月と立春のどちらで切り替えるか</th><td>2.1%</td></tr>
+            <tr><th>閏月を丸ごと次の月として数える</th><td>1.5%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>2027年に流年命宮と大限が同じ宮に重なる人は8.3%、流年命宮と小限が重なる人は8.4%でした。どちらも12分の1に近い数字で、特別に珍しいことではありません。</p>
+    </div>
+
+    <div class="card card--article">
+      <h2>よくある質問</h2>
+      <details class="faq-item"><summary>入力した生年月日はどこかに送られますか？</summary><p>送られません。計算はすべてお使いの端末の中で行い、生年月日や時刻は保存もしません。ページを閉じると消えます。URLにも入りません。</p></details>
+      <details class="faq-item"><summary>流年はいつからいつまでですか？</summary><p>旧暦の年で数えるので、旧正月から翌年の旧正月の前日までです。2027年は日本の旧暦で2月7日からです。元日や立春で切り替える数え方もあります。</p></details>
+      <details class="faq-item"><summary>数え年で何歳になりますか？</summary><p>見る年から生まれた旧暦の年を引いて1を足します。旧暦の正月より前に生まれた人は、新暦の生まれ年より1つ前の年として数えます。</p></details>
+      <details class="faq-item"><summary>流年命宮と小限はどちらを見ればいいですか？</summary><p>どちらか一方に決まってはいません。計算ライブラリ iztro の解説は、大限が10年の環境、流年がその年の重点、小限がその年に個人が動かされやすい所を補うと説明しています。このページは3つを並べて出します。</p></details>
+      <details class="faq-item"><summary>性別は何に使いますか？</summary><p>小限と大限を回す向きだけに使います。選ばなければ、流年命宮と流年四化だけを出します。</p></details>
+      <details class="faq-item"><summary>「この年は良い年か悪い年か」は出ますか？</summary><p>出しません。古典には吉凶の断じ方が多く書かれていますが、確かめる方法がなく、怖がらせる読み方にもなりやすいためです。どの宮に何が入るかだけを出します。</p></details>
+      <details class="faq-item"><summary>月ごとの流月は出ますか？</summary><p>今は出しません。流年までです。</p></details>
+    </div>
+
+    <div class="card card--article">
+      <h2>関連ページ</h2>
+      <ul>
+        <li><a href="../">紫微斗数の命盤</a> — 一人ずつの命盤と、数え方で変わる所</li>
+        <li><a href="../aisho/">紫微斗数の相性</a> — 二人の命盤を重ねて比べる</li>
+        <li><a href="../../guide/shibi-kazoekata/">紫微斗数の命盤がサイトごとに違うのはなぜ？</a> — 数え方ごとの違いを数えた</li>
+        <li><a href="../../calendar/">吉日カレンダー</a> — 旧暦の日付と干支を毎日</li>
+      </ul>
+    </div>
+
+    <div class="card card--article">
+      <h2>参考にした資料と計算について</h2>
+      <ul class="sources">
+        <li><a href="https://zh.wikisource.org/wiki/%E7%B4%AB%E5%BE%AE%E6%96%97%E6%95%B8%E5%85%A8%E6%9B%B8/%E5%85%A8%E8%A6%BD" target="_blank" rel="noopener">維基文庫『紫微斗數全書』</a>(安小限訣・安大限訣。2026-11-10確認)</li>
+        <li><a href="https://iztro.com/learn/horoscope" target="_blank" rel="noopener">iztro「紫微斗数运限：大限、小限与流年」</a>(流年命宮はその年の地支の宮、大限は命宮から。2026-11-10確認)</li>
+        <li><a href="https://iztro.com/posts/horoscope" target="_blank" rel="noopener">iztro「运限」</a>(数え年の式と、1980年2月14日生まれの例。2026-11-10確認)</li>
+      </ul>
+      <p>命盤は<a href="../">紫微斗数の命盤</a>と同じ計算部品で作っています。iztro の解説にある例(1980年2月14日 子の刻 男性は水二局で、1990年は数え12歳・第2大限で兄弟宮)と一致し、60,000人で小限の起点と向き、流年命宮が毎年1宮進むことを確かめています。</p>
+    </div>
+  </main>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>本サイトの内容は娯楽・話題提供を目的としたもので、結果を保証するものではありません。</p>
+    <p><a href="../../../about.html">運営者情報</a>・<a href="../../../contact.html">お問い合わせ</a>・<a href="../../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+
+</div>
+<script src="../../js/astro.js"></script>
+<script src="../../js/fortune.js"></script>
+<script src="../../js/chart.js"></script>
+<script src="../../js/data.js"></script>
+<script src="../../js/koyomi.js"></script>
+<script src="../../js/shibi.js"></script>
+<script src="../../js/shibi-board.js"></script>
+<script src="../../js/shibi-aisho.js"></script>
+<script src="../../js/shibi-ryunen.js"></script>
+<script src="../../js/shibi-ryunen-app.js"></script>
+</body>
+</html>

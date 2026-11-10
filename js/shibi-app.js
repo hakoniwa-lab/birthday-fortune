@@ -4,12 +4,7 @@
  */
 (function () {
   const $ = (id) => document.getElementById(id);
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const B = SB_BRANCH, S = SB_STEM;
-  const LUCKY = ["文昌", "文曲", "左輔", "右弼", "天魁", "天鉞", "禄存", "天馬"];
-  const SIKA_SHORT = { 化禄: "禄", 化権: "権", 化科: "科", 化忌: "忌" };
-  // 盤の並び(上の段の左から 巳午未申、右の列 酉戌、下の段の右から 亥子丑寅、左の列 卯辰)
-  const GRID = { 5: [1, 1], 6: [1, 2], 7: [1, 3], 8: [1, 4], 9: [2, 4], 10: [3, 4], 11: [4, 4], 0: [4, 3], 1: [4, 2], 2: [4, 1], 3: [3, 1], 4: [2, 1] };
   const HOUR_RANGE = SB_HOUR_RANGE;
   const STAR_NOTE = {
     紫微: ["帝座", "人の上に立つ星。誇りが高く、まとめ役や責任のある立場に縁があるとされます。"],
@@ -56,36 +51,9 @@
     return { y, m: mo, d, hour, minute, sex: sex || null, lon, prefName: pi === "" ? null : PREFS[+pi][0] };
   }
 
-  const lunarText = (l) => `${l.year}年${l.leap ? "閏" : ""}${l.num}月${l.day}日`;
+  const lunarText = sbLunarText;
 
-  function starHtml(s, cls) {
-    const k = s.sika ? `<b class="sb-k sb-k--${SIKA_SHORT[s.sika]}" title="${s.sika}">${SIKA_SHORT[s.sika]}</b>` : "";
-    return `<span class="${cls}">${esc(s.name)}${k}</span>`;
-  }
-
-  function boardHtml(c) {
-    let cells = "";
-    for (const p of c.palaces) {
-      const [r, col] = GRID[p.branch];
-      const major = p.major.map((s) => starHtml(s, "sb-major")).join("");
-      const minor = p.minor.map((s) => starHtml(s, LUCKY.includes(s.name) ? "sb-minor" : "sb-minor sb-minor--bad")).join("");
-      const tg = p.taigen ? `<span class="sb-tg">${p.taigen[0]}〜${p.taigen[1]}歳</span>` : "";
-      cells += `<div class="sb-cell${p.branch === c.mei ? " sb-cell--mei" : ""}" style="grid-row:${r};grid-column:${col}">`
-        + `<div class="sb-head"><span class="sb-pname">${p.name}</span>${p.body ? '<span class="sb-body">身</span>' : ""}</div>`
-        + `<div class="sb-stars">${major || '<span class="sb-empty">主星なし</span>'}</div>`
-        + `<div class="sb-minors">${minor}</div>`
-        + `<div class="sb-foot"><span class="sb-gz">${S[p.stem]}${B[p.branch]}</span>${tg}</div></div>`;
-    }
-    const b = c.birth;
-    const center = `<div class="sb-center" style="grid-row:2/4;grid-column:2/4">`
-      + `<p><span>旧暦</span>${lunarText(b.lunar)}</p>`
-      + `<p><span>生まれ年</span>${S[b.yStem]}${B[b.yBranch]}年</p>`
-      + `<p><span>時辰</span>${B[b.hourBranch]}の刻</p>`
-      + `<p><span>五行局</span>${c.kyokuName}(${c.nayin})</p>`
-      + `<p><span>命主</span>${c.meishu}　<span>身主</span>${c.shinshu}</p>`
-      + `</div>`;
-    return `<div class="sb-board" role="img" aria-label="紫微斗数の命盤">${cells}${center}</div>`;
-  }
+  const boardHtml = (c) => sbBoardHtml(c);
 
   function meiHtml(c) {
     const ms = sbMeiStars(c);
