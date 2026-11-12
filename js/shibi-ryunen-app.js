@@ -97,6 +97,27 @@
       + `<p class="sb-legend">太枠が命宮、青い枠が流年命宮。<span class="sr-flow">流◯</span> は流年の十二宮の名前。<b class="sb-k sb-k--禄">禄</b> 塗りは生まれ年の四化、<b class="sr-k sr-k--禄">禄</b> 枠は流年の四化。</p>`;
   }
 
+  /* 流月(月ごと)。月は旧暦の月、期間は新暦で出す */
+  let gsika = "month";
+  function ryugetsuHtml(c, y) {
+    const rows = sbRyugetsu(c, y, gsika);
+    const t = new Date(), todayIdx = jdn(t.getFullYear(), t.getMonth() + 1, t.getDate());
+    const md = (J) => { const v = sbYmd(J); return `${v.m}/${v.d}`; };
+    const trs = rows.map((g) => [
+      `${g.label}${todayIdx >= g.start && todayIdx <= g.end ? '<span class="sr-tag">今月</span>' : ""}<span class="sb-small">${md(g.start)}〜${md(g.end)}${g.leapNote ? `・${g.leapNote}` : ""}</span>`,
+      `<strong>${g.natal}</strong><span class="sb-small">${starsTxt(g.stars)}</span>`,
+      g.sika.map((s) => `<span class="sr-gs">${s.star}<b class="sr-k sr-k--${SHORT[s.kind]}" title="流月の${s.kind}">${SHORT[s.kind]}</b><span class="sb-small">${s.palace}</span></span>`).join(""),
+    ]);
+    const dou = sbDoukun(c, y);
+    const radios = Object.entries(SB_RYUGETSU_SIKA_LABEL).map(([v, label]) =>
+      `<label><input type="radio" name="sr-gsika" value="${v}"${v === gsika ? " checked" : ""}> ${label}</label>`).join("");
+    return `<h2 class="sb-h">${y}年の流月(月ごと)</h2>`
+      + `<p class="sb-small">流月の正月(斗君)は${B[dou]}の宮で、あなたの命盤の${c.palaces[dou].name}にあたります。そこから1か月に1宮ずつ順に進みます。月は旧暦の月で、新暦の期間を添えています。</p>`
+      + `<fieldset class="sr-gopt"><legend>流月の四化の十干</legend>${radios}</fieldset>`
+      + table(["月", "流月命宮は命盤の", "流月の四化と、命盤の宮"], trs, "sr-gtable")
+      + `<p class="sb-small">流月の四化は流派で2通りあります。月の干支(五虎遁)で引くか、流月命宮のある宮の十干で引くかです。閏月は「数え方を選ぶ」の閏月の設定に合わせています。</p>`;
+  }
+
   function yearsHtml(c, r0, sex, from) {
     const rows = [];
     for (let y = r0.year - 1; y <= r0.year + 10; y++) {
@@ -165,7 +186,7 @@
       const c = shibiChart(inp, opt);
       const r = sbRyunen(c, y, inp.sex, from);
       $("sr-result-body").innerHTML = summaryHtml(c, r, inp.sex) + sikaHtml(r) + overlapHtml(r) + boardWithFlow(c, r)
-        + yearsHtml(c, r, inp.sex, from) + variantsHtml(inp, opt, from, { c, r }, y);
+        + ryugetsuHtml(c, y) + yearsHtml(c, r, inp.sex, from) + variantsHtml(inp, opt, from, { c, r }, y);
     }
     $("sr-result").hidden = false;
     return true;
@@ -179,6 +200,9 @@
     $("sr-form").addEventListener("submit", (e) => { e.preventDefault(); if (render()) $("sr-result").scrollIntoView({ behavior: "smooth", block: "start" }); });
     document.querySelectorAll("#sb-opts input").forEach((el) => el.addEventListener("change", () => { if (!$("sr-result").hidden) render(); }));
     sel.addEventListener("change", () => { if (!$("sr-result").hidden) render(); });
+    $("sr-result").addEventListener("change", (e) => {
+      if (e.target.name === "sr-gsika") { gsika = e.target.value; render(); }
+    });
     $("sr-result").addEventListener("click", (e) => {
       const a = e.target.closest(".sb-apply");
       if (a) { setOpt(a.dataset.k, a.dataset.v); $("sb-opts").open = true; render(); return; }

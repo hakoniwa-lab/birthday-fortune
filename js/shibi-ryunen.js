@@ -87,3 +87,58 @@ function sbLunarNewYear(y, tz) {
   }
   return null;
 }
+
+/*
+ * 流月(その年の月ごと)。
+ *   斗君(流月の正月) … 流年の太歳宮を正月として生まれ月まで逆に数え、そこを子の刻として生まれた時刻まで順に数えた宮
+ *                      (全書「安斗君訣」・iztro「安子斗诀」)。翌年の斗君は1宮先に進む
+ *   流月命宮         … 斗君から1か月に1宮ずつ順回り
+ *   月               … 旧暦の月。閏月は命盤の閏月の数え方(opt.leap)に合わせる(15日で分ける/丸ごと次の月/丸ごと前の月)
+ *   流月四化の十干   … 流派で2通り(iztro「流月四化因派别不同会有差异」)
+ *                      month  … その月の干支の十干(五虎遁。流年の十干で正月=寅月の十干が決まる)
+ *                      palace … 流月命宮がある宮の十干
+ */
+const SB_RYUGETSU_SIKA_LABEL = { month: "月の干支の十干で引く(五虎遁)", palace: "流月命宮の宮の十干で引く" };
+const SB_MONTH_NAME = ["", "正月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+
+function sbDoukun(c, y) { return sbMod(sbYearBranch(y) - (c.birth.month - 1) + c.birth.hourBranch, 12); }
+
+/* 日の通し番号 → { y, m, d } */
+function sbYmd(J) {
+  const a = J + 32044, b = Math.floor((4 * a + 3) / 146097), c = a - Math.floor(146097 * b / 4);
+  const d = Math.floor((4 * c + 3) / 1461), e = c - Math.floor(1461 * d / 4), m = Math.floor((5 * e + 2) / 153);
+  return { y: 100 * b + d - 4800 + Math.floor(m / 10), m: m + 3 - 12 * Math.floor(m / 10), d: e - Math.floor((153 * m + 2) / 5) + 1 };
+}
+
+/* 旧暦の y 年の月(正月〜十二月と閏月)。{ num, leap, start, end } */
+function sbLunarMonthsOfYear(y, tz) {
+  const out = [];
+  for (const wy of [y - 1, y]) for (const mo of sbLunarTable(wy, tz)) if (mo.year === y) out.push(mo);
+  return out;
+}
+
+/* 流月の表。行は月ごと(閏月を15日で分けるときは2行)。{ k(1〜12), label, start, end, branch, natal, stars, stem, sika[] } */
+function sbRyugetsu(c, y, sikaFrom) {
+  const tz = c.opt.cal === "cn" ? 8 : 9;
+  const rows = [];
+  const add = (yy, k, label, start, end, leapNote) => {
+    const branch = sbMod(sbDoukun(c, yy) + k - 1, 12);
+    const tiger = ((sbYearStem(yy) % 5) * 2 + 2) % 10;
+    const stem = sikaFrom === "palace" ? c.palaces[branch].stem : (tiger + k - 1) % 10;
+    const sika = sbSika(stem, c.opt).map((star, i) => ({ kind: SB_SIKA_NAME[i], star, branch: c.pos[star], palace: c.palaces[c.pos[star]].name }));
+    rows.push({ y: yy, k, label, start, end, leapNote, branch, natal: c.palaces[branch].name, stars: sbStarsAt(c, branch), stem, sika });
+  };
+  // 閏月を k 番目の月として数えたとき、13 になったら翌年の正月
+  const addK = (k, label, start, end, note) => (k > 12 ? add(y + 1, 1, label, start, end, note) : add(y, k, label, start, end, note));
+  for (const mo of sbLunarMonthsOfYear(y, tz)) {
+    if (!mo.leap) { addK(mo.num, SB_MONTH_NAME[mo.num], mo.start, mo.end, null); continue; }
+    const name = `閏${SB_MONTH_NAME[mo.num]}`;
+    if (c.opt.leap === "same") addK(mo.num, name, mo.start, mo.end, `${SB_MONTH_NAME[mo.num]}として数える`);
+    else if (c.opt.leap === "next") addK(mo.num + 1, name, mo.start, mo.end, `${SB_MONTH_NAME[mo.num % 12 + 1]}として数える`);
+    else {
+      addK(mo.num, `${name}(1〜15日)`, mo.start, Math.min(mo.start + 14, mo.end), `${SB_MONTH_NAME[mo.num]}として数える`);
+      if (mo.end > mo.start + 14) addK(mo.num + 1, `${name}(16日〜)`, mo.start + 15, mo.end, `${SB_MONTH_NAME[mo.num % 12 + 1]}として数える`);
+    }
+  }
+  return rows;
+}
