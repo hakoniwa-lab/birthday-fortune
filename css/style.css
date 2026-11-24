@@ -1009,6 +1009,25 @@ html, body {
 .spec.spec--wrap { min-width: 0; }
 .spec.spec--wrap td, .spec.spec--wrap thead th { white-space: normal; }
 .spec .nw { white-space: nowrap; }
+/* 天中殺の早見表(基数表): 年×12か月の数字の表。10年ずつ開いて見る */
+.spec.spec--kisu { min-width: 0; font-size: 0.78rem; }
+.spec.spec--kisu th, .spec.spec--kisu td { padding: 6px 2px; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.spec.spec--kisu tbody th { text-align: left; }
+.kisu-decade { border-bottom: 1px dashed var(--color-border); padding: 8px 0; }
+.kisu-decade summary { cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+.kisu-decade summary::marker { color: var(--color-primary); }
+.kisu-decade .table-scroll { margin-top: 8px; }
+/* 干支の相性: 12×12の表・円の図・組み合わせ別の一覧 */
+.spec--eto td span { font-weight: 700; color: var(--color-text); }
+.spec--eto td span.is-self { color: var(--color-primary); }
+.eto-figure { max-width: 300px; margin: 8px auto; }
+.eto-svg { width: 100%; height: auto; display: block; }
+.eto-sango { fill: var(--color-primary); fill-opacity: 0.08; stroke: var(--color-primary); stroke-width: 1.5; }
+.eto-gou { stroke: var(--color-text-muted); stroke-width: 1.5; stroke-dasharray: 4 3; }
+.eto-dot { fill: var(--color-primary); }
+.eto-label { font-size: 16px; font-weight: 700; fill: var(--color-text); }
+.pair-list { margin: 8px 0 0; padding-left: 1.2em; font-size: 0.85rem; }
+.pair-list li { margin-bottom: 6px; color: var(--color-text-muted); }
 
 @media (min-width: 640px) {
   .art-title { font-size: 1.8rem; }
