@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>名前に使える漢字チェック｜人名用漢字・常用漢字・旧字体を1字ずつ判定</title>
+<meta name="description" content="子どもの名前に使える字かどうかを、1字ずつ理由つきで調べます。常用漢字・人名用漢字（2026年6月に加わった「勒」まで）・ひらがな・カタカナと、使える記号4つ。使えない旧字体には使える字の形を示します。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/seimei/kanji/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="名前に使える漢字チェック | HAKONIWA LAB">
+<meta property="og:description" content="名前を入れると、1字ずつ名前に使えるかどうかと理由を出します。旧字体・記号の扱いも。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/seimei/kanji/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root {
+  --color-bg: #efe6ce;
+  --color-surface: #f8f2e3;
+  --color-border: #dbcba0;
+  --color-text: #2b2620;
+  --color-text-muted: #6e6248;
+  --color-primary: #a8631f;
+  --color-primary-hover: #8b5119;
+  --color-primary-contrast: #fbf3e2;
+  --color-accent: #55704a;
+  --color-badge-bg: #e4d6ae;
+  --color-badge-text: #6e4a1e;
+  --color-warn-bg: #efd3c0;
+  --color-warn-text: #8a4322;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-card: 0 2px 8px rgba(43, 38, 32, 0.12);
+  --max-width: 640px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #211f1a;
+    --color-surface: #2c2a22;
+    --color-border: #423e30;
+    --color-text: #f1e9d8;
+    --color-text-muted: #b3a585;
+    --color-primary: #e3a23b;
+    --color-primary-hover: #edb259;
+    --color-primary-contrast: #241c0d;
+    --color-accent: #8fae7d;
+    --color-badge-bg: #3a3626;
+    --color-badge-text: #e3a23b;
+    --color-warn-bg: #3d2a1d;
+    --color-warn-text: #e0a876;
+    --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.5);
+  }
+  /* 文中のリンクは既定の青(#0000ee)だと暗い背景で読めないので、明るい色にする(ボタン類は class を持つので対象外) */
+  a:not([class]) { color: #9cc3ff; }
+  a:not([class]):visited { color: #c6a8ff; }
+}
+
+/* 配置: 上に名前を入れて1字ずつ判定（字を大きく、使えない字は使える形への置き換えボタン）、その下に決まり、旧字体の一覧（使えない160字・使える204字）、出典 */
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --ink: #1b1e24;
+  --muted: #5b6170;
+  --line: #d8dbe2;
+  --accent: #34488a;
+  --accent-ink: #ffffff;
+  --accent-soft: #e5e9f5;
+  --ok: #1d6b45; --ok-soft: #e1f1e8;
+  --check: #8a5a00; --check-soft: #fbefd6;
+  --ng: #b0302b; --ng-soft: #f9e3e1;
+  --font-glyph: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-body: "BIZ UDPGothic", "Yu Gothic UI", "Meiryo", "Hiragino Sans", sans-serif;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418; --surface: #1a1d22; --ink: #e6e8ed; --muted: #a2a8b5; --line: #2e323a;
+    --accent: #9fb2f0; --accent-ink: #10162a; --accent-soft: #232b44;
+    --ok: #7ed3a4; --ok-soft: #173326; --check: #f0c46a; --check-soft: #382c14; --ng: #f2948d; --ng-soft: #3d1c1a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121418; --surface: #1a1d22; --ink: #e6e8ed; --muted: #a2a8b5; --line: #2e323a;
+  --accent: #9fb2f0; --accent-ink: #10162a; --accent-soft: #232b44;
+  --ok: #7ed3a4; --ok-soft: #173326; --check: #f0c46a; --check-soft: #382c14; --ng: #f2948d; --ng-soft: #3d1c1a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.75; }
+.wrap {
+  max-width: 960px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px; display: grid; gap: 22px;
+}
+h1, h2, h3 { font-family: var(--font-glyph); font-weight: 700; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.75rem, 5vw, 2.4rem); line-height: 1.25; letter-spacing: 0.04em; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; }
+p { margin: 0; }
+.head { display: grid; gap: 8px; }
+.lede { color: var(--muted); max-width: 44em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.cap { font-size: 13px; color: var(--muted); }
+#name {
+  font-family: var(--font-glyph); font-size: 30px; color: var(--ink); background: var(--bg); width: 100%; min-width: 0;
+  border: 1px solid var(--line); border-radius: 10px; padding: 6px 14px; letter-spacing: 0.08em;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip {
+  appearance: none; font: inherit; font-size: 14px; cursor: pointer; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 2px 13px; font-family: var(--font-glyph);
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip:focus-visible, #name:focus-visible, .fixbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.verdict { border-radius: 10px; padding: 10px 14px; font-weight: 700; }
+.verdict.ok { background: var(--ok-soft); color: var(--ok); }
+.verdict.check { background: var(--check-soft); color: var(--check); }
+.verdict.ng { background: var(--ng-soft); color: var(--ng); }
+.tiles { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.tile { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: start; }
+.tile .g { font-family: var(--font-glyph); font-size: 44px; line-height: 1.1; grid-row: span 3; min-width: 1.1em; text-align: center; }
+.pill { justify-self: start; font-size: 12px; font-weight: 700; border-radius: 999px; padding: 1px 10px; }
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+.pill.check { background: var(--check-soft); color: var(--check); }
+.pill.ng { background: var(--ng-soft); color: var(--ng); }
+.tile .kind { font-size: 13px; color: var(--muted); }
+.tile .note { font-size: 13px; grid-column: 1 / -1; }
+.tile .code { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.fixbtn { appearance: none; font: inherit; font-size: 13px; cursor: pointer; color: var(--accent); background: none; border: 1px solid var(--accent); border-radius: 8px; padding: 1px 10px; justify-self: start; grid-column: 1 / -1; }
+.rules { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.rules section { display: grid; gap: 6px; align-content: start; }
+.rules p, .rules li { font-size: 14px; }
+.rules ul { margin: 0; padding-left: 1.2em; }
+.big { font-family: var(--font-glyph); font-size: 1.15em; }
+.olds { display: grid; gap: 6px; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); }
+.old { border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; display: flex; align-items: baseline; gap: 6px; font-family: var(--font-glyph); }
+.old b { font-size: 22px; font-weight: 500; }
+.old span { font-size: 13px; color: var(--muted); }
+.olds.un .old b { color: var(--ng); }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.src { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; }
+.src a, .card a { color: var(--accent); }
+.src ul { margin: 0; padding-left: 1.2em; }
+
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+  --bg: var(--color-bg); --surface: var(--color-surface); --ink: var(--color-text); --muted: var(--color-text-muted); --line: var(--color-border); --accent: var(--color-primary); --accent-ink: var(--color-primary-contrast); --accent-soft: var(--color-badge-bg);
+}
+
+.guide-nav { font-size: 0.85rem; color: var(--color-text-muted); }
+.guide-nav a { color: var(--color-text-muted); }
+.pr-note { font-size: 0.75rem; color: var(--color-text-muted); margin: 0; }
+.port-faq details { border-top: 1px solid var(--color-border); padding: 8px 0; }
+.port-faq summary { cursor: pointer; font-weight: 700; }
+.port-faq p { margin: 6px 0 0; }
+.port-related ul { margin: 0; padding-left: 1.2em; }
+.port-related li { margin: 4px 0; }
+.port-related a { color: var(--color-primary); }
+.app-footer { margin-top: 8px; text-align: center; font-size: 0.72rem; color: var(--color-text-muted); }
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "子どもの名前に使える字は何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "戸籍法50条と戸籍法施行規則60条で、常用漢字（常用漢字表で括弧の中に書かれた旧字体は除く）、人名用漢字、カタカナとひらがな（変体仮名は除く）と決まっています。"}}, {"@type": "Question", "name": "名前に使える記号はありますか？", "acceptedAnswer": {"@type": "Answer", "text": "長音の「ー」、ひらがなの繰り返しの「ゝ」「ゞ」、漢字の繰り返しの「々」の4つだけで、それぞれ使い方が限られています。ローマ字、算用数字、ほかの記号は使えません。"}}, {"@type": "Question", "name": "旧字体は名前に使えますか？", "acceptedAnswer": {"@type": "Answer", "text": "人名用漢字に入っている旧字体だけ使えます（「櫻」「龍」など）。「壓」「醫」などは使えません。「髙（はしごだか）」「﨑（たつさき）」「𠮷（つちよし）」は、どちらの表にも入っていない字です。"}}, {"@type": "Question", "name": "名字の字にも決まりがありますか？", "acceptedAnswer": {"@type": "Answer", "text": "決まりがあるのは名前（下の名）だけです。名字（氏）の字には、この決まりはありません。"}}, {"@type": "Question", "name": "読み方にも決まりはありますか？", "acceptedAnswer": {"@type": "Answer", "text": "2025年5月26日から、戸籍に名前の振り仮名が載るようになりました。振り仮名は「氏名として用いられる文字の読み方として一般に認められているもの」でなければなりません（戸籍法13条）。字が使えても、読ませ方によっては届け出のときに説明を求められることがあります。"}}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="guide-nav" aria-label="パンくずリスト">
+    <a href="../../../">HAKONIWA LAB</a> &raquo;
+    <a href="../../">生まれ日診断</a> &raquo;
+    <a href="../">姓名判断</a> &raquo;
+    <span aria-current="page">名前に使える漢字チェック</span>
+  </nav>
+
+  <header class="head">
+    <h1>名前に使える漢字チェック</h1>
+    <p class="lede">子どもの名前に使える字は、戸籍法で常用漢字・人名用漢字・ひらがな・カタカナと決まっています。名前を入れると、1字ずつ使えるかどうかと、その理由を出します。使えない旧字体には、使える字の形を示します。</p>
+  </header>
+
+  <section class="card" aria-labelledby="h-check">
+    <h2 id="h-check">名前を入れて調べる</h2>
+    <input type="text" id="name" value="櫻子" autocomplete="off" aria-label="名前">
+    <div class="chips" id="examples" aria-label="例"></div>
+    <p class="verdict" id="verdict" aria-live="polite"></p>
+    <div class="tiles" id="tiles"></div>
+    <p class="cap">決まりがあるのは名前（下の名）だけです。名字（氏）の字には、この決まりはありません。最後は出生届を出す市区町村の窓口で確かめてください。</p>
+  </section>
+
+  <section class="card" aria-labelledby="h-rules">
+    <h2 id="h-rules">名前の字の決まり</h2>
+    <div class="rules">
+      <section>
+        <h3>使える字は4種類</h3>
+        <p>戸籍法50条は、子の名には「常用平易な文字」を使うとしています。その範囲は戸籍法施行規則60条で決まっています。</p>
+        <ul>
+          <li>常用漢字（<span id="nJoyo"></span>字）。ただし常用漢字表で括弧の中に書かれた旧字体は除く</li>
+          <li>人名用漢字（<span id="nJinmei"></span>字。施行規則の別表）</li>
+          <li>カタカナとひらがな（変体仮名は除く）</li>
+        </ul>
+      </section>
+      <section>
+        <h3>記号は4つだけ</h3>
+        <p>長音の「ー」は直前の音を延ばすとき、「ゝ」「ゞ」は直前のひらがなと同じ音を繰り返すとき、「々」は直前の漢字と同じ字を繰り返すときに限って使えます（さいたま市の案内）。ローマ字、算用数字、ほかの記号は使えません。</p>
+      </section>
+      <section>
+        <h3>旧字体は、人名用漢字に入っているものだけ</h3>
+        <p>常用漢字表の括弧の中の旧字体は<span id="nOld"></span>字です。そのうち<span id="nUsable"></span>字は人名用漢字に入っていて使えます（「櫻」「龍」など）。残りの<span id="nUnusable"></span>字は使えません（「壓」「醫」など）。「髙（はしごだか）」「﨑（たつさき）」「𠮷（つちよし）」は、どちらの表にも入っていない字です。</p>
+      </section>
+      <section>
+        <h3>2026年6月に「勒」が加わった</h3>
+        <p>人名用漢字は、2015年に「巫」、2017年に「渾」が加わりました。2026年6月26日には法務省が施行規則を改正して「勒」を加え、864字になったと報じられています。「勒」を使った出生届が受理されなかった人の不服申し立てで、抗告審が受理を命じる決定を出したのがきっかけ、とのことです。</p>
+      </section>
+      <section>
+        <h3>読み方にも決まりができた</h3>
+        <p>2025年5月26日から、戸籍に名前の振り仮名が載るようになりました。振り仮名は「氏名として用いられる文字の読み方として一般に認められているもの」でなければなりません（戸籍法13条）。字が使えても、読ませ方によっては届け出のときに説明を求められることがあります。</p>
+      </section>
+      <section>
+        <h3>画数で選ぶなら</h3>
+        <p>旧字体で数えるか、今の字で数えるかで、姓名判断の画数は変わります。名前に使えるのは今の字か、人名用漢字に入っている旧字体だけです。</p>
+      </section>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-old">
+    <h2 id="h-old">常用漢字の旧字体の一覧</h2>
+    <div class="tabs" role="group" aria-label="一覧の切り替え">
+      <button type="button" class="chip" id="tabUn" aria-pressed="true"></button>
+      <button type="button" class="chip" id="tabUs" aria-pressed="false"></button>
+    </div>
+    <p class="cap" id="oldCap"></p>
+    <div class="olds" id="olds"></div>
+  </section>
+
+  <footer class="src">
+    <p>出典（2026年11月15日に確認）</p>
+    <ul>
+      <li>e-Gov法令検索「<a href="https://laws.e-gov.go.jp/law/322AC0000000224" target="_blank" rel="noopener">戸籍法</a>」13条・50条、「<a href="https://laws.e-gov.go.jp/law/322M40000010094" target="_blank" rel="noopener">戸籍法施行規則</a>」60条・別表第三</li>
+      <li>法務省「<a href="https://www.moj.go.jp/MINJI/minji86.html" target="_blank" rel="noopener">子の名に使える漢字</a>」、文化庁「<a href="https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kijun/naikaku/pdf/joyokanjihyo_20101130.pdf" target="_blank" rel="noopener">常用漢字表</a>」（平成22年内閣告示第2号。括弧内の字はこのPDFから取りました）</li>
+      <li>常用漢字・人名用漢字の範囲：Unicode「Unihan」の kJoyoKanji・kJinmeiyoKanji（<span id="uniVer"></span>）。人名用漢字の別表と法務省の一覧表は画像なので、字の数で照らし合わせました</li>
+      <li>記号の扱い：<a href="https://www.city.saitama.lg.jp/kosodate/faq/category3/p103328.html" target="_blank" rel="noopener">さいたま市「出生子の名前に使える漢字を知りたい」</a>／振り仮名：<a href="https://www.city.hamamatsu.shizuoka.jp/siminkj/furigana.html" target="_blank" rel="noopener">浜松市「戸籍の氏名への振り仮名記載」</a></li>
+      <li>「勒」の追加：<a href="https://www.kumanichi.com/articles/2006981" target="_blank" rel="noopener">熊本日日新聞（共同通信）2026年6月26日</a></li>
+    </ul>
+  </footer>
+
+  <section class="card port-related" aria-labelledby="h-related">
+    <h2 id="h-related">あわせて使えるページ</h2>
+    <ul>
+      <li><a href="../">姓名判断 数え方くらべ</a></li>
+      <li><a href="../../oiwai/">赤ちゃんのお祝い日程</a></li>
+      <li><a href="../../tools/">暦と占いの道具 一覧</a></li>
+    </ul>
+  </section>
+
+  <section class="card port-faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">よくある質問</h2>
+    <details>
+      <summary>子どもの名前に使える字は何ですか？</summary>
+      <p>戸籍法50条と戸籍法施行規則60条で、常用漢字（常用漢字表で括弧の中に書かれた旧字体は除く）、人名用漢字、カタカナとひらがな（変体仮名は除く）と決まっています。</p>
+    </details>
+    <details>
+      <summary>名前に使える記号はありますか？</summary>
+      <p>長音の「ー」、ひらがなの繰り返しの「ゝ」「ゞ」、漢字の繰り返しの「々」の4つだけで、それぞれ使い方が限られています。ローマ字、算用数字、ほかの記号は使えません。</p>
+    </details>
+    <details>
+      <summary>旧字体は名前に使えますか？</summary>
+      <p>人名用漢字に入っている旧字体だけ使えます（「櫻」「龍」など）。「壓」「醫」などは使えません。「髙（はしごだか）」「﨑（たつさき）」「𠮷（つちよし）」は、どちらの表にも入っていない字です。</p>
+    </details>
+    <details>
+      <summary>名字の字にも決まりがありますか？</summary>
+      <p>決まりがあるのは名前（下の名）だけです。名字（氏）の字には、この決まりはありません。</p>
+    </details>
+    <details>
+      <summary>読み方にも決まりはありますか？</summary>
+      <p>2025年5月26日から、戸籍に名前の振り仮名が載るようになりました。振り仮名は「氏名として用いられる文字の読み方として一般に認められているもの」でなければなりません（戸籍法13条）。字が使えても、読ませ方によっては届け出のときに説明を求められることがあります。</p>
+    </details>
+  </section>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../../birthday-fortune/tools/">暦と占いの道具 一覧</a></li>
+          <li><a href="../../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>判定は法令と公表資料による目安です。最後は出生届を出す市区町村の窓口で確かめてください。</p>
+    <p><a href="../../../about.html">運営者情報</a>・<a href="../../../contact.html">お問い合わせ</a>・<a href="../../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+</div>
+
+<script>
+/* 名前に使える字か — 判定部分
+ * 戸籍法50条・同施行規則60条: 子の名に使えるのは 常用漢字（括弧内の字は除く）・人名用漢字・片仮名・平仮名（変体仮名を除く）。
+ * 記号は、長音「ー」（直前の音を延ばす）、「ゝ」「ゞ」（直前の字と同じ音の繰り返し）、「々」（直前の字と同じ字の繰り返し）。
+ * データは make_data.py が作る data/kanji.json を init() で渡す。
+ * ブラウザでは window.NamaeKanji、Node では module.exports。入力は正規化しない（互換漢字を別の字のまま扱うため）。
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.NamaeKanji = api;
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+  let D = null, JOYO = null;
+  function init(data) { D = data; JOYO = new Set(Array.from(D.joyo)); }
+
+  const cp = (c) => c.codePointAt(0);
+  const isHira = (c) => cp(c) >= 0x3041 && cp(c) <= 0x3094;            // ぁ〜ゔ
+  const isKata = (c) => cp(c) >= 0x30A1 && cp(c) <= 0x30F4;            // ァ〜ヴ
+  const isKanaRare = (c) => /[ゕゖヵ-ヺ]/.test(c);      // ゕゖヵヶヷヸヹヺ
+  const isHentai = (c) => cp(c) >= 0x1B000 && cp(c) <= 0x1B16F;
+  const isCJK = (c) => /\p{Script=Han}/u.test(c);
+  const u = (c) => 'U+' + cp(c).toString(16).toUpperCase();
+  // 名字でよく見る異体字（どちらの表にも入っていない）→ 使える字
+  const FAMOUS = { '髙': '高', '﨑': '崎', '嵜': '崎', '𠮷': '吉', '邉': '辺', '濵': '浜', '栁': '柳', '冝': '宜' };
+
+  function kindOf(c) {
+    if (JOYO.has(c)) return 'joyo';
+    if (D.jinmei[c]) return 'jinmei';
+    return null;
+  }
+
+  // 1字ずつ判定。status: ok / check / ng
+  function check(text) {
+    const chars = Array.from(String(text || '').replace(/[\s　]/g, ''));
+    const res = [];
+    chars.forEach((c, i) => {
+      const prev = i > 0 ? chars[i - 1] : null;
+      const r = { c, code: u(c) };
+      const k = kindOf(c);
+      if (k === 'joyo') Object.assign(r, { status: 'ok', kind: '常用漢字' });
+      else if (k === 'jinmei') {
+        const j = D.jinmei[c];
+        Object.assign(r, { status: 'ok', kind: '人名用漢字' });
+        const notes = [];
+        if (D.old[c]) notes.push('常用漢字「' + D.old[c] + '」の旧字体ですが、人名用漢字に入っているので使えます。');
+        else if (j.v) notes.push('「' + j.v + '」の異体字として人名用漢字に入っています。');
+        if (j.y > 2010) notes.push(j.y + '年に人名用漢字に加わった字です。');
+        if (notes.length) r.note = notes.join('');
+      } else if (D.joyoAlt[c]) {
+        Object.assign(r, { status: 'check', kind: '常用漢字の別の形',
+          note: '常用漢字表の字形は「' + D.joyoAlt[c] + '」です。この形で届けられるかは、届け出先の市区町村で確かめてください。' });
+      } else if (D.old[c]) {
+        Object.assign(r, { status: 'ng', kind: '常用漢字の旧字体', fix: D.old[c],
+          note: '常用漢字「' + D.old[c] + '」の旧字体（常用漢字表の括弧内の字）で、人名用漢字にも入っていません。「' + D.old[c] + '」なら使えます。' });
+      } else if (isHira(c) || isKata(c)) {
+        Object.assign(r, { status: 'ok', kind: isHira(c) ? 'ひらがな' : 'カタカナ' });
+      } else if (c === 'ー') {
+        const okPrev = prev && (isHira(prev) || isKata(prev));
+        Object.assign(r, okPrev ? { status: 'ok', kind: '長音の記号' } :
+          { status: 'ng', kind: '長音の記号', note: '「ー」は直前の音を延ばすときだけ使えます。かなの後に置いてください。' });
+      } else if (c === 'ゝ' || c === 'ゞ') {
+        const okPrev = prev && isHira(prev);
+        Object.assign(r, okPrev ? { status: 'ok', kind: '繰り返しの記号' } :
+          { status: 'ng', kind: '繰り返しの記号', note: '「' + c + '」は直前のひらがなと同じ音を繰り返すときだけ使えます。' });
+      } else if (c === '々') {
+        const okPrev = prev && kindOf(prev);
+        Object.assign(r, okPrev ? { status: 'ok', kind: '繰り返しの記号' } :
+          { status: 'ng', kind: '繰り返しの記号', note: '「々」は直前の漢字と同じ字を繰り返すときだけ使えます。' });
+      } else if (c === 'ヽ' || c === 'ヾ') {
+        Object.assign(r, { status: 'check', kind: '繰り返しの記号', note: 'カタカナの繰り返し記号は、案内に挙がっていないことが多い記号です。届け出先で確かめてください。' });
+      } else if (isKanaRare(c)) {
+        Object.assign(r, { status: 'check', kind: 'かな', note: 'ふだん使わない形のかなです。届け出先で確かめてください。' });
+      } else if (isHentai(c)) {
+        Object.assign(r, { status: 'ng', kind: '変体仮名', note: '変体仮名は使えません。' });
+      } else if (isCJK(c)) {
+        const f = FAMOUS[c];
+        Object.assign(r, { status: 'ng', kind: 'ほかの漢字', note: '常用漢字にも人名用漢字にも入っていない字です。' +
+          (f ? '名字でよく見る「' + f + '」の異体字で、「' + f + '」なら使えます。' : '') });
+        if (f) r.fix = f;
+      } else if (/[A-Za-zＡ-Ｚａ-ｚ]/.test(c)) {
+        Object.assign(r, { status: 'ng', kind: 'ローマ字', note: 'ローマ字は使えません。' });
+      } else if (/[0-9０-９]/.test(c)) {
+        Object.assign(r, { status: 'ng', kind: '数字', note: '算用数字は使えません。漢数字なら常用漢字です。' });
+      } else {
+        Object.assign(r, { status: 'ng', kind: '記号など', note: 'この記号は名前に使えません。' });
+      }
+      res.push(r);
+    });
+    const verdict = !res.length ? 'empty' : res.some((r) => r.status === 'ng') ? 'ng' : res.some((r) => r.status === 'check') ? 'check' : 'ok';
+    return { chars: res, verdict };
+  }
+
+  // 一覧: 括弧内の旧字体で、使える字・使えない字
+  function oldForms() {
+    const usable = [], unusable = [];
+    for (const [o, n] of Object.entries(D.old)) (D.jinmei[o] ? usable : unusable).push({ old: o, now: n });
+    const ord = (a, b) => D.joyo.indexOf(a.now) - D.joyo.indexOf(b.now);
+    return { usable: usable.sort(ord), unusable: unusable.sort(ord) };
+  }
+  function added() {
+    return Object.entries(D.jinmei).filter(([, j]) => j.y > 2010).map(([c, j]) => ({ c, y: j.y })).sort((a, b) => a.y - b.y);
+  }
+  function counts() {
+    return { joyo: JOYO.size, jinmei: Object.keys(D.jinmei).length, old: Object.keys(D.old).length };
+  }
+
+  return { init, check, oldForms, added, counts };
+});
+window.NAMAE_DATA = {"meta":{"unicode":"18.0.0","date":"2026-07-31"},"joyo":"亜哀挨愛曖悪握圧扱宛嵐安案暗以衣位囲医依委威為畏胃尉異移萎偉椅彙意違維慰遺緯域育一壱逸茨芋引印因咽姻員院淫陰飲隠韻右宇羽雨唄鬱畝浦運雲永泳英映栄営詠影鋭衛易疫益液駅悦越謁閲円延沿炎怨宴媛援園煙猿遠鉛塩演縁艶汚王凹央応往押旺欧殴桜翁奥横岡屋億憶臆虞乙俺卸音恩温穏下化火加可仮何花佳価果河苛科架夏家荷華菓貨渦過嫁暇禍靴寡歌箇稼課蚊牙瓦我画芽賀雅餓介回灰会快戒改怪拐悔海界皆械絵開階塊楷解潰壊懐諧貝外劾害崖涯街慨蓋該概骸垣柿各角拡革格核殻郭覚較隔閣確獲嚇穫学岳楽額顎掛潟括活喝渇割葛滑褐轄且株釜鎌刈干刊甘汗缶完肝官冠巻看陥乾勘患貫寒喚堪換敢棺款間閑勧寛幹感漢慣管関歓監緩憾還館環簡観韓艦鑑丸含岸岩玩眼頑顔願企伎危机気岐希忌汽奇祈季紀軌既記起飢鬼帰基寄規亀喜幾揮期棋貴棄毀旗器畿輝機騎技宜偽欺義疑儀戯擬犠議菊吉喫詰却客脚逆虐九久及弓丘旧休吸朽臼求究泣急級糾宮救球給嗅窮牛去巨居拒拠挙虚許距魚御漁凶共叫狂京享供協況峡挟狭恐恭胸脅強教郷境橋矯鏡競響驚仰暁業凝曲局極玉巾斤均近金菌勤琴筋僅禁緊錦謹襟吟銀区句苦駆具惧愚空偶遇隅串屈掘窟熊繰君訓勲薫軍郡群兄刑形系径茎係型契計恵啓掲渓経蛍敬景軽傾携継詣慶憬稽憩警鶏芸迎鯨隙劇撃激桁欠穴血決結傑潔月犬件見券肩建研県倹兼剣拳軒健険圏堅検嫌献絹遣権憲賢謙鍵繭顕験懸元幻玄言弦限原現舷減源厳己戸古呼固股虎孤弧故枯個庫湖雇誇鼓錮顧五互午呉後娯悟碁語誤護口工公勾孔功巧広甲交光向后好江考行坑孝抗攻更効幸拘肯侯厚恒洪皇紅荒郊香候校耕航貢降高康控梗黄喉慌港硬絞項溝鉱構綱酵稿興衡鋼講購乞号合拷剛傲豪克告谷刻国黒穀酷獄骨駒込頃今困昆恨根婚混痕紺魂墾懇左佐沙査砂唆差詐鎖座挫才再災妻采砕宰栽彩採済祭斎細菜最裁債催塞歳載際埼在材剤財罪崎作削昨柵索策酢搾錯咲冊札刷刹拶殺察撮擦雑皿三山参桟蚕惨産傘散算酸賛残斬暫士子支止氏仕史司四市矢旨死糸至伺志私使刺始姉枝祉肢姿思指施師恣紙脂視紫詞歯嗣試詩資飼誌雌摯賜諮示字寺次耳自似児事侍治持時滋慈辞磁餌璽鹿式識軸七𠮟失室疾執湿嫉漆質実芝写社車舎者射捨赦斜煮遮謝邪蛇尺借酌釈爵若弱寂手主守朱取狩首殊珠酒腫種趣寿受呪授需儒樹収囚州舟秀周宗拾秋臭修袖終羞習週就衆集愁酬醜蹴襲十汁充住柔重従渋銃獣縦叔祝宿淑粛縮塾熟出述術俊春瞬旬巡盾准殉純循順準潤遵処初所書庶暑署緒諸女如助序叙徐除小升少召匠床抄肖尚招承昇松沼昭宵将消症祥称笑唱商渉章紹訟勝掌晶焼焦硝粧詔証象傷奨照詳彰障憧衝賞償礁鐘上丈冗条状乗城浄剰常情場畳蒸縄壌嬢錠譲醸色拭食植殖飾触嘱織職辱尻心申伸臣芯身辛侵信津神唇娠振浸真針深紳進森診寝慎新審震薪親人刃仁尽迅甚陣尋腎須図水吹垂炊帥粋衰推酔遂睡穂随髄枢崇数据杉裾寸瀬是井世正生成西声制姓征性青斉政星牲省凄逝清盛婿晴勢聖誠精製誓静請整醒税夕斥石赤昔析席脊隻惜戚責跡積績籍切折拙窃接設雪摂節説舌絶千川仙占先宣専泉浅洗染扇栓旋船戦煎羨腺詮践箋銭潜線遷選薦繊鮮全前善然禅漸膳繕狙阻祖租素措粗組疎訴塑礎双壮早争走奏相荘草送倉捜挿桑巣掃曹曽爽窓創喪痩葬装僧想層総遭槽踪操燥霜騒藻造像増憎蔵贈臓即束足促則息捉速側測俗族属賊続卒率存村孫尊損他多汰打妥唾堕惰駄太対体耐待怠胎退帯泰堆袋逮替貸隊滞態戴大代台第題滝宅択沢卓拓託濯諾濁但達脱奪棚誰丹旦担単炭胆探淡短嘆端綻誕鍛団男段断弾暖談壇地池知値恥致遅痴稚置緻竹畜逐蓄築秩窒茶着嫡中仲虫沖宙忠抽注昼柱衷酎鋳駐著貯丁弔庁兆町長挑帳張彫眺釣頂鳥朝貼超腸跳徴嘲潮澄調聴懲直勅捗沈珍朕陳賃鎮追椎墜通痛塚漬坪爪鶴低呈廷弟定底抵邸亭貞帝訂庭逓停偵堤提程艇締諦泥的笛摘滴適敵溺迭哲鉄徹撤天典店点展添転塡田伝殿電斗吐妬徒途都渡塗賭土奴努度怒刀冬灯当投豆東到逃倒凍唐島桃討透党悼盗陶塔搭棟湯痘登答等筒統稲踏糖頭謄藤闘騰同洞胴動堂童道働銅導瞳峠匿特得督徳篤毒独読栃凸突届屯豚頓貪鈍曇丼那奈内梨謎鍋南軟難二尼弐匂肉虹日入乳尿任妊忍認寧熱年念捻粘燃悩納能脳農濃把波派破覇馬婆罵拝杯背肺俳配排敗廃輩売倍梅培陪媒買賠白伯拍泊迫剝舶博薄麦漠縛爆箱箸畑肌八鉢発髪伐抜罰閥反半氾犯帆汎伴判坂阪板版班畔般販斑飯搬煩頒範繁藩晩番蛮盤比皮妃否批彼披肥非卑飛疲秘被悲扉費碑罷避尾眉美備微鼻膝肘匹必泌筆姫百氷表俵票評漂標苗秒病描猫品浜貧賓頻敏瓶不夫父付布扶府怖阜附訃負赴浮婦符富普腐敷膚賦譜侮武部舞封風伏服副幅復福腹複覆払沸仏物粉紛雰噴墳憤奮分文聞丙平兵併並柄陛閉塀幣弊蔽米壁璧癖別蔑片辺返変偏遍編便勉歩保哺捕補舗母募墓慕暮簿方包芳邦奉宝抱放法泡胞俸倣峰砲崩訪報蜂豊飽褒縫亡乏忙坊妨忘防房肪某冒剖紡望傍帽棒貿貌暴膨謀頰北木朴牧睦僕墨撲没勃堀本奔翻凡盆麻摩磨魔毎妹枚昧埋幕膜枕又末抹万満慢漫未味魅岬密蜜脈妙民眠矛務無夢霧娘名命明迷冥盟銘鳴滅免面綿麺茂模毛妄盲耗猛網目黙門紋問冶夜野弥厄役約訳薬躍闇由油喩愉諭輸癒唯友有勇幽悠郵湧猶裕遊雄誘憂融優与予余誉預幼用羊妖洋要容庸揚揺葉陽溶腰様瘍踊窯養擁謡曜抑沃浴欲翌翼拉裸羅来雷頼絡落酪辣乱卵覧濫藍欄吏利里理痢裏履璃離陸立律慄略柳流留竜粒隆硫侶旅虜慮了両良料涼猟陵量僚領寮療瞭糧力緑林厘倫輪隣臨瑠涙累塁類令礼冷励戻鈴零霊隷齢麗暦歴列劣烈裂恋連廉練錬呂炉賂路露老労弄郎朗浪廊楼漏籠六録麓論和話賄脇惑枠湾腕例弁遜遡餅","joyoAlt":{"剥":"剝","叱":"𠮟","填":"塡","頬":"頰"},"jinmei":{"丑":{"y":2010},"丞":{"y":2010},"乃":{"y":2010},"之":{"y":2010},"乎":{"y":2010},"乘":{"y":2010,"v":"乗"},"也":{"y":2010},"云":{"y":2010},"亘":{"y":2010,"v":"亙"},"亙":{"y":2010},"些":{"y":2010},"亞":{"y":2010,"v":"亜"},"亥":{"y":2010},"亦":{"y":2010},"亨":{"y":2010},"亮":{"y":2010},"仔":{"y":2010},"伊":{"y":2010},"伍":{"y":2010},"伶":{"y":2010},"伽":{"y":2010},"佃":{"y":2010},"佑":{"y":2010},"佛":{"y":2010,"v":"仏"},"侃":{"y":2010},"來":{"y":2010,"v":"来"},"侑":{"y":2010},"俄":{"y":2010},"俐":{"y":2010},"俠":{"y":2010},"俣":{"y":2010},"俱":{"y":2010},"倖":{"y":2010},"倦":{"y":2010},"倭":{"y":2010},"偲":{"y":2010},"傭":{"y":2010},"傳":{"y":2010,"v":"伝"},"僞":{"y":2010,"v":"偽"},"價":{"y":2010,"v":"価"},"儉":{"y":2010,"v":"倹"},"儲":{"y":2010},"允":{"y":2010},"兎":{"y":2010},"兒":{"y":2010,"v":"児"},"兜":{"y":2010},"其":{"y":2010},"冨":{"y":2010,"v":"富"},"冴":{"y":2010},"凉":{"y":2010,"v":"涼"},"凌":{"y":2010},"凛":{"y":2010},"凜":{"y":2010,"v":"凛"},"凧":{"y":2010},"凪":{"y":2010},"凰":{"y":2010},"凱":{"y":2010},"函":{"y":2010},"剩":{"y":2010,"v":"剰"},"劉":{"y":2010},"劍":{"y":2010,"v":"剣"},"劫":{"y":2010},"勁":{"y":2010},"勒":{"y":2026},"勳":{"y":2010,"v":"勲"},"勺":{"y":2010},"勿":{"y":2010},"匁":{"y":2010},"匡":{"y":2010},"卜":{"y":2010},"卯":{"y":2010},"卷":{"y":2010,"v":"巻"},"卽":{"y":2010,"v":"即"},"卿":{"y":2010},"厨":{"y":2010},"厩":{"y":2010},"叉":{"y":2010},"叡":{"y":2010},"叢":{"y":2010},"只":{"y":2010},"叶":{"y":2010},"吞":{"y":2010},"吻":{"y":2010},"吾":{"y":2010},"哉":{"y":2010},"哨":{"y":2010},"哩":{"y":2010},"啄":{"y":2010},"喋":{"y":2010},"喧":{"y":2010},"喬":{"y":2010},"單":{"y":2010,"v":"単"},"喰":{"y":2010},"嘉":{"y":2010},"嘗":{"y":2010},"嘩":{"y":2010},"噂":{"y":2010},"噌":{"y":2010},"嚴":{"y":2010,"v":"厳"},"圃":{"y":2010},"圈":{"y":2010,"v":"圏"},"國":{"y":2010,"v":"国"},"圓":{"y":2010,"v":"円"},"團":{"y":2010,"v":"団"},"圭":{"y":2010},"坐":{"y":2010},"坦":{"y":2010},"埜":{"y":2010,"v":"野"},"埴":{"y":2010},"堯":{"y":2010},"堰":{"y":2010},"堵":{"y":2010},"堺":{"y":2010},"塙":{"y":2010},"增":{"y":2010,"v":"増"},"壕":{"y":2010},"壘":{"y":2010,"v":"塁"},"壞":{"y":2010,"v":"壊"},"壬":{"y":2010},"壯":{"y":2010,"v":"壮"},"壽":{"y":2010,"v":"寿"},"夷":{"y":2010},"奄":{"y":2010},"奎":{"y":2010},"套":{"y":2010},"奧":{"y":2010,"v":"奥"},"奬":{"y":2010,"v":"奨"},"姥":{"y":2010},"姪":{"y":2010},"娃":{"y":2010},"娩":{"y":2010},"嬉":{"y":2010},"孃":{"y":2010,"v":"嬢"},"孜":{"y":2010},"孟":{"y":2010},"宋":{"y":2010},"宏":{"y":2010},"宕":{"y":2010},"宥":{"y":2010},"寅":{"y":2010},"寓":{"y":2010},"寢":{"y":2010,"v":"寝"},"實":{"y":2010,"v":"実"},"寬":{"y":2010,"v":"寛"},"寵":{"y":2010},"將":{"y":2010,"v":"将"},"專":{"y":2010,"v":"専"},"尖":{"y":2010},"尤":{"y":2010},"尭":{"y":2010,"v":"堯"},"屑":{"y":2010},"峨":{"y":2010},"峯":{"y":2010,"v":"峰"},"峻":{"y":2010},"峽":{"y":2010,"v":"峡"},"崚":{"y":2010},"嵩":{"y":2010},"嵯":{"y":2010},"嶋":{"y":2010,"v":"島"},"嶺":{"y":2010},"巌":{"y":2010,"v":"巖"},"巖":{"y":2010},"巢":{"y":2010,"v":"巣"},"巫":{"y":2015},"已":{"y":2010},"巳":{"y":2010},"巴":{"y":2010},"巷":{"y":2010},"巽":{"y":2010},"帖":{"y":2010},"帶":{"y":2010,"v":"帯"},"幌":{"y":2010},"幡":{"y":2010},"庄":{"y":2010},"庇":{"y":2010},"庚":{"y":2010},"庵":{"y":2010},"廟":{"y":2010},"廣":{"y":2010,"v":"広"},"廳":{"y":2010,"v":"庁"},"廻":{"y":2010},"廿":{"y":2010},"弘":{"y":2010},"弛":{"y":2010},"彈":{"y":2010,"v":"弾"},"彌":{"y":2010,"v":"弥"},"彗":{"y":2010},"彦":{"y":2010},"彪":{"y":2010},"彬":{"y":2010},"從":{"y":2010,"v":"従"},"徠":{"y":2010},"徵":{"y":2010,"v":"徴"},"德":{"y":2010,"v":"徳"},"徽":{"y":2010},"忽":{"y":2010},"怜":{"y":2010},"恆":{"y":2010,"v":"恒"},"恕":{"y":2010},"恢":{"y":2010},"恰":{"y":2010},"悉":{"y":2010},"悌":{"y":2010},"惇":{"y":2010},"惚":{"y":2010},"惟":{"y":2010},"惠":{"y":2010,"v":"恵"},"惡":{"y":2010,"v":"悪"},"惣":{"y":2010},"惹":{"y":2010},"惺":{"y":2010},"愼":{"y":2010,"v":"慎"},"慧":{"y":2010},"憐":{"y":2010},"應":{"y":2010,"v":"応"},"懷":{"y":2010,"v":"懐"},"戊":{"y":2010},"或":{"y":2010},"戟":{"y":2010},"戰":{"y":2010,"v":"戦"},"戲":{"y":2010,"v":"戯"},"托":{"y":2010},"拂":{"y":2010,"v":"払"},"拔":{"y":2010,"v":"抜"},"拜":{"y":2010,"v":"拝"},"按":{"y":2010},"挺":{"y":2010},"挽":{"y":2010},"捧":{"y":2010},"捲":{"y":2010},"捷":{"y":2010},"捺":{"y":2010},"掠":{"y":2010},"掬":{"y":2010},"揃":{"y":2010},"揭":{"y":2010,"v":"掲"},"搖":{"y":2010,"v":"揺"},"搜":{"y":2010,"v":"捜"},"摑":{"y":2010},"摺":{"y":2010},"撒":{"y":2010},"撞":{"y":2010},"撫":{"y":2010},"播":{"y":2010},"撰":{"y":2010},"擊":{"y":2010,"v":"撃"},"擢":{"y":2010},"攝":{"y":2010,"v":"摂"},"收":{"y":2010,"v":"収"},"敍":{"y":2010,"v":"叙"},"敦":{"y":2010},"斐":{"y":2010},"斡":{"y":2010},"斧":{"y":2010},"斯":{"y":2010},"於":{"y":2010},"旭":{"y":2010},"昂":{"y":2010},"昊":{"y":2010},"昌":{"y":2010},"昏":{"y":2010},"昴":{"y":2010},"晃":{"y":2010,"v":"晄"},"晄":{"y":2010},"晋":{"y":2010},"晏":{"y":2010},"晒":{"y":2010},"晚":{"y":2010,"v":"晩"},"晝":{"y":2010,"v":"昼"},"晟":{"y":2010},"晦":{"y":2010},"晨":{"y":2010},"智":{"y":2010},"暉":{"y":2010},"暢":{"y":2010},"曆":{"y":2010,"v":"暦"},"曉":{"y":2010,"v":"暁"},"曙":{"y":2010},"曝":{"y":2010},"曳":{"y":2010},"曾":{"y":2010,"v":"曽"},"朋":{"y":2010},"朔":{"y":2010},"李":{"y":2010},"杏":{"y":2010},"杖":{"y":2010},"杜":{"y":2010},"杭":{"y":2010},"杵":{"y":2010},"杷":{"y":2010},"枇":{"y":2010},"柊":{"y":2010},"柏":{"y":2010},"柑":{"y":2010},"柘":{"y":2010},"柚":{"y":2010},"柴":{"y":2010},"柾":{"y":2010},"栖":{"y":2010},"栗":{"y":2010},"栞":{"y":2010},"桂":{"y":2010},"桐":{"y":2010},"桔":{"y":2010},"桧":{"y":2010,"v":"檜"},"桶":{"y":2010},"梁":{"y":2010},"梓":{"y":2010},"梛":{"y":2010},"條":{"y":2010,"v":"条"},"梢":{"y":2010},"梧":{"y":2010},"梯":{"y":2010},"梶":{"y":2010},"棲":{"y":2010},"椀":{"y":2010},"椋":{"y":2010},"椛":{"y":2010},"椰":{"y":2010},"椿":{"y":2010},"楊":{"y":2010},"楓":{"y":2010},"楕":{"y":2010},"楚":{"y":2010},"楠":{"y":2010},"楢":{"y":2010},"楯":{"y":2010},"榊":{"y":2010},"榎":{"y":2010},"榛":{"y":2010},"榮":{"y":2010,"v":"栄"},"槇":{"y":2010},"槌":{"y":2010},"槍":{"y":2010},"槙":{"y":2010,"v":"槇"},"槻":{"y":2010},"樂":{"y":2010,"v":"楽"},"樋":{"y":2010},"樟":{"y":2010},"樣":{"y":2010,"v":"様"},"樫":{"y":2010},"樺":{"y":2010},"樽":{"y":2010},"橘":{"y":2010},"橙":{"y":2010},"橫":{"y":2010,"v":"横"},"檀":{"y":2010},"檎":{"y":2010},"檜":{"y":2010},"檢":{"y":2010,"v":"検"},"櫂":{"y":2010},"櫓":{"y":2010},"櫛":{"y":2010},"櫻":{"y":2010,"v":"桜"},"欣":{"y":2010},"欽":{"y":2010},"歎":{"y":2010},"此":{"y":2010},"步":{"y":2010,"v":"歩"},"歷":{"y":2010,"v":"歴"},"殆":{"y":2010},"毅":{"y":2010},"每":{"y":2010,"v":"毎"},"毘":{"y":2010},"毬":{"y":2010},"氣":{"y":2010,"v":"気"},"汀":{"y":2010},"汐":{"y":2010},"汝":{"y":2010},"汲":{"y":2010},"沌":{"y":2010},"沓":{"y":2010},"沫":{"y":2010},"洛":{"y":2010},"洲":{"y":2010},"洵":{"y":2010},"洸":{"y":2010},"浩":{"y":2010},"浬":{"y":2010},"涉":{"y":2010,"v":"渉"},"淀":{"y":2010},"淋":{"y":2010},"淚":{"y":2010,"v":"涙"},"淨":{"y":2010,"v":"浄"},"淳":{"y":2010},"淵":{"y":2010},"渚":{"y":2010,"v":"渚"},"渥":{"y":2010},"渴":{"y":2010,"v":"渇"},"渾":{"y":2017},"湊":{"y":2010},"湘":{"y":2010},"湛":{"y":2010},"溜":{"y":2010},"溢":{"y":2010},"溫":{"y":2010,"v":"温"},"滉":{"y":2010},"滯":{"y":2010,"v":"滞"},"漕":{"y":2010},"漣":{"y":2010},"漱":{"y":2010},"澁":{"y":2010,"v":"渋"},"澪":{"y":2010},"濕":{"y":2010,"v":"湿"},"濡":{"y":2010},"瀕":{"y":2010},"瀧":{"y":2010,"v":"滝"},"瀨":{"y":2010,"v":"瀬"},"灘":{"y":2010},"灸":{"y":2010},"灼":{"y":2010},"烏":{"y":2010},"焚":{"y":2010},"焰":{"y":2010},"煉":{"y":2010},"煌":{"y":2010},"煤":{"y":2010},"熙":{"y":2010},"燈":{"y":2010,"v":"灯"},"燎":{"y":2010},"燒":{"y":2010,"v":"焼"},"燕":{"y":2010},"燦":{"y":2010},"燭":{"y":2010},"燿":{"y":2010},"爭":{"y":2010,"v":"争"},"爲":{"y":2010,"v":"為"},"爾":{"y":2010},"牒":{"y":2010},"牟":{"y":2010},"牡":{"y":2010},"牽":{"y":2010},"犀":{"y":2010},"狀":{"y":2010,"v":"状"},"狹":{"y":2010,"v":"狭"},"狼":{"y":2010},"猪":{"y":2010,"v":"猪"},"獅":{"y":2010},"獸":{"y":2010,"v":"獣"},"玖":{"y":2010},"玲":{"y":2010},"珀":{"y":2010},"珂":{"y":2010},"珈":{"y":2010},"珊":{"y":2010},"琉":{"y":2010},"琢":{"y":2010,"v":"琢"},"琥":{"y":2010},"琳":{"y":2010},"琵":{"y":2010},"琶":{"y":2010},"瑚":{"y":2010},"瑛":{"y":2010},"瑞":{"y":2010},"瑳":{"y":2010},"瑶":{"y":2010},"瓜":{"y":2010},"瓢":{"y":2010},"甥":{"y":2010},"甫":{"y":2010},"畠":{"y":2010},"畢":{"y":2010},"疊":{"y":2010,"v":"畳"},"疋":{"y":2010},"疏":{"y":2010},"瘦":{"y":2010,"v":"痩"},"皐":{"y":2010},"皓":{"y":2010},"盃":{"y":2010,"v":"杯"},"盜":{"y":2010,"v":"盗"},"盡":{"y":2010,"v":"尽"},"眞":{"y":2010,"v":"真"},"眸":{"y":2010},"瞥":{"y":2010},"矩":{"y":2010},"砥":{"y":2010},"砦":{"y":2010},"砧":{"y":2010},"硯":{"y":2010},"碎":{"y":2010,"v":"砕"},"碓":{"y":2010},"碗":{"y":2010},"碧":{"y":2010},"碩":{"y":2010},"磐":{"y":2010},"磯":{"y":2010},"祁":{"y":2010},"祇":{"y":2010},"祐":{"y":2010,"v":"祐"},"祕":{"y":2010,"v":"秘"},"祢":{"y":2010,"v":"禰"},"祷":{"y":2010,"v":"禱"},"祿":{"y":2010},"禄":{"y":2010,"v":"祿"},"禎":{"y":2010,"v":"禎"},"禪":{"y":2010,"v":"禅"},"禮":{"y":2010,"v":"礼"},"禰":{"y":2010},"禱":{"y":2010},"禽":{"y":2010},"禾":{"y":2010},"秤":{"y":2010},"秦":{"y":2010},"稀":{"y":2010},"稔":{"y":2010},"稜":{"y":2010},"稟":{"y":2010},"稻":{"y":2010,"v":"稲"},"穗":{"y":2010,"v":"穂"},"穣":{"y":2010,"v":"穰"},"穰":{"y":2010},"穹":{"y":2010},"穿":{"y":2010},"窄":{"y":2010},"窪":{"y":2010},"窺":{"y":2010},"竣":{"y":2010},"竪":{"y":2010},"竺":{"y":2010},"竿":{"y":2010},"笈":{"y":2010},"笙":{"y":2010},"笠":{"y":2010},"笹":{"y":2010},"筈":{"y":2010},"筑":{"y":2010},"箔":{"y":2010},"箕":{"y":2010},"篇":{"y":2010},"篠":{"y":2010},"簞":{"y":2010},"簾":{"y":2010},"籾":{"y":2010},"粟":{"y":2010},"粥":{"y":2010},"粹":{"y":2010,"v":"粋"},"糊":{"y":2010},"紐":{"y":2010},"紗":{"y":2010},"紘":{"y":2010},"紬":{"y":2010},"絃":{"y":2010},"絆":{"y":2010},"絢":{"y":2010},"綜":{"y":2010},"綠":{"y":2010,"v":"緑"},"綴":{"y":2010},"綸":{"y":2010},"綺":{"y":2010},"綾":{"y":2010},"緋":{"y":2010},"緖":{"y":2010,"v":"緒"},"緣":{"y":2010,"v":"縁"},"縞":{"y":2010},"縣":{"y":2010,"v":"県"},"縱":{"y":2010,"v":"縦"},"繡":{"y":2010},"繫":{"y":2010},"纂":{"y":2010},"纏":{"y":2010},"纖":{"y":2010,"v":"繊"},"羚":{"y":2010},"翔":{"y":2010},"翠":{"y":2010},"耀":{"y":2010},"而":{"y":2010},"耶":{"y":2010},"耽":{"y":2010},"聡":{"y":2010},"聽":{"y":2010,"v":"聴"},"肇":{"y":2010},"肋":{"y":2010},"肴":{"y":2010},"胡":{"y":2010},"胤":{"y":2010},"脩":{"y":2010},"脹":{"y":2010},"腔":{"y":2010},"膏":{"y":2010},"臟":{"y":2010,"v":"臓"},"臥":{"y":2010},"與":{"y":2010,"v":"与"},"舜":{"y":2010},"舵":{"y":2010},"芙":{"y":2010},"芥":{"y":2010},"芦":{"y":2010},"芭":{"y":2010},"芹":{"y":2010},"苑":{"y":2010},"苔":{"y":2010},"苺":{"y":2010},"茄":{"y":2010},"茅":{"y":2010},"茉":{"y":2010},"茜":{"y":2010},"茸":{"y":2010},"荻":{"y":2010},"莉":{"y":2010},"莊":{"y":2010,"v":"荘"},"莞":{"y":2010},"莫":{"y":2010},"菅":{"y":2010},"菖":{"y":2010},"菩":{"y":2010},"菫":{"y":2010},"菱":{"y":2010},"萄":{"y":2010},"萊":{"y":2010},"萌":{"y":2010,"v":"萠"},"萠":{"y":2010},"萩":{"y":2010},"萬":{"y":2010,"v":"万"},"萱":{"y":2010},"葡":{"y":2010},"董":{"y":2010},"葦":{"y":2010},"葵":{"y":2010},"葺":{"y":2010},"蒐":{"y":2010},"蒔":{"y":2010},"蒙":{"y":2010},"蒲":{"y":2010},"蒼":{"y":2010},"蓉":{"y":2010},"蓑":{"y":2010},"蓬":{"y":2010},"蓮":{"y":2010},"蔓":{"y":2010},"蔣":{"y":2010},"蔦":{"y":2010},"蔭":{"y":2010},"蕃":{"y":2010},"蕉":{"y":2010},"蕎":{"y":2010},"蕗":{"y":2010},"蕨":{"y":2010},"蕪":{"y":2010},"蕾":{"y":2010},"薗":{"y":2010,"v":"園"},"薙":{"y":2010},"薩":{"y":2010},"薰":{"y":2010,"v":"薫"},"藁":{"y":2010},"藏":{"y":2010,"v":"蔵"},"藝":{"y":2010,"v":"芸"},"藥":{"y":2010,"v":"薬"},"蘇":{"y":2010},"蘭":{"y":2010},"虛":{"y":2010,"v":"虚"},"蝦":{"y":2010},"蝶":{"y":2010},"螺":{"y":2010},"蟬":{"y":2010},"蟹":{"y":2010},"蠟":{"y":2010},"衞":{"y":2010,"v":"衛"},"衿":{"y":2010},"袈":{"y":2010},"袴":{"y":2010},"裝":{"y":2010,"v":"装"},"裟":{"y":2010},"裡":{"y":2010},"裳":{"y":2010},"襖":{"y":2010},"覽":{"y":2010,"v":"覧"},"訊":{"y":2010},"訣":{"y":2010},"註":{"y":2010},"詢":{"y":2010},"詫":{"y":2010},"誼":{"y":2010},"諄":{"y":2010},"諏":{"y":2010},"諒":{"y":2010},"諺":{"y":2010},"謂":{"y":2010},"謠":{"y":2010,"v":"謡"},"讃":{"y":2010},"讓":{"y":2010,"v":"譲"},"豹":{"y":2010},"貰":{"y":2010},"賑":{"y":2010},"賣":{"y":2010,"v":"売"},"賴":{"y":2010,"v":"頼"},"赳":{"y":2010},"跨":{"y":2010},"蹄":{"y":2010},"蹟":{"y":2010},"輔":{"y":2010},"輯":{"y":2010},"輿":{"y":2010},"轉":{"y":2010,"v":"転"},"轟":{"y":2010},"辰":{"y":2010},"辻":{"y":2010},"辿":{"y":2010},"迂":{"y":2010},"迄":{"y":2010},"迦":{"y":2010},"迪":{"y":2010},"逗":{"y":2010},"這":{"y":2010},"逞":{"y":2010},"逢":{"y":2010},"遁":{"y":2010},"遙":{"y":2010},"遥":{"y":2010,"v":"遙"},"遼":{"y":2010},"邑":{"y":2010},"郁":{"y":2010},"郞":{"y":2010,"v":"郎"},"鄭":{"y":2010},"酉":{"y":2010},"醇":{"y":2010},"醉":{"y":2010,"v":"酔"},"醍":{"y":2010},"醐":{"y":2010},"醬":{"y":2010},"釀":{"y":2010,"v":"醸"},"釉":{"y":2010},"釘":{"y":2010},"釧":{"y":2010},"銑":{"y":2010},"鋒":{"y":2010},"鋸":{"y":2010},"錄":{"y":2010,"v":"録"},"錆":{"y":2010},"錐":{"y":2010},"錘":{"y":2010},"錫":{"y":2010},"鍊":{"y":2010,"v":"錬"},"鍬":{"y":2010},"鎧":{"y":2010},"鎭":{"y":2010,"v":"鎮"},"鑄":{"y":2010,"v":"鋳"},"閃":{"y":2010},"閏":{"y":2010},"閤":{"y":2010},"阿":{"y":2010},"陀":{"y":2010},"陷":{"y":2010,"v":"陥"},"隈":{"y":2010},"險":{"y":2010,"v":"険"},"隼":{"y":2010},"雀":{"y":2010},"雁":{"y":2010},"雛":{"y":2010},"雜":{"y":2010,"v":"雑"},"雫":{"y":2010},"霞":{"y":2010},"靖":{"y":2010},"靜":{"y":2010,"v":"静"},"鞄":{"y":2010},"鞍":{"y":2010},"鞘":{"y":2010},"鞠":{"y":2010},"鞭":{"y":2010},"頁":{"y":2010},"頌":{"y":2010},"頗":{"y":2010},"顚":{"y":2010},"顯":{"y":2010,"v":"顕"},"颯":{"y":2010},"飜":{"y":2010,"v":"翻"},"饗":{"y":2010},"馨":{"y":2010},"馳":{"y":2010},"馴":{"y":2010},"駈":{"y":2010,"v":"駆"},"駕":{"y":2010},"駿":{"y":2010},"騷":{"y":2010,"v":"騒"},"驍":{"y":2010},"驗":{"y":2010,"v":"験"},"髮":{"y":2010,"v":"髪"},"魁":{"y":2010},"魯":{"y":2010},"鮎":{"y":2010},"鯉":{"y":2010},"鯛":{"y":2010},"鰯":{"y":2010},"鱒":{"y":2010},"鱗":{"y":2010},"鳩":{"y":2010},"鳳":{"y":2010},"鳶":{"y":2010},"鴨":{"y":2010},"鴻":{"y":2010},"鵜":{"y":2010},"鵬":{"y":2010},"鷄":{"y":2010,"v":"鶏"},"鷗":{"y":2010},"鷲":{"y":2010},"鷹":{"y":2010},"鷺":{"y":2010},"麒":{"y":2010},"麟":{"y":2010},"麿":{"y":2010},"黃":{"y":2010,"v":"黄"},"黎":{"y":2010},"黑":{"y":2010,"v":"黒"},"默":{"y":2010,"v":"黙"},"黛":{"y":2010},"鼎":{"y":2010},"齊":{"y":2010,"v":"斉"},"龍":{"y":2010,"v":"竜"},"欄":{"y":2010,"v":"欄"},"廊":{"y":2010,"v":"廊"},"朗":{"y":2010,"v":"朗"},"虜":{"y":2010,"v":"虜"},"類":{"y":2010,"v":"類"},"猪":{"y":2010},"神":{"y":2010,"v":"神"},"祥":{"y":2010,"v":"祥"},"福":{"y":2010,"v":"福"},"諸":{"y":2010,"v":"諸"},"都":{"y":2010,"v":"都"},"侮":{"y":2010,"v":"侮"},"僧":{"y":2010,"v":"僧"},"勉":{"y":2010,"v":"勉"},"勤":{"y":2010,"v":"勤"},"卑":{"y":2010,"v":"卑"},"嘆":{"y":2010,"v":"嘆"},"器":{"y":2010,"v":"器"},"墨":{"y":2010,"v":"墨"},"層":{"y":2010,"v":"層"},"悔":{"y":2010,"v":"悔"},"憎":{"y":2010,"v":"憎"},"懲":{"y":2010,"v":"懲"},"敏":{"y":2010,"v":"敏"},"暑":{"y":2010,"v":"暑"},"梅":{"y":2010,"v":"梅"},"海":{"y":2010,"v":"海"},"渚":{"y":2010},"漢":{"y":2010,"v":"漢"},"煮":{"y":2010,"v":"煮"},"琢":{"y":2010},"碑":{"y":2010,"v":"碑"},"社":{"y":2010,"v":"社"},"祉":{"y":2010,"v":"祉"},"祈":{"y":2010,"v":"祈"},"祐":{"y":2010},"祖":{"y":2010,"v":"祖"},"祝":{"y":2010,"v":"祝"},"禍":{"y":2010,"v":"禍"},"禎":{"y":2010},"穀":{"y":2010,"v":"穀"},"突":{"y":2010,"v":"突"},"節":{"y":2010,"v":"節"},"練":{"y":2010,"v":"練"},"繁":{"y":2010,"v":"繁"},"署":{"y":2010,"v":"署"},"者":{"y":2010,"v":"者"},"臭":{"y":2010,"v":"臭"},"著":{"y":2010,"v":"著"},"視":{"y":2010,"v":"視"},"謁":{"y":2010,"v":"謁"},"謹":{"y":2010,"v":"謹"},"賓":{"y":2010,"v":"賓"},"贈":{"y":2010,"v":"贈"},"逸":{"y":2010,"v":"逸"},"難":{"y":2010,"v":"難"},"響":{"y":2010,"v":"響"}},"old":{"亞":"亜","惡":"悪","壓":"圧","圍":"囲","醫":"医","爲":"為","壹":"壱","逸":"逸","隱":"隠","榮":"栄","營":"営","衞":"衛","驛":"駅","謁":"謁","圓":"円","鹽":"塩","緣":"縁","艷":"艶","應":"応","歐":"欧","毆":"殴","櫻":"桜","奧":"奥","橫":"横","溫":"温","穩":"穏","假":"仮","價":"価","禍":"禍","畫":"画","會":"会","悔":"悔","海":"海","繪":"絵","壞":"壊","懷":"懐","慨":"慨","槪":"概","擴":"拡","殼":"殻","覺":"覚","學":"学","嶽":"岳","樂":"楽","喝":"喝","渴":"渇","褐":"褐","罐":"缶","卷":"巻","陷":"陥","勸":"勧","寬":"寛","漢":"漢","關":"関","歡":"歓","觀":"観","氣":"気","祈":"祈","既":"既","歸":"帰","器":"器","僞":"偽","戲":"戯","犧":"犠","舊":"旧","據":"拠","擧":"挙","虛":"虚","峽":"峡","挾":"挟","狹":"狭","鄕":"郷","響":"響","曉":"暁","勤":"勤","謹":"謹","區":"区","驅":"駆","勳":"勲","薰":"薫","徑":"径","莖":"茎","惠":"恵","揭":"掲","溪":"渓","經":"経","螢":"蛍","輕":"軽","繼":"継","鷄":"鶏","藝":"芸","擊":"撃","缺":"欠","硏":"研","縣":"県","儉":"倹","劍":"剣","險":"険","圈":"圏","檢":"検","獻":"献","權":"権","顯":"顕","驗":"験","嚴":"厳","廣":"広","效":"効","恆":"恒","黃":"黄","鑛":"鉱","號":"号","國":"国","黑":"黒","穀":"穀","碎":"砕","濟":"済","齋":"斎","劑":"剤","殺":"殺","雜":"雑","參":"参","棧":"桟","蠶":"蚕","慘":"惨","贊":"賛","殘":"残","絲":"糸","祉":"祉","視":"視","齒":"歯","兒":"児","辭":"辞","濕":"湿","實":"実","寫":"写","社":"社","者":"者","煮":"煮","釋":"釈","壽":"寿","收":"収","臭":"臭","從":"従","澁":"渋","獸":"獣","縱":"縦","祝":"祝","肅":"粛","處":"処","暑":"暑","署":"署","緖":"緒","諸":"諸","敍":"叙","將":"将","祥":"祥","稱":"称","涉":"渉","燒":"焼","證":"証","奬":"奨","條":"条","狀":"状","乘":"乗","淨":"浄","剩":"剰","疊":"畳","繩":"縄","壤":"壌","孃":"嬢","讓":"譲","釀":"醸","觸":"触","囑":"嘱","神":"神","眞":"真","寢":"寝","愼":"慎","盡":"尽","圖":"図","粹":"粋","醉":"酔","穗":"穂","隨":"随","髓":"髄","樞":"枢","數":"数","瀨":"瀬","聲":"声","齊":"斉","靜":"静","竊":"窃","攝":"摂","節":"節","專":"専","淺":"浅","戰":"戦","踐":"践","錢":"銭","潛":"潜","纖":"繊","禪":"禅","祖":"祖","雙":"双","壯":"壮","爭":"争","莊":"荘","搜":"捜","插":"挿","巢":"巣","曾":"曽","瘦":"痩","裝":"装","僧":"僧","層":"層","總":"総","騷":"騒","增":"増","憎":"憎","藏":"蔵","贈":"贈","臟":"臓","卽":"即","屬":"属","續":"続","墮":"堕","對":"対","體":"体","帶":"帯","滯":"滞","臺":"台","瀧":"滝","擇":"択","澤":"沢","擔":"担","單":"単","膽":"胆","嘆":"嘆","團":"団","斷":"断","彈":"弾","遲":"遅","癡":"痴","蟲":"虫","晝":"昼","鑄":"鋳","著":"著","廳":"庁","徵":"徴","聽":"聴","懲":"懲","敕":"勅","鎭":"鎮","塚":"塚","遞":"逓","鐵":"鉄","點":"点","轉":"転","傳":"伝","都":"都","燈":"灯","當":"当","黨":"党","盜":"盗","稻":"稲","鬭":"闘","德":"徳","獨":"独","讀":"読","突":"突","屆":"届","難":"難","貳":"弐","惱":"悩","腦":"脳","霸":"覇","拜":"拝","廢":"廃","賣":"売","梅":"梅","麥":"麦","發":"発","髮":"髪","拔":"抜","繁":"繁","晚":"晩","蠻":"蛮","卑":"卑","祕":"秘","碑":"碑","濱":"浜","賓":"賓","頻":"頻","敏":"敏","甁":"瓶","侮":"侮","福":"福","拂":"払","佛":"仏","倂":"併","竝":"並","塀":"塀","邊":"辺","變":"変","勉":"勉","步":"歩","寶":"宝","豐":"豊","襃":"褒","墨":"墨","飜":"翻","每":"毎","萬":"万","滿":"満","免":"免","麵":"麺","默":"黙","彌":"弥","譯":"訳","藥":"薬","與":"与","豫":"予","餘":"余","譽":"誉","搖":"揺","樣":"様","謠":"謡","來":"来","賴":"頼","亂":"乱","覽":"覧","欄":"欄","龍":"竜","隆":"隆","虜":"虜","兩":"両","獵":"猟","綠":"緑","淚":"涙","壘":"塁","類":"類","禮":"礼","勵":"励","戾":"戻","靈":"霊","齡":"齢","曆":"暦","歷":"歴","戀":"恋","練":"練","鍊":"錬","爐":"炉","勞":"労","郞":"郎","朗":"朗","廊":"廊","樓":"楼","錄":"録","灣":"湾","辨":"弁","瓣":"弁","辯":"弁","龜":"亀","餠":"餅"}};
+window.NamaeKanji.init(window.NAMAE_DATA);
+</script>
+<script>
+(function () {
+  'use strict';
+  const N = window.NamaeKanji;
+  const $ = (id) => document.getElementById(id);
+  const VERDICT = {
+    ok: '戸籍の決まりの範囲の字です。',
+    check: '届け出先で確かめた方がよい字があります。',
+    ng: '名前に使えない字があります。',
+    empty: '名前を入れてください。',
+  };
+  const PILL = { ok: '使える', check: '要確認', ng: '使えない' };
+
+  for (const ex of ['櫻子', '陽翔', '髙志', '奈々', 'ルーク', '勒']) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.textContent = ex;
+    b.addEventListener('click', () => { $('name').value = ex; run(); });
+    $('examples').appendChild(b);
+  }
+
+  function run() {
+    const r = N.check($('name').value);
+    const v = $('verdict');
+    v.className = 'verdict ' + (r.verdict === 'empty' ? 'check' : r.verdict);
+    v.textContent = VERDICT[r.verdict];
+    const box = $('tiles');
+    box.textContent = '';
+    r.chars.forEach((c, i) => {
+      const t = document.createElement('div'); t.className = 'tile';
+      const g = document.createElement('span'); g.className = 'g'; g.textContent = c.c;
+      const p = document.createElement('span'); p.className = 'pill ' + c.status; p.textContent = PILL[c.status];
+      const k = document.createElement('span'); k.className = 'kind'; k.textContent = c.kind;
+      const code = document.createElement('span'); code.className = 'code'; code.textContent = c.code;
+      t.append(g, p, k, code);
+      if (c.note) { const n = document.createElement('p'); n.className = 'note'; n.textContent = c.note; t.appendChild(n); }
+      if (c.fix) {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'fixbtn';
+        b.textContent = '「' + c.fix + '」に置き換える';
+        b.addEventListener('click', () => {
+          const arr = Array.from($('name').value.replace(/[\s　]/g, ''));
+          arr[i] = c.fix; $('name').value = arr.join(''); run();
+        });
+        t.appendChild(b);
+      }
+      box.appendChild(t);
+    });
+  }
+  $('name').addEventListener('input', run);
+
+  // 数と一覧
+  const cnt = N.counts(), of = N.oldForms();
+  $('nJoyo').textContent = cnt.joyo.toLocaleString('ja-JP');
+  $('nJinmei').textContent = cnt.jinmei;
+  $('nOld').textContent = cnt.old;
+  $('nUsable').textContent = of.usable.length;
+  $('nUnusable').textContent = of.unusable.length;
+  const meta = window.NAMAE_DATA.meta;
+  const dp = meta.date.split('-').map(Number);
+  $('uniVer').textContent = 'Unicode ' + meta.unicode + '、' + dp[0] + '年' + dp[1] + '月' + dp[2] + '日版';
+  $('tabUn').textContent = '使えない旧字体（' + of.unusable.length + '字）';
+  $('tabUs').textContent = '使える旧字体（' + of.usable.length + '字）';
+  let tab = 'un';
+  function drawOld() {
+    $('tabUn').setAttribute('aria-pressed', String(tab === 'un'));
+    $('tabUs').setAttribute('aria-pressed', String(tab === 'us'));
+    const list = tab === 'un' ? of.unusable : of.usable;
+    $('oldCap').textContent = tab === 'un'
+      ? '大きい字が旧字体、小さい字が使える今の字です。常用漢字表の並び（音の五十音順）です。'
+      : 'この旧字体は人名用漢字に入っているので、名前にそのまま使えます。小さい字は今の字です。';
+    const box = $('olds');
+    box.className = 'olds' + (tab === 'un' ? ' un' : '');
+    box.textContent = '';
+    for (const x of list) {
+      const d = document.createElement('div'); d.className = 'old';
+      const b = document.createElement('b'); b.textContent = x.old;
+      const s = document.createElement('span'); s.textContent = '→' + x.now;
+      d.append(b, s); box.appendChild(d);
+    }
+  }
+  $('tabUn').addEventListener('click', () => { tab = 'un'; drawOld(); });
+  $('tabUs').addEventListener('click', () => { tab = 'us'; drawOld(); });
+  drawOld();
+  run();
+})();
+</script>
+</body>
+</html>

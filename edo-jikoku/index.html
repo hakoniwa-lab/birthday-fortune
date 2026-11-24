@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WTBHV5QYG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WTBHV5QYG3');
+</script>
+<title>江戸の時刻は今の何時？｜明け六つ・暮れ六つ・丑三つ時を日付と場所から計算</title>
+<meta name="description" content="江戸時代の不定時法で、明六つ・暮六つ・昼九つ・丑三つ時などが今の時計で何時何分かを、日付と場所から計算します。季節で一刻の長さが変わる1年の変化も。国立天文台「各地のこよみ」と照合済み。無料・登録不要。">
+<link rel="canonical" href="https://hakoniwalab.com/birthday-fortune/edo-jikoku/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="江戸の時刻と今の時計 | HAKONIWA LAB">
+<meta property="og:description" content="明六つ・暮六つ・丑三つ時は今の何時何分？日付と場所から、その日の江戸の時刻を計算します。">
+<meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/edo-jikoku/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;700&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root {
+  --color-bg: #efe6ce;
+  --color-surface: #f8f2e3;
+  --color-border: #dbcba0;
+  --color-text: #2b2620;
+  --color-text-muted: #6e6248;
+  --color-primary: #a8631f;
+  --color-primary-hover: #8b5119;
+  --color-primary-contrast: #fbf3e2;
+  --color-accent: #55704a;
+  --color-badge-bg: #e4d6ae;
+  --color-badge-text: #6e4a1e;
+  --color-warn-bg: #efd3c0;
+  --color-warn-text: #8a4322;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-card: 0 2px 8px rgba(43, 38, 32, 0.12);
+  --max-width: 640px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #211f1a;
+    --color-surface: #2c2a22;
+    --color-border: #423e30;
+    --color-text: #f1e9d8;
+    --color-text-muted: #b3a585;
+    --color-primary: #e3a23b;
+    --color-primary-hover: #edb259;
+    --color-primary-contrast: #241c0d;
+    --color-accent: #8fae7d;
+    --color-badge-bg: #3a3626;
+    --color-badge-text: #e3a23b;
+    --color-warn-bg: #3d2a1d;
+    --color-warn-text: #e0a876;
+    --shadow-card: 0 2px 14px rgba(0, 0, 0, 0.5);
+  }
+  /* 文中のリンクは既定の青(#0000ee)だと暗い背景で読めないので、明るい色にする(ボタン類は class を持つので対象外) */
+  a:not([class]) { color: #9cc3ff; }
+  a:not([class]):visited { color: #c6a8ff; }
+}
+
+/* 配置: 上に日付・場所・決め方、明六つ・暮六つ・一刻の長さ、和時計の文字盤（刻の長さどおりの輪）と鐘の時刻表。その下に「いまは何刻」、よく聞く時刻、1年の変化、決まりの説明、出典 */
+:root {
+  --bg: #f2f3f5;
+  --surface: #ffffff;
+  --ink: #1c1e24;
+  --muted: #5b606b;
+  --line: #d8dbe1;
+  --accent: #2c3f6b;
+  --accent-ink: #ffffff;
+  --accent-soft: #e3e8f3;
+  --day: #e9c86c;
+  --day-2: #f3dc9a;
+  --night: #2c3f6b;
+  --night-2: #3d5286;
+  --day-ink: #3a2c06;
+  --night-ink: #f1f3fa;
+  --hand: #b23a2a;
+  --font-head: "Zen Old Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-body: "BIZ UDPGothic", "Yu Gothic UI", "Meiryo", "Hiragino Sans", sans-serif;
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418; --surface: #1a1d22; --ink: #e6e8ed; --muted: #a2a8b5; --line: #2e323a;
+    --accent: #a9bcef; --accent-ink: #111a30; --accent-soft: #222b40;
+    --day: #c9a64a; --day-2: #a8893c; --night: #23314f; --night-2: #2f416a; --day-ink: #1e1603; --night-ink: #e6eaf6;
+    --hand: #f08070;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121418; --surface: #1a1d22; --ink: #e6e8ed; --muted: #a2a8b5; --line: #2e323a;
+  --accent: #a9bcef; --accent-ink: #111a30; --accent-soft: #222b40;
+  --day: #c9a64a; --day-2: #a8893c; --night: #23314f; --night-2: #2f416a; --day-ink: #1e1603; --night-ink: #e6eaf6;
+  --hand: #f08070;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.75; }
+.wrap {
+  max-width: 1000px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px; display: grid; gap: 22px;
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 700; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); line-height: 1.25; letter-spacing: 0.05em; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1rem; }
+p { margin: 0; }
+.head { display: grid; gap: 8px; }
+.lede { color: var(--muted); max-width: 46em; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.cap { font-size: 13px; color: var(--muted); }
+.ctrl { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: flex-end; }
+.field { display: grid; gap: 4px; }
+.field label { font-size: 13px; font-weight: 700; }
+input[type="date"], input[type="time"], select {
+  font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); min-width: 0;
+  border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  appearance: none; font: inherit; font-size: 13.5px; cursor: pointer; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sum { display: flex; flex-wrap: wrap; gap: 10px 32px; }
+.sum div { display: grid; }
+.sum .k { font-size: 13px; color: var(--muted); }
+.sum .v { font-family: var(--font-head); font-size: clamp(1.6rem, 6vw, 2.2rem); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.main { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 820px) { .main { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+.dial svg { width: 100%; max-width: 440px; height: auto; display: block; margin: 0 auto; }
+table.bells { border-collapse: collapse; width: 100%; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+.bells th, .bells td { padding: 5px 8px 5px 0; border-bottom: 1px solid var(--line); text-align: left; }
+.bells th { font-weight: 700; font-family: var(--font-head); font-size: 15.5px; white-space: nowrap; }
+.bells td.t { font-family: var(--font-head); font-size: 17px; white-space: nowrap; }
+.bells td.h { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.bells tr.night th, .bells tr.night td.e { color: var(--accent); }
+.bells tr.cur { background: var(--accent-soft); }
+.now { font-size: 15.5px; }
+.now b { font-family: var(--font-head); font-size: 1.25em; }
+.famous { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .famous { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.famous section { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; gap: 4px; }
+.famous .tt { font-family: var(--font-head); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.year svg { width: 100%; height: auto; display: block; }
+.notes { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .notes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.notes section { display: grid; gap: 6px; align-content: start; }
+.notes p { font-size: 14px; }
+.src { font-size: 12.5px; color: var(--muted); display: grid; gap: 4px; }
+.src a { color: var(--accent); }
+.src ul { margin: 0; padding-left: 1.2em; }
+
+:root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+  --bg: var(--color-bg); --surface: var(--color-surface); --ink: var(--color-text); --muted: var(--color-text-muted); --line: var(--color-border); --accent: var(--color-primary); --accent-ink: var(--color-primary-contrast); --accent-soft: var(--color-badge-bg);
+}
+
+.guide-nav { font-size: 0.85rem; color: var(--color-text-muted); }
+.guide-nav a { color: var(--color-text-muted); }
+.pr-note { font-size: 0.75rem; color: var(--color-text-muted); margin: 0; }
+.port-faq details { border-top: 1px solid var(--color-border); padding: 8px 0; }
+.port-faq summary { cursor: pointer; font-weight: 700; }
+.port-faq p { margin: 6px 0 0; }
+.port-related ul { margin: 0; padding-left: 1.2em; }
+.port-related li { margin: 4px 0; }
+.port-related a { color: var(--color-primary); }
+.app-footer { margin-top: 8px; text-align: center; font-size: 0.72rem; color: var(--color-text-muted); }
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "暮れ六つは午後6時のことですか？", "acceptedAnswer": {"@type": "Answer", "text": "午後6時とは限りません。江戸時代の時刻は、夜明けの明六つから日暮れの暮六つまでを6つに分ける不定時法で、季節によって一刻の長さが変わりました。このページでは、日付と場所を選ぶと、その日の暮六つが今の時計で何時何分かを出します。"}}, {"@type": "Question", "name": "丑三つ時は今の何時ごろですか？", "acceptedAnswer": {"@type": "Answer", "text": "丑の刻を4つに分けた3つ目で、今の午前2時から2時半ごろ、一説に3時から3時半ごろとされます（デジタル大辞泉）。このページでは、その日の夜の一刻の長さで2つの説を出しています。"}}, {"@type": "Question", "name": "明六つと暮六つはどう決まっていましたか？", "acceptedAnswer": {"@type": "Answer", "text": "寛政暦（1799年の暦）からは、太陽の中心が地平線の下7°21′40″にある時刻を夜明（明六つ）・日暮（暮六つ）としました。それまでは日の出の二刻半（36分）前、日の入りの二刻半後と決まっていました（国立天文台 暦Wiki）。"}}, {"@type": "Question", "name": "九つ・八つ・七つという呼び方は何ですか？", "acceptedAnswer": {"@type": "Answer", "text": "もとは時刻を知らせる太鼓の数でした（国立天文台）。夜明けから順に、明六つ・朝五つ・朝四つ・昼九つ・昼八つ・夕七つ・暮六つ・夜五つ・夜四つ・暁九つ・暁八つ・暁七つと呼びます。十二支では、九つが子と午、八つが丑と未、六つが卯と酉にあたります。"}}, {"@type": "Question", "name": "同じ日でも場所によって時刻が違うのはなぜですか？", "acceptedAnswer": {"@type": "Answer", "text": "江戸時代の時刻は、その土地の太陽で決まっていました。今の時計は全国で同じ標準時（東経135度）なので、東の土地ほど明六つが早く、西の土地ほど遅く出ます。"}}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="guide-nav" aria-label="パンくずリスト">
+    <a href="../../">HAKONIWA LAB</a> &raquo;
+    <a href="../">生まれ日診断</a> &raquo;
+    <a href="../tools/">暦と占いの道具</a> &raquo;
+    <span aria-current="page">江戸の時刻と今の時計</span>
+  </nav>
+
+  <header class="head">
+    <h1>江戸の時刻と今の時計</h1>
+    <p class="lede">江戸時代の時刻は、夜明けの「明け六つ」から日暮れの「暮れ六つ」までを6つに分ける「不定時法」でした。季節によって一刻の長さが変わるので、「暮れ六つ＝午後6時」とは限りません。日付と場所を選ぶと、その日の江戸の時刻が今の時計で何時何分かを出します。</p>
+  </header>
+
+  <section class="card" aria-labelledby="h-day">
+    <h2 id="h-day">その日の江戸の時刻</h2>
+    <div class="ctrl">
+      <div class="field"><label for="date">日付</label><input type="date" id="date"></div>
+      <div class="field"><label for="place">場所</label><select id="place"></select></div>
+      <div class="field"><span class="cap">明六つ・暮六つの決め方</span>
+        <div class="chips" role="group" aria-label="決め方">
+          <button type="button" class="chip" data-mode="kansei" aria-pressed="true">寛政暦から（1799年〜）</button>
+          <button type="button" class="chip" data-mode="old" aria-pressed="false">それより前</button>
+        </div>
+      </div>
+    </div>
+    <div class="sum" id="sum"></div>
+    <div class="main">
+      <div class="dial"><svg id="dial" viewBox="-220 -220 440 440" role="img" aria-label="和時計の文字盤。昼と夜の一刻の長さどおりに分けた輪"></svg></div>
+      <div style="min-width:0">
+        <table class="bells" id="bells"></table>
+        <p class="cap">時刻は今の時計（日本の標準時）です。「◯つ半」は、その刻の半分すぎです。</p>
+      </div>
+    </div>
+    <div class="ctrl">
+      <div class="field"><label for="time">今の時計で</label><input type="time" id="time"></div>
+      <p class="now" id="now" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-fam">
+    <h2 id="h-fam">よく聞く江戸の時刻</h2>
+    <div class="famous" id="famous"></div>
+  </section>
+
+  <section class="card year" aria-labelledby="h-year">
+    <h2 id="h-year">1年の変化</h2>
+    <p class="cap" id="yearCap"></p>
+    <svg id="year" viewBox="0 0 720 300" role="img" aria-label="1年の明六つ・暮六つと日の出・日の入りの時刻の変化"></svg>
+  </section>
+
+  <section class="card" aria-labelledby="h-notes">
+    <h2 id="h-notes">決まりと読み方</h2>
+    <div class="notes">
+      <section>
+        <h3>昼と夜を、それぞれ6つに分ける</h3>
+        <p>明六つから暮六つまでを6等分して昼の一刻、暮六つから明六つまでを6等分して夜の一刻としました。昼九つは太陽が南中する時刻です。九つ・八つなどは、もとは時刻を知らせる太鼓の数でした（国立天文台）。</p>
+      </section>
+      <section>
+        <h3>明六つと暮六つの決め方</h3>
+        <p>寛政暦（1799年の暦）からは、太陽の中心が地平線の下7°21′40″にある時刻を夜明（明六つ）・日暮（暮六つ）としました。それまでは日の出の二刻半（36分）前、日の入りの二刻半後と決まっていました（国立天文台 暦Wiki）。</p>
+      </section>
+      <section>
+        <h3>呼び方</h3>
+        <p>夜明けから順に、明六つ・朝五つ・朝四つ・昼九つ・昼八つ・夕七つ・暮六つ・夜五つ・夜四つ・暁九つ・暁八つ・暁七つと呼びます。十二支では、九つが子と午、八つが丑と未、六つが卯と酉にあたります。</p>
+      </section>
+      <section>
+        <h3>丑三つ時</h3>
+        <p>丑の刻を4つに分けた3つ目で、今の午前2時から2時半ごろ、一説に3時から3時半ごろとされます（デジタル大辞泉）。このページでは、暁八つ（丑）を午前2時にあたるものとして、その日の夜の一刻の長さで2つの説を出しています。</p>
+      </section>
+      <section>
+        <h3>今の時計とのずれは場所で違う</h3>
+        <p>江戸時代の時刻は、その土地の太陽で決まっていました。今の時計は全国で同じ標準時（東経135度）なので、東の土地ほど明六つが早く、西の土地ほど遅く出ます。</p>
+      </section>
+      <section>
+        <h3>計算の確かめ</h3>
+        <p>日の出・南中・日の入りの計算を、国立天文台「各地のこよみ」の2026年の表（49地点の1月と、東京の1年分、5,559件）と照らし、98.5%が分まで一致、残りも1分差でした。</p>
+      </section>
+    </div>
+  </section>
+
+  <footer class="src">
+    <p>出典（2026年11月16日に確認）</p>
+    <ul>
+      <li>国立天文台 暦Wiki「<a href="https://eco.mtk.nao.ac.jp/koyomi/wiki/BBFEB9EF2FC4EABBFECBA1A4C8C9D4C4EABBFECBA1.html" target="_blank" rel="noopener">時刻/定時法と不定時法</a>」「<a href="https://eco.mtk.nao.ac.jp/koyomi/wiki/C7F6CCC02FCCEBCCC0A4C8C6FCCAEB.html" target="_blank" rel="noopener">薄明/夜明と日暮</a>」「<a href="https://eco.mtk.nao.ac.jp/koyomi/wiki/BDBDC6F3BBD9.html" target="_blank" rel="noopener">十二支</a>」</li>
+      <li>場所の緯度・経度と答え合わせの表：国立天文台「<a href="https://eco.mtk.nao.ac.jp/koyomi/dni/" target="_blank" rel="noopener">各地のこよみ</a>」</li>
+      <li>コトバンク（デジタル大辞泉）「<a href="https://kotobank.jp/word/%E4%B8%91%E4%B8%89%E3%81%A4" target="_blank" rel="noopener">丑三つ</a>」「<a href="https://kotobank.jp/word/%E5%85%AB%E3%81%A4" target="_blank" rel="noopener">八つ</a>」「<a href="https://kotobank.jp/word/%E6%9A%AE%E3%82%8C%E5%85%AD%E3%81%A4" target="_blank" rel="noopener">暮れ六つ</a>」</li>
+    </ul>
+  </footer>
+
+  <section class="card port-related" aria-labelledby="h-related">
+    <h2 id="h-related">あわせて使えるページ</h2>
+    <ul>
+      <li><a href="../kyureki-koseki/">古い戸籍の日付換算</a></li>
+      <li><a href="../calendar/">吉日カレンダー</a></li>
+      <li><a href="../tools/">暦と占いの道具 一覧</a></li>
+      <li><a href="../../mukashi/">昔を調べる道具 一覧</a></li>
+    </ul>
+  </section>
+
+  <section class="card port-faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">よくある質問</h2>
+    <details>
+      <summary>暮れ六つは午後6時のことですか？</summary>
+      <p>午後6時とは限りません。江戸時代の時刻は、夜明けの明六つから日暮れの暮六つまでを6つに分ける不定時法で、季節によって一刻の長さが変わりました。このページでは、日付と場所を選ぶと、その日の暮六つが今の時計で何時何分かを出します。</p>
+    </details>
+    <details>
+      <summary>丑三つ時は今の何時ごろですか？</summary>
+      <p>丑の刻を4つに分けた3つ目で、今の午前2時から2時半ごろ、一説に3時から3時半ごろとされます（デジタル大辞泉）。このページでは、その日の夜の一刻の長さで2つの説を出しています。</p>
+    </details>
+    <details>
+      <summary>明六つと暮六つはどう決まっていましたか？</summary>
+      <p>寛政暦（1799年の暦）からは、太陽の中心が地平線の下7°21′40″にある時刻を夜明（明六つ）・日暮（暮六つ）としました。それまでは日の出の二刻半（36分）前、日の入りの二刻半後と決まっていました（国立天文台 暦Wiki）。</p>
+    </details>
+    <details>
+      <summary>九つ・八つ・七つという呼び方は何ですか？</summary>
+      <p>もとは時刻を知らせる太鼓の数でした（国立天文台）。夜明けから順に、明六つ・朝五つ・朝四つ・昼九つ・昼八つ・夕七つ・暮六つ・夜五つ・夜四つ・暁九つ・暁八つ・暁七つと呼びます。十二支では、九つが子と午、八つが丑と未、六つが卯と酉にあたります。</p>
+    </details>
+    <details>
+      <summary>同じ日でも場所によって時刻が違うのはなぜですか？</summary>
+      <p>江戸時代の時刻は、その土地の太陽で決まっていました。今の時計は全国で同じ標準時（東経135度）なので、東の土地ほど明六つが早く、西の土地ほど遅く出ます。</p>
+    </details>
+  </section>
+
+  <!-- site-nav:start -->
+  <style>
+  .site-nav { margin: 40px 0 0; padding: 22px 0 0; border-top: 1px solid var(--color-border, var(--line, #dbcba0)); color: var(--color-text, var(--ink, #2b2620)); text-align: left; }
+  .site-nav__title { margin: 0 0 14px; font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__title a { font-family: Georgia, "Times New Roman", serif; font-size: 0.95rem; letter-spacing: 0.04em; color: var(--color-text, var(--ink, #2b2620)); text-decoration: none; }
+  .site-nav__groups { display: grid; gap: 14px 24px; }
+  @media (min-width: 560px) { .site-nav__groups { grid-template-columns: 1fr 1fr; } }
+  .site-nav__label { margin: 0 0 4px; font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted, var(--muted, #6e6248)); }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 2px 14px; margin: 0; padding: 0; list-style: none; font-size: 0.86rem; line-height: 1.7; }
+  .site-nav__links li { margin: 0; padding: 0; }
+  .site-nav__links li::before { content: none; }
+  .site-nav__links a { color: var(--color-primary, var(--navy, #a8631f)); }
+  .site-nav__all { margin: 16px 0 0; font-size: 0.86rem; text-align: right; }
+  .site-nav__all a { color: var(--color-primary, var(--navy, #a8631f)); font-weight: 700; }
+  .app-footer a { color: var(--color-text-muted, var(--muted, #6e6248)); }
+  </style>
+  <nav class="site-nav" aria-label="HAKONIWA LABのツール">
+    <p class="site-nav__title"><a href="../../">HAKONIWA LAB</a> の無料ツール</p>
+    <div class="site-nav__groups">
+      <div>
+        <p class="site-nav__label">家族を見送ったあとに</p>
+        <ul class="site-nav__links">
+          <li><a href="../../houyou-calendar/">法要日程カレンダー</a></li>
+          <li><a href="../../houyou-calendar/hayami/">年忌早見表</a></li>
+          <li><a href="../../houyou-calendar/tetsuzuki/">死亡後の手続きの期限</a></li>
+          <li><a href="../../houyou-calendar/pet/">ペットの法要</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">仕事を辞めるとき・変えるとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../resignation-letter-generator/">退職願・退職届を作る</a></li>
+          <li><a href="../../retirement-simulator/">退職金の手取り</a></li>
+          <li><a href="../../subsidy-checker/">使える給付金を探す</a></li>
+          <li><a href="../../career-checker/">転職エージェントを選ぶ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">収入と税金を知りたいとき</p>
+        <ul class="site-nav__links">
+          <li><a href="../../takehome-calculator/">手取り年収</a></li>
+          <li><a href="../../furusato-simulator/">ふるさと納税の上限額</a></li>
+          <li><a href="../../sidejob-tax-simulator/">副業の税金</a></li>
+          <li><a href="../../sidejob-checker/">向いている副業</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">備えと資産</p>
+        <ul class="site-nav__links">
+          <li><a href="../../insurance-checker/">必要な保険</a></li>
+          <li><a href="../../retirement-simulator/ideco/">iDeCoの受け取り方</a></li>
+          <li><a href="../../stock-screener/">株の条件検索</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="site-nav__label">暦と楽しみ</p>
+        <ul class="site-nav__links">
+          <li><a href="../../birthday-fortune/">生まれ日診断</a></li>
+          <li><a href="../../birthday-fortune/calendar/">吉日カレンダー</a></li>
+          <li><a href="../../birthday-fortune/tools/">暦と占いの道具 一覧</a></li>
+          <li><a href="../../meguri-log/">めぐった場所の記録</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-nav__all"><a href="../../">すべてのツールを見る →</a></p>
+  </nav>
+  <!-- site-nav:end -->
+
+  <footer class="app-footer">
+    <p>日の出・日の入りは計算による目安です。国立天文台「各地のこよみ」の2026年の表と照らし、98.5%が分まで一致、残りも1分差でした。</p>
+    <p><a href="../../about.html">運営者情報</a>・<a href="../../contact.html">お問い合わせ</a>・<a href="../../privacy.html">プライバシーポリシー</a></p>
+  </footer>
+</div>
+
+<script>
+/* 江戸の時刻（不定時法）— 計算部分
+ * 太陽の位置は NOAA の太陽計算（Meeus の簡略式）。日の出・南中・日の入りを国立天文台「各地のこよみ」の表と照らして使う（test.js）。
+ * 不定時法（国立天文台 暦Wiki「定時法と不定時法」「夜明と日暮」）:
+ *   明六つ〜暮六つを6等分して昼の一刻、暮六つ〜明六つを6等分して夜の一刻。昼九つは南中。
+ *   夜明（明六つ）・日暮（暮六つ）は、寛政暦以降は太陽の中心の伏角が 7°21′40″ になる時刻。
+ *   それより前は、日の出の二刻半（36分）前・日の入りの二刻半後。
+ * ブラウザでは window.Jikoku、Node では module.exports。時刻は「その日の0時からの分（日本の標準時）」で扱う。
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.Jikoku = api;
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+  const RAD = Math.PI / 180, DEG = 180 / Math.PI;
+  const TZ = 9; // 日本の標準時 UT+9
+  const H_DAWN = -(7 + 21 / 60 + 40 / 3600);     // 夜明・日暮の伏角
+  const REFR = 35 / 60 + 8 / 3600;                // 地平大気差 35′8″（国立天文台の日の出入りの定義）
+
+  // ユリウス日（その日の0時UT）
+  function jd0(y, m, d) {
+    if (m <= 2) { y -= 1; m += 12; }
+    const a = Math.floor(y / 100), b = 2 - a + Math.floor(a / 4);
+    return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + b - 1524.5;
+  }
+
+  // 太陽の赤緯・均時差（分）・距離（AU）
+  function sun(jd) {
+    const T = (jd - 2451545.0) / 36525;
+    const L0 = ((280.46646 + T * (36000.76983 + T * 0.0003032)) % 360 + 360) % 360;
+    const M = 357.52911 + T * (35999.05029 - 0.0001537 * T);
+    const e = 0.016708634 - T * (0.000042037 + 0.0000001267 * T);
+    const Mr = M * RAD;
+    const C = Math.sin(Mr) * (1.914602 - T * (0.004817 + 0.000014 * T)) + Math.sin(2 * Mr) * (0.019993 - 0.000101 * T) + Math.sin(3 * Mr) * 0.000289;
+    const trueLong = L0 + C, trueAnom = M + C;
+    const R = (1.000001018 * (1 - e * e)) / (1 + e * Math.cos(trueAnom * RAD));
+    const omega = 125.04 - 1934.136 * T;
+    const lambda = trueLong - 0.00569 - 0.00478 * Math.sin(omega * RAD);
+    const eps0 = 23 + (26 + (21.448 - T * (46.815 + T * (0.00059 - T * 0.001813))) / 60) / 60;
+    const eps = eps0 + 0.00256 * Math.cos(omega * RAD);
+    const decl = Math.asin(Math.sin(eps * RAD) * Math.sin(lambda * RAD)) * DEG;
+    const yv = Math.tan(eps * RAD / 2) ** 2, L0r = L0 * RAD;
+    const eot = 4 * DEG * (yv * Math.sin(2 * L0r) - 2 * e * Math.sin(Mr) + 4 * e * yv * Math.sin(Mr) * Math.cos(2 * L0r)
+      - 0.5 * yv * yv * Math.sin(4 * L0r) - 1.25 * e * e * Math.sin(2 * Mr));
+    return { decl, eot, R };
+  }
+
+  // 南中（分）
+  function transit(y, m, d, lon) {
+    const base = jd0(y, m, d);
+    let t = 720 - 4 * lon + TZ * 60;
+    for (let i = 0; i < 3; i++) t = 720 - 4 * lon - sun(base + (t - TZ * 60) / 1440).eot + TZ * 60;
+    return t;
+  }
+
+  // 太陽の中心の高度が h（度）になる時刻（分）。dir=-1 で朝、+1 で夕方。起きない日は null
+  function altTime(y, m, d, lat, lon, h, dir, center) {
+    const base = jd0(y, m, d);
+    let t = transit(y, m, d, lon) + dir * 360;
+    for (let i = 0; i < 5; i++) {
+      const s = sun(base + (t - TZ * 60) / 1440);
+      const hh = center ? h : h - 0.26656 / s.R; // 日の出入りは上辺なので視半径の分だけ下げる
+      const cosH = (Math.sin(hh * RAD) - Math.sin(lat * RAD) * Math.sin(s.decl * RAD)) / (Math.cos(lat * RAD) * Math.cos(s.decl * RAD));
+      if (cosH < -1 || cosH > 1) return null;
+      const H = Math.acos(cosH) * DEG;
+      const noon = 720 - 4 * lon - s.eot + TZ * 60;
+      t = noon + dir * 4 * H;
+    }
+    return t;
+  }
+  const sunrise = (y, m, d, lat, lon) => altTime(y, m, d, lat, lon, -REFR, -1, false);
+  const sunset = (y, m, d, lat, lon) => altTime(y, m, d, lat, lon, -REFR, 1, false);
+  const dawn = (y, m, d, lat, lon) => altTime(y, m, d, lat, lon, H_DAWN, -1, true);
+  const dusk = (y, m, d, lat, lon) => altTime(y, m, d, lat, lon, H_DAWN, 1, true);
+
+  function addDays(y, m, d, n) {
+    const t = new Date(Date.UTC(y, m - 1, d + n));
+    return [t.getUTCFullYear(), t.getUTCMonth() + 1, t.getUTCDate()];
+  }
+
+  // 明六つ・暮六つ。mode='kansei'（寛政暦以降の伏角）/ 'old'（日の出の二刻半前）
+  function sixes(y, m, d, lat, lon, mode) {
+    if (mode === 'old') {
+      const r = sunrise(y, m, d, lat, lon), s = sunset(y, m, d, lat, lon);
+      return { ake: r - 36, kure: s + 36 };
+    }
+    return { ake: dawn(y, m, d, lat, lon), kure: dusk(y, m, d, lat, lon) };
+  }
+
+  const BELLS_DAY = [
+    { name: '明六つ', n: 6, eto: '卯' }, { name: '朝五つ', n: 5, eto: '辰' }, { name: '朝四つ', n: 4, eto: '巳' },
+    { name: '昼九つ', n: 9, eto: '午' }, { name: '昼八つ', n: 8, eto: '未' }, { name: '夕七つ', n: 7, eto: '申' },
+  ];
+  const BELLS_NIGHT = [
+    { name: '暮六つ', n: 6, eto: '酉' }, { name: '夜五つ', n: 5, eto: '戌' }, { name: '夜四つ', n: 4, eto: '亥' },
+    { name: '暁九つ', n: 9, eto: '子' }, { name: '暁八つ', n: 8, eto: '丑' }, { name: '暁七つ', n: 7, eto: '寅' },
+  ];
+
+  // その日の時刻表: 明六つ（その日）〜暮六つ（その日）〜明六つ（翌日）
+  function day(y, m, d, lat, lon, mode) {
+    const a = sixes(y, m, d, lat, lon, mode);
+    const [y2, m2, d2] = addDays(y, m, d, 1);
+    const b = sixes(y2, m2, d2, lat, lon, mode);
+    const ake2 = b.ake + 1440;
+    const dayKoku = (a.kure - a.ake) / 6, nightKoku = (ake2 - a.kure) / 6;
+    const bells = [];
+    BELLS_DAY.forEach((b0, i) => bells.push(Object.assign({ t: a.ake + i * dayKoku, part: 'day', koku: dayKoku }, b0)));
+    BELLS_NIGHT.forEach((b0, i) => bells.push(Object.assign({ t: a.kure + i * nightKoku, part: 'night', koku: nightKoku }, b0)));
+    bells.push(Object.assign({ t: ake2, part: 'next', koku: null }, BELLS_DAY[0], { name: '明六つ（翌朝）' }));
+    return {
+      ake: a.ake, kure: a.kure, ake2, dayKoku, nightKoku, bells,
+      sunrise: sunrise(y, m, d, lat, lon), sunset: sunset(y, m, d, lat, lon), noon: transit(y, m, d, lon),
+    };
+  }
+
+  // 丑三つ時（辞書：丑の刻を4つに分けた3つ目。今の午前2時〜2時半ごろ、一説に3時〜3時半ごろ）
+  // 暁八つ（丑）を午前2時にあたるものとして、説1＝八つ〜八つ＋¼刻、説2＝八つ＋½刻〜¾刻
+  function ushimitsu(dd) {
+    const b = dd.bells.find((x) => x.name === '暁八つ');
+    return { a: [b.t, b.t + b.koku / 4], b: [b.t + b.koku / 2, b.t + b.koku * 3 / 4] };
+  }
+
+  // ある時刻（分、その日の0時から。翌朝は1440以上）が、江戸の何刻か
+  function whichKoku(dd, t) {
+    if (t < dd.ake) t += 1440; // 夜明け前は前日の夜の続きとして扱わず、翌日の表へ回す前提で呼ぶ
+    const list = dd.bells;
+    for (let i = 0; i < list.length - 1; i++) {
+      if (t >= list[i].t && t < list[i + 1].t) {
+        const frac = (t - list[i].t) / (list[i + 1].t - list[i].t);
+        return { bell: list[i], frac };
+      }
+    }
+    return null;
+  }
+
+  function hm(min) {
+    if (min == null) return '—';
+    let t = Math.round(min);
+    const next = t >= 1440;
+    t = ((t % 1440) + 1440) % 1440;
+    return (next ? '翌' : '') + Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0');
+  }
+  function dur(min) {
+    const t = Math.round(min);
+    return Math.floor(t / 60) + '時間' + String(t % 60).padStart(2, '0') + '分';
+  }
+
+  return { jd0, sun, transit, sunrise, sunset, dawn, dusk, sixes, day, ushimitsu, whichKoku, addDays, hm, dur, H_DAWN };
+});
+window.PLACES = [{"name":"前橋","pref":"群馬県","lat":36.3833,"lon":139.0667},{"name":"さいたま","pref":"埼玉県","lat":35.85,"lon":139.65},{"name":"千葉","pref":"千葉県","lat":35.6,"lon":140.1167},{"name":"東京","pref":"東京都","lat":35.6581,"lon":139.7414},{"name":"小笠原","pref":"東京都","lat":27.0833,"lon":142.1833},{"name":"横浜","pref":"神奈川県","lat":35.45,"lon":139.65},{"name":"新潟","pref":"新潟県","lat":37.9167,"lon":139.0333},{"name":"富山","pref":"富山県","lat":36.6833,"lon":137.2167},{"name":"金沢","pref":"石川県","lat":36.5667,"lon":136.65},{"name":"福井","pref":"福井県","lat":36.0667,"lon":136.2167},{"name":"甲府","pref":"山梨県","lat":35.6667,"lon":138.5667},{"name":"長野","pref":"長野県","lat":36.65,"lon":138.1833},{"name":"岐阜","pref":"岐阜県","lat":35.4167,"lon":136.7667},{"name":"静岡","pref":"静岡県","lat":34.9667,"lon":138.3833},{"name":"名古屋","pref":"愛知県","lat":35.1667,"lon":136.9167},{"name":"津","pref":"三重県","lat":34.7333,"lon":136.5167},{"name":"大津","pref":"滋賀県","lat":35,"lon":135.8667},{"name":"京都","pref":"京都府","lat":35.0167,"lon":135.75},{"name":"大阪","pref":"大阪府","lat":34.6833,"lon":135.4833},{"name":"神戸","pref":"兵庫県","lat":34.6833,"lon":135.1833},{"name":"奈良","pref":"奈良県","lat":34.6833,"lon":135.8333},{"name":"和歌山","pref":"和歌山県","lat":34.2333,"lon":135.1667},{"name":"鳥取","pref":"鳥取県","lat":35.5,"lon":134.2333},{"name":"松江","pref":"島根県","lat":35.4667,"lon":133.05},{"name":"岡山","pref":"岡山県","lat":34.6667,"lon":133.9333},{"name":"広島","pref":"広島県","lat":34.3833,"lon":132.45},{"name":"山口","pref":"山口県","lat":34.1833,"lon":131.4667},{"name":"徳島","pref":"徳島県","lat":34.0667,"lon":134.55},{"name":"高松","pref":"香川県","lat":34.35,"lon":134.05},{"name":"松山","pref":"愛媛県","lat":33.8333,"lon":132.7667},{"name":"高知","pref":"高知県","lat":33.55,"lon":133.5333},{"name":"福岡","pref":"福岡県","lat":33.5833,"lon":130.4},{"name":"佐賀","pref":"佐賀県","lat":33.25,"lon":130.3},{"name":"長崎","pref":"長崎県","lat":32.75,"lon":129.8667},{"name":"熊本","pref":"熊本県","lat":32.8,"lon":130.7167},{"name":"大分","pref":"大分県","lat":33.2333,"lon":131.6167},{"name":"宮崎","pref":"宮崎県","lat":31.9,"lon":131.4167},{"name":"鹿児島","pref":"鹿児島県","lat":31.6,"lon":130.55},{"name":"那覇","pref":"沖縄県","lat":26.2167,"lon":127.6667},{"name":"札幌","pref":"北海道","lat":43.0667,"lon":141.35},{"name":"根室","pref":"北海道","lat":43.3333,"lon":145.5833},{"name":"青森","pref":"青森県","lat":40.8167,"lon":140.7333},{"name":"秋田","pref":"秋田県","lat":39.7167,"lon":140.1167},{"name":"盛岡","pref":"岩手県","lat":39.7,"lon":141.15},{"name":"仙台","pref":"宮城県","lat":38.2667,"lon":140.8667},{"name":"山形","pref":"山形県","lat":38.25,"lon":140.35},{"name":"福島","pref":"福島県","lat":37.75,"lon":140.4667},{"name":"水戸","pref":"茨城県","lat":36.3667,"lon":140.4833},{"name":"宇都宮","pref":"栃木県","lat":36.5667,"lon":139.8833}];
+</script>
+<script>
+(function () {
+  'use strict';
+  const J = window.Jikoku, P = window.PLACES, $ = (id) => document.getElementById(id);
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (t, a, txt) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+  const pad = (n) => String(n).padStart(2, '0');
+  const now = new Date(); // 端末の日時（toISOString は使わない）
+  $('date').value = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+  $('time').value = pad(now.getHours()) + ':' + pad(now.getMinutes());
+  let mode = 'kansei';
+  P.forEach((p, i) => { const o = document.createElement('option'); o.value = i; o.textContent = p.name + '（' + p.pref + '）'; $('place').appendChild(o); });
+  $('place').value = String(P.findIndex((p) => p.name === '東京'));
+  try { const s = localStorage.getItem('edo-jikoku-place'); if (s && P[+s]) $('place').value = s; } catch (e) {}
+
+  const KANJI = { 9: '九', 8: '八', 7: '七', 6: '六', 5: '五', 4: '四' };
+
+  function ymd() { const [y, m, d] = $('date').value.split('-').map(Number); return [y, m, d]; }
+
+  function render() {
+    for (const b of document.querySelectorAll('[data-mode]')) b.setAttribute('aria-pressed', String(b.dataset.mode === mode));
+    const p = P[+$('place').value];
+    const [y, m, d] = ymd();
+    if (!y) return;
+    const dd = J.day(y, m, d, p.lat, p.lon, mode);
+    // まとめ
+    const sum = $('sum'); sum.textContent = '';
+    for (const [k, v] of [['明六つ', J.hm(dd.ake)], ['暮六つ', J.hm(dd.kure)], ['昼の一刻', J.dur(dd.dayKoku)], ['夜の一刻', J.dur(dd.nightKoku)]]) {
+      const div = document.createElement('div');
+      const a = document.createElement('span'); a.className = 'k'; a.textContent = k;
+      const b = document.createElement('span'); b.className = 'v'; b.textContent = v;
+      div.append(a, b); sum.appendChild(div);
+    }
+    // 鐘の表
+    const tb = $('bells'); tb.textContent = '';
+    tb.innerHTML = '<thead><tr><th>鐘</th><th>十二支</th><th>今の時計</th><th>半</th></tr></thead>';
+    const body = document.createElement('tbody');
+    dd.bells.slice(0, 12).forEach((b) => {
+      const tr = document.createElement('tr'); tr.className = b.part; tr.dataset.t = b.t;
+      tr.innerHTML = '<th></th><td class="e"></td><td class="t"></td><td class="h"></td>';
+      tr.children[0].textContent = b.name;
+      tr.children[1].textContent = b.eto;
+      tr.children[2].textContent = J.hm(b.t);
+      tr.children[3].textContent = b.n + 'つ半 ' + J.hm(b.t + b.koku / 2);
+      body.appendChild(tr);
+    });
+    tb.appendChild(body);
+    drawDial(dd);
+    renderNow(dd);
+    renderFamous(dd);
+    renderYear(p, y);
+  }
+
+  // 和時計の文字盤（真上が0時、時計回り）
+  function drawDial(dd) {
+    const svg = $('dial'); svg.textContent = '';
+    const ang = (t) => ((t % 1440) + 1440) % 1440 / 1440 * 2 * Math.PI - Math.PI / 2;
+    const pt = (t, r) => [Math.cos(ang(t)) * r, Math.sin(ang(t)) * r];
+    const R1 = 205, R0 = 140;
+    for (let i = 0; i < 12; i++) {
+      const a = dd.bells[i], b = dd.bells[i + 1];
+      const [x1, y1] = pt(a.t, R1), [x2, y2] = pt(b.t, R1), [x3, y3] = pt(b.t, R0), [x4, y4] = pt(a.t, R0);
+      const large = (b.t - a.t) > 720 ? 1 : 0;
+      const day = a.part === 'day';
+      const fill = day ? (i % 2 ? 'var(--day-2)' : 'var(--day)') : (i % 2 ? 'var(--night-2)' : 'var(--night)');
+      svg.appendChild(el('path', { d: `M${x1},${y1} A${R1},${R1} 0 ${large} 1 ${x2},${y2} L${x3},${y3} A${R0},${R0} 0 ${large} 0 ${x4},${y4} Z`, fill, stroke: 'var(--surface)', 'stroke-width': 1.5 }));
+      const mid = (a.t + b.t) / 2;
+      const [tx, ty] = pt(mid, (R0 + R1) / 2 + 12);
+      const [ex, ey] = pt(mid, (R0 + R1) / 2 - 14);
+      const ink = day ? 'var(--day-ink)' : 'var(--night-ink)';
+      svg.appendChild(el('text', { x: tx, y: ty, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: ink, 'font-size': 22, 'font-family': 'var(--font-head)', 'font-weight': 700 }, KANJI[a.n]));
+      svg.appendChild(el('text', { x: ex, y: ey, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: ink, 'font-size': 14, 'font-family': 'var(--font-head)' }, a.eto));
+    }
+    // 今の時計の目盛り
+    for (let h = 0; h < 24; h++) {
+      const [x1, y1] = pt(h * 60, R0 - 4), [x2, y2] = pt(h * 60, R0 - (h % 3 ? 10 : 16));
+      svg.appendChild(el('line', { x1, y1, x2, y2, stroke: 'var(--muted)', 'stroke-width': h % 3 ? 1 : 2 }));
+      if (h % 3 === 0) {
+        const [x, y] = pt(h * 60, R0 - 32);
+        svg.appendChild(el('text', { x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--muted)', 'font-size': 15 }, h + '時'));
+      }
+    }
+    // 針
+    const t = selTime();
+    if (t != null) {
+      const [x, y] = pt(t, R1 + 4);
+      svg.appendChild(el('line', { x1: 0, y1: 0, x2: x, y2: y, stroke: 'var(--hand)', 'stroke-width': 3, 'stroke-linecap': 'round' }));
+      svg.appendChild(el('circle', { cx: 0, cy: 0, r: 6, fill: 'var(--hand)' }));
+    }
+    svg.appendChild(el('text', { x: 0, y: 40, 'text-anchor': 'middle', fill: 'var(--muted)', 'font-size': 13 }, '外：江戸の刻　内：今の時計'));
+  }
+
+  function selTime() {
+    const v = $('time').value; if (!v) return null;
+    const [h, m] = v.split(':').map(Number); return h * 60 + m;
+  }
+
+  function renderNow(dd) {
+    const t = selTime();
+    const box = $('now'); box.textContent = '';
+    for (const tr of document.querySelectorAll('#bells tr.cur')) tr.classList.remove('cur');
+    if (t == null) return;
+    // 明六つより前は、前の日の夜の続き
+    let table = dd, tt = t;
+    if (t < dd.ake) {
+      const p = P[+$('place').value];
+      const [y, m, d] = ymd();
+      const [y0, m0, d0] = J.addDays(y, m, d, -1);
+      table = J.day(y0, m0, d0, p.lat, p.lon, mode); tt = t + 1440;
+    }
+    const w = J.whichKoku(table, tt);
+    if (!w) return;
+    const pct = w.frac;
+    const desc = pct < 0.15 ? 'ちょうど' : pct < 0.4 ? 'を過ぎたところ' : pct < 0.6 ? '半（はん）ごろ' : pct < 0.85 ? '半を過ぎたところ' : 'の終わりごろ（次は' + nextName(table, w.bell) + '）';
+    box.append(J.hm(t) + ' は ');
+    const b = document.createElement('b'); b.textContent = w.bell.name; box.appendChild(b);
+    box.append(' ' + desc + '。' + w.bell.eto + 'の刻にあたります。');
+    if (table === dd) {
+      const tr = document.querySelector('#bells tr[data-t="' + w.bell.t + '"]'); if (tr) tr.classList.add('cur');
+    }
+  }
+  function nextName(dd, bell) { const i = dd.bells.indexOf(bell); return (dd.bells[i + 1] || {}).name || ''; }
+
+  function renderFamous(dd) {
+    const box = $('famous'); box.textContent = '';
+    const u = J.ushimitsu(dd);
+    const find = (n) => dd.bells.find((b) => b.name === n);
+    const items = [
+      ['丑三つ時', J.hm(u.a[0]) + '〜' + J.hm(u.a[1]), '説2では ' + J.hm(u.b[0]) + '〜' + J.hm(u.b[1]) + '。辞書の「午前2時〜2時半ごろ（一説に3時〜3時半）」を、この夜の一刻の長さに当てはめた時刻です。'],
+      ['明け六つ', J.hm(dd.ake), '日の出（' + J.hm(dd.sunrise) + '）の' + Math.round(dd.sunrise - dd.ake) + '分前。辞書では「今の午前6時ころ」。'],
+      ['暮れ六つ', J.hm(dd.kure), '日の入り（' + J.hm(dd.sunset) + '）の' + Math.round(dd.kure - dd.sunset) + '分後。辞書では「現在の午後6時ごろ」。'],
+      ['昼八つ', J.hm(find('昼八つ').t), '辞書では「今の午後2時ごろ」。'],
+      ['暁七つ', J.hm(find('暁七つ').t), '夜明け前の最後の鐘。'],
+      ['夜四つ', J.hm(find('夜四つ').t), '夜の2つめの鐘。'],
+    ];
+    for (const [k, v, n] of items) {
+      const s = document.createElement('section');
+      const h = document.createElement('h3'); h.textContent = k;
+      const t = document.createElement('p'); t.className = 'tt'; t.textContent = v;
+      const c = document.createElement('p'); c.className = 'cap'; c.textContent = n;
+      s.append(h, t, c); box.appendChild(s);
+    }
+  }
+
+  // 1年の変化（明六つ・暮六つ・日の出・日の入り）
+  function renderYear(p, y) {
+    const svg = $('year'); svg.textContent = '';
+    const X0 = 50, X1 = 705, Y0 = 20, Y1 = 270;
+    const tmin = 180, tmax = 1260; // 3時〜21時
+    const yx = (i, n) => X0 + (X1 - X0) * i / (n - 1);
+    const yy = (t) => Y0 + (Y1 - Y0) * (t - tmin) / (tmax - tmin);
+    for (let h = 3; h <= 21; h += 3) {
+      svg.appendChild(el('line', { x1: X0, y1: yy(h * 60), x2: X1, y2: yy(h * 60), stroke: 'var(--line)' }));
+      svg.appendChild(el('text', { x: X0 - 8, y: yy(h * 60) + 4, 'text-anchor': 'end', fill: 'var(--muted)', 'font-size': 12 }, h + '時'));
+    }
+    const days = [];
+    let d = [y, 1, 1];
+    while (d[0] === y) { days.push(d); d = J.addDays(d[0], d[1], d[2], 1); }
+    const series = { ake: [], kure: [], rise: [], set: [], dk: [] };
+    for (const [yy0, mm, dd0] of days) {
+      const s = J.sixes(yy0, mm, dd0, p.lat, p.lon, mode);
+      series.ake.push(s.ake); series.kure.push(s.kure);
+      series.rise.push(J.sunrise(yy0, mm, dd0, p.lat, p.lon)); series.set.push(J.sunset(yy0, mm, dd0, p.lat, p.lon));
+      series.dk.push((s.kure - s.ake) / 6);
+    }
+    const line = (arr, color, w, dash) => {
+      const pts = arr.map((t, i) => yx(i, arr.length).toFixed(1) + ',' + yy(t).toFixed(1)).join(' ');
+      svg.appendChild(el('polyline', { points: pts, fill: 'none', stroke: color, 'stroke-width': w, 'stroke-dasharray': dash || '' }));
+    };
+    // 昼（明六つ〜暮六つ）の帯
+    const band = series.ake.map((t, i) => yx(i, days.length).toFixed(1) + ',' + yy(t).toFixed(1)).concat(series.kure.map((t, i) => yx(i, days.length).toFixed(1) + ',' + yy(t).toFixed(1)).reverse()).join(' ');
+    svg.appendChild(el('polygon', { points: band, fill: 'var(--day)', opacity: 0.35 }));
+    line(series.ake, 'var(--accent)', 2.5); line(series.kure, 'var(--accent)', 2.5);
+    line(series.rise, 'var(--muted)', 1.2, '4 3'); line(series.set, 'var(--muted)', 1.2, '4 3');
+    for (let mo = 1; mo <= 12; mo++) {
+      const i = days.findIndex((x) => x[1] === mo && x[2] === 1);
+      svg.appendChild(el('text', { x: yx(i, days.length), y: Y1 + 18, fill: 'var(--muted)', 'font-size': 12 }, mo + '月'));
+    }
+    svg.appendChild(el('text', { x: X1, y: yy(series.ake[0]) - 6, 'text-anchor': 'end', fill: 'var(--accent)', 'font-size': 12 }, '明六つ'));
+    svg.appendChild(el('text', { x: X1, y: yy(series.kure[series.kure.length - 1]) + 16, 'text-anchor': 'end', fill: 'var(--accent)', 'font-size': 12 }, '暮六つ'));
+    // 選んだ日の縦線
+    const [sy, sm, sd] = ymd();
+    const si = days.findIndex((x) => x[1] === sm && x[2] === sd);
+    if (si >= 0) svg.appendChild(el('line', { x1: yx(si, days.length), y1: Y0, x2: yx(si, days.length), y2: Y1, stroke: 'var(--hand)', 'stroke-width': 1.5 }));
+    const mx = Math.max(...series.dk), mn = Math.min(...series.dk);
+    const imx = series.dk.indexOf(mx), imn = series.dk.indexOf(mn);
+    $('yearCap').textContent = p.name + '、' + y + '年。帯が昼（明六つ〜暮六つ）、点線が日の出と日の入り。昼の一刻は ' + days[imx][1] + '月' + days[imx][2] + '日ごろに最も長く ' + J.dur(mx) + '、' + days[imn][1] + '月' + days[imn][2] + '日ごろに最も短く ' + J.dur(mn) + 'です。';
+  }
+
+  for (const b of document.querySelectorAll('[data-mode]')) b.addEventListener('click', () => { mode = b.dataset.mode; render(); });
+  $('date').addEventListener('input', render);
+  $('place').addEventListener('change', () => { try { localStorage.setItem('edo-jikoku-place', $('place').value); } catch (e) {} render(); });
+  $('time').addEventListener('input', render);
+  render();
+})();
+</script>
+</body>
+</html>
