@@ -20,7 +20,7 @@
 <meta property="og:url" content="https://hakoniwalab.com/birthday-fortune/guide/umareta-hi-no-tsuki/">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6465548593525933" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../../css/style.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"生まれた日の月の形はどうやって調べますか？","acceptedAnswer":{"@type":"Answer","text":"生年月日から、その日の月齢(新月の瞬間からの日数)と、月の光って見える割合を計算します。生まれ日診断の「生まれた日の月の形」に生年月日を入れると、絵で出ます。"}},{"@type":"Question","name":"十五夜は必ず満月ですか？","acceptedAnswer":{"@type":"Answer","text":"必ずではありません。1950〜2050年の満月の瞬間のうち、旧暦15日にあたるのは37%で、いちばん多いのは16日(47%)でした。ただ、十五夜の月は15日の夕方に昇り16日の朝に沈むので、見る夜としてはおおむね満月です。"}},{"@type":"Question","name":"二人の生まれた日の月を重ねると満月になるのはどんなときですか？","acceptedAnswer":{"@type":"Answer","text":"満ちていく月と欠けていく月の組み合わせで、二人の光る割合を足して100%以上になるときです。上弦と下弦の組み合わせなら、ちょうど満月になります。誕生日がばらばらなら、4組に1組が満月になります。"}},{"@type":"Question","name":"月齢と旧暦の日付は同じですか？","acceptedAnswer":{"@type":"Answer","text":"同じではありません。月齢は新月の瞬間からの経過日数で、旧暦の日付は新月の瞬間を含む日を1日と数えるので、おおむね旧暦の日付は月齢より1大きくなります。"}},{"@type":"Question","name":"生まれた時刻が分からなくても大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"大丈夫です。月の光る割合は1日で最大11.6ポイントしか動かないので、日付だけで形はほぼ決まります。"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"生まれた日の月の形はどうやって調べますか？","acceptedAnswer":{"@type":"Answer","text":"生年月日から、その日の月齢(新月の瞬間からの日数)と、月の光って見える割合を計算します。生まれ日診断の「生まれた日の月の形」に生年月日を入れると、絵で出ます。"}},{"@type":"Question","name":"十五夜は必ず満月ですか？","acceptedAnswer":{"@type":"Answer","text":"必ずではありません。1950〜2050年の満月の瞬間のうち、旧暦15日にあたるのは37%で、いちばん多いのは16日(47%)でした。ただ、十五夜の月は15日の夕方に昇り16日の朝に沈むので、見る夜としてはおおむね満月です。"}},{"@type":"Question","name":"二人の生まれた日の月を重ねると満月になるのはどんなときですか？","acceptedAnswer":{"@type":"Answer","text":"満ちていく月と欠けていく月の組み合わせで、二人の光る割合を足して100%以上になるときです。上弦と下弦の組み合わせなら、ちょうど満月になります。誕生日がばらばらなら、4組に1組が満月になります。"}},{"@type":"Question","name":"月齢は満月から数え始めるのですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。月齢は新月(朔)の瞬間を0.0として、そこからの経過日数で数えます(国立天文台 暦Wiki)。「月齢は旧暦における満月の時点を基準として数え始める」は誤りで、満月は月齢15前後です。旧暦の日付も新月の日を1日として数えます。"}},{"@type":"Question","name":"月齢と旧暦の日付は同じですか？","acceptedAnswer":{"@type":"Answer","text":"同じではありません。月齢は新月の瞬間からの経過日数で、旧暦の日付は新月の瞬間を含む日を1日と数えるので、おおむね旧暦の日付は月齢より1大きくなります。"}},{"@type":"Question","name":"生まれた時刻が分からなくても大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"大丈夫です。月の光る割合は1日で最大11.6ポイントしか動かないので、日付だけで形はほぼ決まります。"}}]}</script>
 </head>
 <body>
 <div id="app" class="app">
@@ -47,6 +47,8 @@
       <h2>月齢と、旧暦の日付</h2>
       <p>月齢は、新月(朔)の瞬間から何日たったかを小数まで数えたものです。満月のころが約15、次の新月の直前が約29.5です。国立天文台の暦Wikiは「月齢は月の満ち欠けを表すが、1対1で対応するわけではなく、だいたい対応している程度」と説明しています。月の軌道が楕円なので、満月の瞬間の月齢は毎回違い、およそ13.9〜15.6日のあいだで変わります(この記事の計算では1950〜2050年で13.90〜15.61日でした)。</p>
       <p>旧暦の日付は、新月の瞬間を含む日を1日として数えます。そのため月齢よりおおむね1大きく、国立天文台は「陰暦15日とは月齢14.0を含む日」としています。</p>
+      <h3>月齢は満月から数える？</h3>
+      <p><strong>いいえ、月齢は新月(朔)から数えます</strong>。国立天文台の暦Wikiは、月齢を「朔(新月)からの経過時間を日単位で表したもの」とし、朔の瞬間を0.0としています。「月齢は旧暦における満月の時点を基準として数え始める」という文は誤りで、満月は月齢が15前後になったときです。旧暦の日付も、満月ではなく新月の日を1日として数えます。</p>
       <h3>旧暦の日の呼び名</h3>
       <div class="table-scroll">
         <table class="spec spec--wrap">
@@ -132,6 +134,7 @@
       <details class="faq-item"><summary>生まれた日の月の形はどうやって調べますか？</summary><p>生年月日から、その日の月齢(新月の瞬間からの日数)と、月の光って見える割合を計算します。生まれ日診断の「生まれた日の月の形」に生年月日を入れると、絵で出ます。</p></details>
       <details class="faq-item"><summary>十五夜は必ず満月ですか？</summary><p>必ずではありません。1950〜2050年の満月の瞬間のうち、旧暦15日にあたるのは37%で、いちばん多いのは16日(47%)でした。ただ、十五夜の月は15日の夕方に昇り16日の朝に沈むので、見る夜としてはおおむね満月です。</p></details>
       <details class="faq-item"><summary>二人の生まれた日の月を重ねると満月になるのはどんなときですか？</summary><p>満ちていく月と欠けていく月の組み合わせで、二人の光る割合を足して100%以上になるときです。上弦と下弦の組み合わせなら、ちょうど満月になります。誕生日がばらばらなら、4組に1組が満月になります。</p></details>
+      <details class="faq-item"><summary>月齢は満月から数え始めるのですか？</summary><p>いいえ。月齢は新月(朔)の瞬間を0.0として、そこからの経過日数で数えます(国立天文台 暦Wiki)。「月齢は旧暦における満月の時点を基準として数え始める」は誤りで、満月は月齢15前後です。旧暦の日付も新月の日を1日として数えます。</p></details>
       <details class="faq-item"><summary>月齢と旧暦の日付は同じですか？</summary><p>同じではありません。月齢は新月の瞬間からの経過日数で、旧暦の日付は新月の瞬間を含む日を1日と数えるので、おおむね旧暦の日付は月齢より1大きくなります。</p></details>
       <details class="faq-item"><summary>生まれた時刻が分からなくても大丈夫ですか？</summary><p>大丈夫です。月の光る割合は1日で最大11.6ポイントしか動かないので、日付だけで形はほぼ決まります。</p></details>
     </div>
@@ -153,6 +156,7 @@
     <div class="card card--article">
       <h2>参考にした資料と計算について</h2>
       <ul class="sources">
+        <li><a href="https://eco.mtk.nao.ac.jp/koyomi/wiki/B7EEA4CECBFEA4C1B7E7A4B12FB7EECEF0.html" target="_blank" rel="noopener">国立天文台 暦Wiki「月齢」</a>(月齢は朔(新月)からの経過時間で、朔の瞬間に0.0。2026-11-25確認)</li>
         <li><a href="https://eco.mtk.nao.ac.jp/koyomi/wiki/B7EEA4CECBFEA4C1B7E7A4B12FB7EECEF0A4C8CBFEA4C1B7E7A4B1.html" target="_blank" rel="noopener">国立天文台 暦Wiki「月齢と満ち欠け」</a>(月齢と満ち欠けの関係、満月の月齢の幅、陰暦15日と月齢、十五夜の月)</li>
         <li><a href="https://ja.wikipedia.org/wiki/%E6%9C%88%E7%9B%B8" target="_blank" rel="noopener">Wikipedia「月相」</a>(旧暦の日の呼び名)</li>
         <li><a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank" rel="noopener">NASA JPL「Horizons System」</a>(月の光って見える割合の照合(2000〜2030年の307日、最大差0.21ポイント))</li>
