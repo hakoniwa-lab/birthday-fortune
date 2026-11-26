@@ -21,6 +21,18 @@ let shareText = "";
 
 const Z = ZODIAC.map((z) => z.name);
 
+/*
+ * 九星の二人の組み合わせのページ(guide/kyusei-aisho/<小さい番号>-<大きい番号>/、同じ星は -doushi)。
+ * 並びは tools/koyomi-articles/build_kyusei_aisho.py の PSLUG と同じ(build がこの行を読んで食い違いを止める)
+ */
+const KYUSEI_PAIR_SLUG = [null, "ippaku", "jikoku", "sanpeki", "shiroku", "goou", "roppaku", "shichiseki", "happaku", "kyushi"];
+function kyuseiPairLink(a, b) {
+  const [lo, hi] = a <= b ? [a, b] : [b, a];
+  const href = `../guide/kyusei-aisho/${KYUSEI_PAIR_SLUG[lo]}-${lo === hi ? "doushi" : KYUSEI_PAIR_SLUG[hi]}/`;
+  const name = lo === hi ? `${KYUSEI[lo].name}同士の相性` : `${KYUSEI[lo].name}と${KYUSEI[hi].name}の相性`;
+  return `<p class="item__note">この二人の組み合わせの解説(恋愛・夫婦・仕事、何歳差の二人か、二人そろって吉になる方角): <a href="${href}">${escapeHtml(name)}</a></p>`;
+}
+
 /* ---------- 入力 ---------- */
 
 function el(id) { return document.getElementById(id); }
@@ -127,6 +139,7 @@ function render(a, b) {
   el("sec-kyusei").innerHTML = `
     <p class="chart__lead">${escapeHtml(KYUSEI[c.a.profile.honmeisei].name)}(${GOGYO[c.kyusei.elemA]}) × ${escapeHtml(KYUSEI[c.b.profile.honmeisei].name)}(${GOGYO[c.kyusei.elemB]})</p>
     ${relBox(`あなたから見て「${c.kyusei.relation}」`, kr.key, kr.text)}
+    ${kyuseiPairLink(c.a.profile.honmeisei, c.b.profile.honmeisei)}
   `;
 
   // 四柱推命

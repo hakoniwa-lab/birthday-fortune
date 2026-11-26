@@ -152,53 +152,278 @@
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-suisei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-dosei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-mokusei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shiroku-mokusei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/goou-dosei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/roppaku-kinsei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shichiseki-kinsei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/happaku-dosei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/kyushi-kasei/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-26</lastmod>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-jikoku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-sanpeki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-shiroku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-goou/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-roppaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-shichiseki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-happaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/ippaku-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-sanpeki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-shiroku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-goou/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-roppaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-shichiseki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-happaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/jikoku-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-shiroku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-goou/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-roppaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-shichiseki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-happaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/sanpeki-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shiroku-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shiroku-goou/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shiroku-roppaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shiroku-shichiseki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shiroku-happaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shiroku-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/goou-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/goou-roppaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/goou-shichiseki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/goou-happaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/goou-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/roppaku-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/roppaku-shichiseki/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/roppaku-happaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/roppaku-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shichiseki-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shichiseki-happaku/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/shichiseki-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/happaku-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/happaku-kyushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/kyusei-aisho/kyushi-doushi/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/eto-aisho/</loc>
