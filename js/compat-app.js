@@ -170,6 +170,7 @@ function render(a, b) {
       </div>
       ${pr.aToB.distance ? `<p class="item__text"><b>${pr.aToB.distance}</b>: ${SANKU_DISTANCE_TEXT[pr.aToB.distance]}(距離は二人の宿が二十七宿の並びで何宿離れているかで決まり、どちらから見ても同じです)</p>` : ""}
       <p class="item__note">宿曜の相性は<b>向きによって名前が変わります</b>。片方が与え、片方が受け取る形になっていることが多いためで、二人の関係を一つの言葉で決めつけないのがこの占いの特徴です。良い悪いではなく、役割が違うと読んでください。</p>
+      ${pr.aToB.pair === "栄親" ? '<p class="item__note">栄と親のどちらが与える側かは資料によって読み方が分かれます。宿曜経の数え方と資料ごとの違いは<a href="../guide/sukuyo-aisho/eishin/">栄親とは(どっちが栄でどっちが親か)</a>にまとめました。</p>' : ""}
     `;
   } else {
     el("sec-sukuyo").innerHTML = '<p class="item__text">この年は旧暦の表を持っていないため、宿曜は出せません。</p>';

@@ -432,7 +432,12 @@
   </url>
   <url>
     <loc>https://hakoniwalab.com/birthday-fortune/guide/sukuyo-aisho/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <lastmod>2026-11-28</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakoniwalab.com/birthday-fortune/guide/sukuyo-aisho/eishin/</loc>
+    <lastmod>2026-11-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
