@@ -294,7 +294,7 @@ function select(d) {
   if (k.flags.tensha && k.flags.ichiryu) {
     notes.push("<strong>天赦日と一粒万倍日が重なる日です。</strong>暦の上でもっとも良いとされ、年に1〜2回しかありません。" + moreLink("天赦日") + moreLink("一粒万倍日"));
   } else if (k.flags.tensha) {
-    notes.push("<strong>天赦日。</strong>年に5〜6回しかない、暦の上でいちばん良いとされる日です。" + moreLink("天赦日"));
+    notes.push("<strong>天赦日。</strong>年に5〜7回しかない、暦の上でいちばん良いとされる日です。" + moreLink("天赦日"));
   }
   if (k.flags.ichiryu && !k.flags.tensha) {
     notes.push("<strong>一粒万倍日。</strong>始めたことが大きく育つとされます。ただし借金だけは避けるとされる日です。" + moreLink("一粒万倍日"));
@@ -429,7 +429,7 @@ function dayChips(list, extraCls) {
 function renderGoodList() {
   listTitle.textContent = `${viewY}年${viewM}月の吉日`;
   const kinds = [
-    { key: "tensha", name: "天赦日", memo: "年に5〜6回。暦の上でいちばん良いとされる日" },
+    { key: "tensha", name: "天赦日", memo: "年に5〜7回。暦の上でいちばん良いとされる日" },
     { key: "ichiryu", name: "一粒万倍日", memo: "始めたことが大きく育つとされる日" },
     { key: "tsuchinotoMi", name: "己巳の日", memo: "60日に一度。弁財天の日、金運に良いとされる" },
     { key: "kinoeNe", name: "甲子の日", memo: "60日に一度。大黒天の日、始まりに良いとされる" },
